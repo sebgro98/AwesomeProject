@@ -16,7 +16,7 @@ const LoginForm = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3002/login', { username, password });
+            const response = await axios.post('http://localhost:8000/login', { username, password });
             // Handle successful login
             console.log(response.data); // Or redirect user
         } catch (error) {

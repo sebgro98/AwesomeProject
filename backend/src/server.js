@@ -1,3 +1,4 @@
+const RequestHandler = require('./api//requestHandler'); // Update with the correct path
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
 
@@ -12,8 +13,8 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
+//const cookieParser = require('cookie-parser');
+//app.use(cookieParser());
 
 app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
@@ -21,9 +22,8 @@ app.get('/', (req, res) => {
     return res.send('hello :)');
 });
 
-const reqHandlerLoader = require('./api');
-//reqHandlerLoader.loadHandlers(app);
-//reqHandlerLoader.loadErrorHandlers(app);
+const requestHandler = new RequestHandler();
+app.use('/api', requestHandler.router); // Assuming you set up routes in requestHandler
 
 const server = app.listen(
     process.env.SERVER_PORT,

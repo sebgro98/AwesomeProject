@@ -1,22 +1,31 @@
-
 const express = require('express');
-const controller = require('../controller/controller');
+const UserController = require('../controller/controller');
 
-class requestHandler {
-    /**
-     * Need to add more to constructor and necessary methods
-     *
-     * **/
-    constructor(){
+class RequestHandler {
+    constructor() {
         this.router = express.Router();
+        this.initializeRoutes();
     }
 
-    async createControllerInstance() {
-        // createController is a static method in controller
-        this.controller = await controller.createController();
+    initializeRoutes() {
+        const userController = new UserController();
 
+        this.router.post('/login', async (req, res) => {
+            const { username, password } = req.body;
+            try {
+                const result = await userController.login(username, password);
+                if (result) {
+                    res.status(200).json({ message: 'Login successful' });
+                } else {
+                    res.status(401).json({ message: 'Login failed' });
+                }
+            } catch (error) {
+                res.status(500).json({ message: 'Internal server error', error: error.message });
+            }
+        });
+
+        // Add more routes as needed
     }
-
 }
 
-module.exports = requestHandler;
+module.exports = RequestHandler;
