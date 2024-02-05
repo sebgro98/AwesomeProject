@@ -9,9 +9,13 @@ require('dotenv-safe').config({
 
 const express = require('express');
 const app = express();
+const cors = require('cors'); // Import the cors middleware
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
+
+// Use the cors middleware to enable CORS
+app.use(cors());
 
 //const cookieParser = require('cookie-parser');
 //app.use(cookieParser());
@@ -24,6 +28,7 @@ app.get('/', (req, res) => {
 
 const requestHandler = new RequestHandler();
 app.use('/api', requestHandler.router); // Assuming you set up routes in requestHandler
+
 
 const server = app.listen(
     process.env.SERVER_PORT,
