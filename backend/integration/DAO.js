@@ -6,9 +6,9 @@ const port = 3002;
 const cors = require('cors');
 
 const pool = new Pool({
-    connectionString: 'postgresql://postgres:Sushilkc2002@localhost:5432/rec-app',
-});
+    connectionString: 'postgresql://postgres:YouDBPassword@localhost:5432/rec-app',
 
+});
 
 app.use(cors());
 
