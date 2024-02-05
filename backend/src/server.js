@@ -1,8 +1,9 @@
 const path = require('path');
-const APP_ROOT_DIR = __dirname;
+const APP_ROOT_DIR = path.join(__dirname, '..');
 
 require('dotenv-safe').config({
     path: path.join(APP_ROOT_DIR, '.env'),
+    example: path.join(APP_ROOT_DIR, '.env.example'),
 });
 
 const express = require('express');
