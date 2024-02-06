@@ -1,9 +1,22 @@
 const Sequelize = require('sequelize');
-
+/**
+ * Represents a person model using Sequelize.
+ * @extends Sequelize.Model
+ */
 class Person extends Sequelize.Model {
+    /**
+     * Returns the model name for the Person class.
+     * @returns {string} The model name.
+     */
     static get PERSON_MODEL_NAME() {
         return 'person';
     }
+
+    /**
+     * Creates and initializes the Person model.
+     * @param {Sequelize} sequelize - The Sequelize instance.
+     * @returns {Person} The initialized Person model.
+     */
     static createModel(sequelize) {
         Person.init(
             {
