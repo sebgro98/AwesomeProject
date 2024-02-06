@@ -1,13 +1,7 @@
-const RequestHandler = require('./api//requestHandler'); // Update with the correct path
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
 
 require('dotenv-safe').config();
-
-console.log(process.env.DB_USER);
-console.log(process.env.DB_HOST);
-console.log(process.env.DB_NAME);
-console.log(process.env.DB_PASS);
 
 const express = require('express');
 const app = express();
@@ -28,8 +22,9 @@ app.get('/', (req, res) => {
     return res.send('hello :)');
 });
 
-const requestHandler = new RequestHandler();
-app.use('/api', requestHandler.router); // Assuming you set up routes in requestHandler
+const reqHandlerLoader = require('./api');
+reqHandlerLoader.loadHandlers(app);
+//reqHandlerLoader.loadErrorHandlers(app);
 
 
 const server = app.listen(
