@@ -7,6 +7,26 @@ class RequestHandler {
         this.initializeRoutes();
     }
 
+    static get URL_PREFIX() {
+        return 'http://';
+    }
+
+    async retrieveController() {
+        this.contr = await UserController.createController();
+    }
+
+    sendHttpResponse(res, status, body) {
+        if (body == undefined) {
+            res.status(status).end();
+        }
+        let errorSucc = undefined;
+        if (status < 400) errorSucc = 'success';
+        else errorSucc = 'error';
+        res.status(status).json({[errorSucc]: body});
+    }
+
+
+
     initializeRoutes() {
         const userController = new UserController();
 
@@ -24,7 +44,6 @@ class RequestHandler {
                 res.status(500).json({ message: 'Internal server error', error: error.message });
             }
         });
-
     }
 }
 
