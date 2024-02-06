@@ -40,3 +40,4 @@ class PersonAPI extends RequestHandler {
         }
     }
 }
+module.exports = PersonAPI;
