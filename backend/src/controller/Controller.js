@@ -1,4 +1,4 @@
-const ProjectDAO2 = require('../integration/ProjectDAO');
+const ProjectDAO = require('../integration/ProjectDAO');
 
 /**
  * Controller class handles the business logic and interacts with the data access layer.
@@ -12,8 +12,8 @@ class Controller {
      */
 
     constructor() {
-        this.projectDAO2 = new ProjectDAO2();
-        this.transactionMgr = this.projectDAO2.getTransactionMgr();
+        this.projectDAO = new ProjectDAO();
+        this.transactionMgr = this.projectDAO.getTransactionMgr();
     }
 
     /**
@@ -25,7 +25,7 @@ class Controller {
      */
     static async createController() {
         const controller = new Controller();
-        await controller.projectDAO2.createTables();
+        await controller.projectDAO.createTables();
         return controller;
     }
 
@@ -38,7 +38,7 @@ class Controller {
      */
     async login(username, password) {
         return this.transactionMgr.transaction(async (t1) => {
-            return this.projectDAO2.findUserByUsernameAndPassword(username, password);
+            return this.projectDAO.findUserByUsernameAndPassword(username, password);
         })
     }
 
