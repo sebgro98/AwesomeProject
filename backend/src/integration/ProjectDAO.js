@@ -4,12 +4,23 @@ const Person = require('../model/Person');
 const WError = require('verror').WError;
 const PersonDTO = require('../model/PersonDTO');
 
-
+/**
+ * ProjectDAO class handles database operations related to the project.
+ * It uses Sequelize ORM to interact with the database and manages the Person model.
+ */
 class ProjectDAO {
+
+    /**
+     * Creates a new instance of ProjectDAO and initializes the database connection.
+     * Optionally, it can sync models with the database by calling createTables().
+     * @constructor
+     */
     constructor() {
+        // Initialize CLS namespace for Sequelize
         const namespace = cls.createNamespace('projectDB');
         Sequelize.useCLS(namespace);
 
+        // Establish database connection using environment variables
         this.database = new Sequelize(
             process.env.DB_NAME,
             process.env.DB_USER,
@@ -21,15 +32,25 @@ class ProjectDAO {
         );
 
 
-
+        // Create Person model
         Person.createModel(this.database);
 
 
-        this.createTables(); // Optionally, call this to sync models with DB
+        this.createTables();
     }
+
+    /**
+     * Returns the Sequelize transaction manager for database transactions.
+     * @return {Object} The transaction manager object.
+     */
     getTransactionMgr() {
         return this.database;
     }
+
+    /**
+     * Creates non-existing tables in the database, if any.
+     * @throws {Error} If unable to connect to the database.
+     */
     async createTables() {
         try {
             await this.database.authenticate();
@@ -40,12 +61,19 @@ class ProjectDAO {
         }
     }
 
+    /**
+     * Finds a user by username and password and returns a PersonDTO object.
+     * @param {string} username The username of the user to find.
+     * @param {string} password The password of the user to find.
+     * @return {PersonDTO} A PersonDTO object representing the found user.
+     * @throws {Error} If an error occurs during the database operation.
+     */
     async findUserByUsernameAndPassword(username, password) {
         try {
             const person = await Person.findOne({
                 where: {
                     username: username,
-                    password: password // Again, note about password security
+                    password: password // Note: Security concern about storing passwords directly
                 }
             });
 
@@ -65,6 +93,11 @@ class ProjectDAO {
         }
     }
 
+    /**
+     * Creates a PersonDTO object from the given Person model object.
+     * @param {Object} person The Person model object.
+     * @return {PersonDTO} A PersonDTO object representing the given Person.
+     */
     createPersonDTO(person) {
         return new PersonDTO(
             person.person_id,
