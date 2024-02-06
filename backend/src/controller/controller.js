@@ -1,6 +1,6 @@
 const ProjectDAO = require('../integration/ProjectDAO');
 
-class UserController {
+class Controller {
     constructor() {
         this.ProjectDAO = new ProjectDAO();
     }
@@ -10,4 +10,4 @@ class UserController {
     }
 }
 
-module.exports = UserController;
+module.exports = Controller;

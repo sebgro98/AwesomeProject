@@ -20,6 +20,7 @@ class RequestHandler {
                     res.status(401).json({ message: 'Login failed' });
                 }
             } catch (error) {
+                console.error("Login error:", error); // Detailed error logging
                 res.status(500).json({ message: 'Internal server error', error: error.message });
             }
         });
