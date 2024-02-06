@@ -23,8 +23,8 @@ app.get('/', (req, res) => {
 });
 
 const reqHandlerLoader = require('./api');
-reqHandlerLoader.loadHandlers(app);
-//reqHandlerLoader.loadErrorHandlers(app);
+reqHandlerLoader.loadReqHandlers(app);
+reqHandlerLoader.loadErrorHandlers(app);
 
 
 const server = app.listen(

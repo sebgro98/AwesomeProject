@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const cls = require('cls-hooked');
 const Person = require('../model/Person');
-require('dotenv-safe').config();
+const WError = require('verror').WError;
 const PersonDTO = require('../model/PersonDTO');
 
 
@@ -49,14 +49,33 @@ class ProjectDAO {
                 }
             });
 
-            return person !== null;
+            return this.createPersonDTO(person);
         } catch (error) {
-            console.error('Error in findUserByUsernameAndPassword:', error);
-            throw error; // Or handle the error as per your application's needs
+            throw new WError(
+                {
+                    cause: error,
+                    info: {
+                        ProjectDAO: 'Failed to login',
+                        username: username,
+                        password: password
+                    }
+                },
+                'Could not find user by login details'
+            )
         }
     }
 
-    // ...additional methods as needed...
+    createPersonDTO(person) {
+        return new PersonDTO(
+            person.person_id,
+            person.name,
+            person.surname,
+            person.pnr,
+            person.email,
+            person.password,
+            person.role_id,
+            person.username)
+    }
 }
 
 module.exports = ProjectDAO;
