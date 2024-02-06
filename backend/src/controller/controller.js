@@ -10,6 +10,7 @@ class Controller {
      * Creates a new instance of Controller and initializes the data access layer.
      * @constructor
      */
+
     constructor() {
         this.projectDAO2 = new ProjectDAO2();
         this.transactionMgr = this.projectDAO2.getTransactionMgr();
