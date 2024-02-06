@@ -1,4 +1,4 @@
-const UserController = require('../../controller/controller');
+const UserController = require('../../controller/Controller');
 
 class ErrorHandler {
 

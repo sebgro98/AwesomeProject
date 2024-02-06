@@ -1,5 +1,5 @@
 const express = require('express');
-const UserController = require('../controller/controller');
+const UserController = require('../controller/Controller');
 
 class RequestHandler {
     constructor() {
