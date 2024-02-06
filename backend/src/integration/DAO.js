@@ -5,10 +5,7 @@ const app = express();
 const port = 3002;
 const cors = require('cors');
 
-const pool = new Pool({
-    connectionString: 'postgresql://postgres:admin@localhost:5432/awesomeproject',
 
-});
 
 app.use(cors());
 

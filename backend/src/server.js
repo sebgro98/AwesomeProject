@@ -1,19 +1,26 @@
+const RequestHandler = require('./api//requestHandler'); // Update with the correct path
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
 
-require('dotenv-safe').config({
-    path: path.join(APP_ROOT_DIR, '.env'),
-    example: path.join(APP_ROOT_DIR, '.env.example'),
-});
+require('dotenv-safe').config();
+
+console.log(process.env.DB_USER);
+console.log(process.env.DB_HOST);
+console.log(process.env.DB_NAME);
+console.log(process.env.DB_PASS);
 
 const express = require('express');
 const app = express();
+const cors = require('cors'); // Import the cors middleware
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
+// Use the cors middleware to enable CORS
+app.use(cors());
+
+//const cookieParser = require('cookie-parser');
+//app.use(cookieParser());
 
 app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
@@ -21,9 +28,9 @@ app.get('/', (req, res) => {
     return res.send('hello :)');
 });
 
-const reqHandlerLoader = require('./api');
-//reqHandlerLoader.loadHandlers(app);
-//reqHandlerLoader.loadErrorHandlers(app);
+const requestHandler = new RequestHandler();
+app.use('/api', requestHandler.router); // Assuming you set up routes in requestHandler
+
 
 const server = app.listen(
     process.env.SERVER_PORT,
