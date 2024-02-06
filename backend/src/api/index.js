@@ -1,4 +1,4 @@
-const PersonAPI = require ('./PersonAPI');
+const PersonAPI = require ('./PersonApi');
 const ErrorResponseSender = require('./error/ErrorResponseSender')
 
 /**
