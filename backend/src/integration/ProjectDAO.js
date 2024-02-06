@@ -1,5 +1,8 @@
 const { Pool } = require('pg');
 require('dotenv-safe').config();
+const Person = require('../model/Person');
+const PersonDTO = require('../model/PersonDTO');
+const Sequelize = require('sequelize');
 
 const pool = new Pool({
     user: process.env.DB_USER,

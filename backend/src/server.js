@@ -4,11 +4,6 @@ const APP_ROOT_DIR = path.join(__dirname, '..');
 
 require('dotenv-safe').config();
 
-console.log(process.env.DB_USER);
-console.log(process.env.DB_HOST);
-console.log(process.env.DB_NAME);
-console.log(process.env.DB_PASS);
-
 const express = require('express');
 const app = express();
 const cors = require('cors'); // Import the cors middleware
