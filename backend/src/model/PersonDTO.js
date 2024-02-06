@@ -1,4 +1,6 @@
+//Define a class for representing a person data transfer object and Export the PersonDTO class to make it available for other modules
 class PersonDTO {
+    // Constructor to initialize the properties of the object
     constructor(person_id, name, surname, pnr, email, password, role_id, username) {
         this.person_id = person_id;
         this.name = name;
