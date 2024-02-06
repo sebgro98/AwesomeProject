@@ -1,4 +1,3 @@
-const RequestHandler = require('./api//requestHandler'); // Update with the correct path
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
 
@@ -23,8 +22,9 @@ app.get('/', (req, res) => {
     return res.send('hello :)');
 });
 
-const requestHandler = new RequestHandler();
-app.use('/api', requestHandler.router); // Assuming you set up routes in requestHandler
+const reqHandlerLoader = require('./api');
+reqHandlerLoader.loadHandlers(app);
+//reqHandlerLoader.loadErrorHandlers(app);
 
 
 const server = app.listen(
