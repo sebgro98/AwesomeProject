@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import SingUpView from './Views/signUpView';
-import LoginView from "./Views/loginView";
+import SingUpView from './views/SignUpView';
+import LoginView from "./views/LoginView";
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
