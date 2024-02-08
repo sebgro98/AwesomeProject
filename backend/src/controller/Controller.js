@@ -2,7 +2,7 @@ const ProjectDAO = require('../integration/ProjectDAO');
 
 /**
  * Controller class handles the business logic and interacts with the data access layer.
- * It utilizes ProjectDAO2 for database operations.
+ * It utilizes ProjectDAO for database operations.
  */
 class Controller {
 
@@ -31,11 +31,13 @@ class Controller {
 
     /**
      * Authenticates a user by username and password.
-     * @param {string} username The username of the user.
-     * @param {string} password The password of the user.
-     * @return {boolean} True if authentication succeeds, false otherwise.
-     * @throws {Error} If an error occurs during database operation.
-     */
+     *
+     * @param {string} username The username of the user attempting to log in.
+     * @param {string} password The password of the user attempting to log in.
+     * @return {PersonDTO} A Promise that resolves with a PersonDTO
+     *  representing the logged-in user if the login is successful, or null if no
+     *  user is found or the credentials are incorrect.
+     *  */
     async login(username, password) {
         return this.transactionMgr.transaction(async (t1) => {
             return this.projectDAO.findUserByUsernameAndPassword(username, password);

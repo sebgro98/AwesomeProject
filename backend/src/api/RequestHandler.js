@@ -9,7 +9,7 @@ class RequestHandler {
     /**
      * Constructs a new RequestHandler.
      * Initializes an Express router.
-     * @constructor
+     * @constructor3
      */
     constructor() {
         this.router = express.Router();
