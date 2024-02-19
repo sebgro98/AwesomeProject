@@ -94,6 +94,39 @@ class ProjectDAO {
     }
 
     /**
+     * Creates a new user and returns a PersonDTO object for the created user.
+     * @param {Object} userData An object containing user registration data.
+     * @return {PersonDTO} A PersonDTO object representing the newly created user.
+     * @throws {Error} If an error occurs during the database operation.
+     */
+    async createNewUser(userData) {
+        try {
+            const createdPerson = await Person.create({
+                name: userData.firstName,
+                surname: userData.lastName,
+                pnr: userData.personNumber,
+                email: userData.email,
+                password: userData.password,
+                role_id: 2, // this is for applicant or recruter
+                username: userData.username
+            });
+
+            return this.createPersonDTO(createdPerson);
+        } catch (error) {
+            throw new WError(
+                {
+                    cause: error,
+                    info: {
+                        ProjectDAO: 'Failed to create a new user',
+                        userData: userData
+                    }
+                },
+                'Could not create a new user'
+            );
+        }
+    }
+
+    /**
      * Creates a PersonDTO object from the given Person model object.
      * @param {Object} person The Person model object.
      * @return {PersonDTO} A PersonDTO object representing the given Person.

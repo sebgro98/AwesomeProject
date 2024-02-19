@@ -1,7 +1,10 @@
 // SignUpView.js
 import React, { useState } from 'react';
+import axios from "axios";
 
 const SignUpView = () => {
+    const [error, setError] = useState('');
+
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -19,8 +22,19 @@ const SignUpView = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+
+
+        try {
+            const response = await axios.post('http://localhost:8000/person/register', {formData});
+            // Handle successful login
+            console.log(response.data); // Or redirect user
+        } catch (error) {
+            // Handle failed login
+            setError('Login failed. Please check your credentials.');
+        }
         // Add logic to send the form data to the server for registration
         // You can use fetch or any other library to make an API request
         console.log('Form data submitted:', formData);
@@ -29,7 +43,7 @@ const SignUpView = () => {
     return (
         <div>
             <h2>Sign Up</h2>
-            <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: 'auto' }}>
                 <label>
                     First Name:
                     <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />

@@ -44,6 +44,22 @@ class Controller {
         })
     }
 
+    /**
+     * Registers a new user.
+     *
+     * @param {Object} userData An object containing user registration data.
+     * @return {PersonDTO} A Promise that resolves with a PersonDTO
+     *  representing the registered user if registration is successful, or null if
+     *  there is an issue with the registration process.
+     */
+    async register(userData) {
+        return this.transactionMgr.transaction(async (t1) => {
+            // You need to implement the method in ProjectDAO for user registration
+            // Assuming createNewUser is a method in ProjectDAO to create a new user
+            return this.projectDAO.createNewUser(userData);
+        });
+    }
+
 
 }
 

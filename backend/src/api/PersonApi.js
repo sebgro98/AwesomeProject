@@ -57,6 +57,24 @@ class PersonAPI extends RequestHandler {
                     }
                 }
             );
+
+            // New registration route for when a user signs up to our application
+            this.router.post(
+                '/register',
+                async (req, res, next) => {
+                    const { formData } = req.body;
+                    try {
+                        // Assuming `this.contr.register` is a method to handle registration
+                        const response = await this.contr.register(formData);
+                        // Handle successful registration
+                        res.send(response.data);
+                    } catch (error) {
+                        // Handle failed registration
+                        this.sendHttpResponse(res, 400, "Registration failed");
+                    }
+                }
+            );
+
         }
         catch (err) {
             console.log(err);
