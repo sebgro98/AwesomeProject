@@ -61,16 +61,22 @@ class Controller {
         });
     }
 
-    async isLoggedIn(username){
+    /**
+     * Check if a user is logged in based on the provided username.
+     * @param {string} username - The username of the user to check.
+     * @returns {boolean} True if the user is not found (not logged in); false if the user is found (logged in).
+     */
+    async isLoggedIn(username) {
         return this.transactionMgr.transaction(async (t1) => {
-            console.log("do we get here controller")
+            console.log("do we get here in the controller");
             const person = await this.projectDAO.findPersonByUsername(username);
-            if(person) {
-                return false;
-            }
-            return true;
-        });
 
+            if (person) {
+                return false; // User found, indicating logged in
+            }
+
+            return true; // User not found, indicating not logged in
+        });
     }
 
 
