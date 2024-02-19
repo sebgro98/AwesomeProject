@@ -66,7 +66,7 @@ const SignUpView = () => {
                 </label>
 
                 <label>
-                    Person Number:
+                    Person Number YYYYMMDD-XXXX:
                     <input type="text" name="personNumber" value={formData.personNumber} onChange={handleChange} required />
                 </label>
 
