@@ -1,5 +1,8 @@
 const PersonAPI = require ('./PersonApi');
 const ApplicationAPI = require ('./ApplicationAPI');
+const AvailabilityAPI = require ('./AvailabilityAPI');
+const CompetenceAPI = require ('./CompetenceAPI');
+const CompetenceProfileAPI = require ('./CompetenceProfileAPI');
 const ErrorResponseSender = require('./error/ErrorResponseSender')
 
 /**
@@ -60,6 +63,9 @@ class RequestHandlerLoader {
 const loader = new RequestHandlerLoader();
 loader.addRequestHandler(new PersonAPI());
 loader.addRequestHandler(new ApplicationAPI());
+loader.addRequestHandler(new AvailabilityAPI())
+loader.addRequestHandler(new CompetenceAPI())
+loader.addRequestHandler(new CompetenceProfileAPI())
 loader.addErrorHandler(new ErrorResponseSender());
 
 module.exports = loader;

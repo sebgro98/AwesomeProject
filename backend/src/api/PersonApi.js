@@ -29,7 +29,7 @@ class PersonAPI extends RequestHandler {
     }
 
     /**
-     * Handles the registration of API routes for Person-related operations.
+     * Handles the registration of API routes for Person-related operations like logín and registering a person.
      */
     async registerHandler() {
         try {

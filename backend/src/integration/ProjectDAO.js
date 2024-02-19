@@ -98,36 +98,60 @@ class ProjectDAO {
 
     /**
      * Creates a new user and returns a PersonDTO object for the created user.
+     * If a user with the same pnr already exists, updates the existing record.
      * @param {Object} userData An object containing user registration data.
-     * @return {PersonDTO} A PersonDTO object representing the newly created user.
+     * @return {PersonDTO} A PersonDTO object representing the newly created or updated user.
      * @throws {Error} If an error occurs during the database operation.
      */
     async createNewUser(userData) {
         try {
-            const createdPerson = await Person.create({
-                name: userData.firstName,
-                surname: userData.lastName,
-                pnr: userData.personNumber,
-                email: userData.email,
-                password: userData.password,
-                role_id: 2, // this is for applicant or recruter
-                username: userData.username
+            // Check if a person with the same pnr exists
+            const existingPerson = await Person.findOne({
+                where: {
+                    pnr: userData.personNumber
+                }
             });
 
-            return this.createPersonDTO(createdPerson);
+            if (existingPerson) {
+                // Update the existing record if a person with the same pnr is found
+                await existingPerson.update({
+                    name: userData.firstName,
+                    surname: userData.lastName,
+                    email: userData.email,
+                    password: userData.password,
+                    role_id: 2, // this is for applicant or recruiter
+                    username: userData.username
+                });
+
+                return this.createPersonDTO(existingPerson);
+            } else {
+                // Create a new user if no person with the same pnr is found
+                const createdPerson = await Person.create({
+                    name: userData.firstName,
+                    surname: userData.lastName,
+                    pnr: userData.personNumber,
+                    email: userData.email,
+                    password: userData.password,
+                    role_id: 2, // this is for applicant or recruiter
+                    username: userData.username
+                });
+
+                return this.createPersonDTO(createdPerson);
+            }
         } catch (error) {
             throw new WError(
                 {
                     cause: error,
                     info: {
-                        ProjectDAO: 'Failed to create a new user',
+                        ProjectDAO: 'Failed to create/update a user',
                         userData: userData
                     }
                 },
-                'Could not create a new user'
+                'Could not create/update a user'
             );
         }
     }
+
 
     /**
      * Creates a PersonDTO object from the given Person model object.
