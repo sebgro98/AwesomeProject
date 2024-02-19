@@ -5,7 +5,7 @@ import './index.css';
 import SignUpView from './views/SignUpView';
 import LoginView from './views/LoginView';
 import reportWebVitals from './reportWebVitals';
-
+import ApplyPositionView from "./views/ApplyPositionView";
 /**
  * Main entry point for the React application.
  * Renders the application using React Router.
@@ -19,6 +19,9 @@ ReactDOM.render(
 
                 {/* Default route for LoginView */}
                 <Route path="/" element={<LoginView />} />
+
+                {/* Route for applying */}
+                <Route path="/apply" element={<ApplyPositionView />} />
 
                 {/* Add more routes if needed */}
             </Routes>
