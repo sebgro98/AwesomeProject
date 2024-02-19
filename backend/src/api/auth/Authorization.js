@@ -56,6 +56,7 @@ class Authorization {
             try {
                 const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);
                 const loggedInUser = await contr.isLoggedIn(JWTPayload.username);
+
                 if (loggedInUser == null) {
                     this.clearAuthCookie(res)
                     return false;
