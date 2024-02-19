@@ -77,4 +77,4 @@ It will be deployed on Herouko
 * Sebastian Rone
 * Sushil KC
 * Ingemar Cederholm
-* Liam Bathini
+* Liam Battini
