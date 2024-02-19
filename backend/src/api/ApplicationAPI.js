@@ -42,7 +42,7 @@ class ApplicationAPI extends RequestHandler {
             this.router.get('/apply', async (req, res, next) => {
                 try {
                     if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleId, req, res)) ) {
-                        return this.sendHttpResponse(res, 401, "Unauthorized. User not logged in");
+                        return;
                     }
                         this.sendHttpResponse(res, 200, "Apply route accessed successfully");
 
