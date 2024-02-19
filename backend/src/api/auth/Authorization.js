@@ -10,7 +10,6 @@ class Authorization {
     // Method to set authentication cookie
     // Method to set authentication cookie
     static setAuthCookie(person, res) {
-        const httpOnly = { httpOnly: true };
         const sessionCookie = { expires: 0 };
 
 
@@ -58,6 +57,12 @@ class Authorization {
                     this.clearAuthCookie(res)
                     return false;
                 }
+                const roleId = JWTPayload.role;
+                if(loggedInUser || (roleId !== allowedRoleId)) {
+                    this.clearAuthCookie(res)
+                    return false;
+                }
+
                 req.user = loggedInUser;
                 return true;
             } catch (err) {
@@ -67,8 +72,6 @@ class Authorization {
         }
 
 
-
-    // Method to get JWT username
     static async getJWTUsername(req) {
         const authCookie = req.cookies.personAuth;
         const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);
