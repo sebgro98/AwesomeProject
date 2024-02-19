@@ -38,12 +38,6 @@ class Authorization {
 
     }
 
-    // Method to verify JWT token
-    static verifyToken(token) {
-        // Implement token verification logic
-        return null; // Implement JWT token verification here
-    }
-
     // Middleware to check if user is logged in
     static async isSignedIn(contr, allowedRoleId, req, res) {
         const authCookie = req.cookies.personAuth;
@@ -72,9 +66,11 @@ class Authorization {
 
 
     // Method to get JWT username
-    async getJWTUsername(req) {
-        // Implement getting JWT username logic
-        return ''; // Implement logic to extract username from JWT token
+    static async getJWTUsername(req) {
+        const authCookie = req.cookies.personAuth;
+        const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);
+
+        return JWTPayload.username;
     }
 }
 

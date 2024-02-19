@@ -63,9 +63,11 @@ class Controller {
 
     async isLoggedIn(username){
         return this.transactionMgr.transaction(async (t1) => {
-
             const person = await this.projectDAO.findPersonByUsername(username);
-
+            if(person) {
+                return false;
+            }
+            return true;
         });
 
     }
