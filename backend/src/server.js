@@ -10,8 +10,13 @@ const cors = require('cors'); // Import the cors middleware
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-// Use the cors middleware to enable CORS
-app.use(cors());
+const corsOptions = {
+    origin: process.env.ORIGIN,
+    methods: ['GET', 'POST'],
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 
 //const cookieParser = require('cookie-parser');
 //app.use(cookieParser());
