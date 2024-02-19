@@ -36,22 +36,27 @@ class PersonAPI extends RequestHandler {
 
             this.router.post(
                 '/login',
-                async(req, res, next) => {
+                async (req, res, next) => {
                     const { username, password } = req.body;
                     try {
                         const person = await this.contr.login(username, password);
                         if (person) {
-                            this.sendHttpResponse(res, 200, "Login successful");
-                        }
-                        else {
+                            // If login is successful, set user data in session
+                            req.session.user = {
+                                password: person.password,
+                                username: person.username,
+                            };
+                            const mommy = req.session.user.username;
+                            res.send(`Welcome, ${mommy}!`);
+                            //this.sendHttpResponse(res, 200, "Login successful");
+                        } else {
                             this.sendHttpResponse(res, 401, "Login failed");
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         next(err);
                     }
                 }
-            )
+            );
         }
         catch (err) {
             console.log(err);
@@ -60,5 +65,4 @@ class PersonAPI extends RequestHandler {
 }
 
 // Export the PersonAPI class to make it available for other modules
-module.exports = PersonAPI;
 module.exports = PersonAPI;
