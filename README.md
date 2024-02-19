@@ -6,6 +6,16 @@ This web application provides a service for people to sign up and apply for a jo
 
 ## Architecture
 The application is structured into two main components: the backend and the frontend, both of which are written in JavaScript.
+### Frontend
+To be updated when strucutre is completed
+
+### Backend
+The backend of our application adopts a combination of MVC (Model-View-Controller) and Integration layered architectures. This design ensures high cohesion and encapsulation while maintaining low coupling, which results in a modular and maintainable codebase.
+
+* API Layer (View): This layer acts as the entry point for all frontend calls. It's responsible for receiving requests from the frontend
+* Controller Layer: Serving as the intermediary, the Controller is responsible for all communication between the layers.
+* Model Layer: Here, all Sequelize models and Data Transfer Objects (DTOs) reside.
+* Integration Layer: Dedicated to database interactions, this layer handles all communications with the database.
 
 ## Prerequisites
 Before you begin, ensure you have installed:
