@@ -1,4 +1,5 @@
 const ProjectDAO = require('../integration/ProjectDAO');
+const Validators = require('../util/Validators');
 
 /**
  * Controller class handles the business logic and interacts with the data access layer.
@@ -58,6 +59,15 @@ class Controller {
             // Assuming createNewUser is a method in ProjectDAO to create a new user
             return this.projectDAO.createNewUser(userData);
         });
+    }
+
+    async isLoggedIn(username){
+        return this.transactionMgr.transaction(async (t1) => {
+
+            const person = await this.projectDAO.findPersonByUsername(username);
+
+        });
+
     }
 
 

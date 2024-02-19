@@ -3,6 +3,7 @@ const cls = require('cls-hooked');
 const Person = require('../model/Person');
 const WError = require('verror').WError;
 const PersonDTO = require('../model/PersonDTO');
+const Validators = require("../util/Validators");
 
 /**
  * ProjectDAO class handles database operations related to the project.
@@ -39,6 +40,9 @@ class ProjectDAO {
         this.createTables();
     }
 
+
+
+
     /**
      * Returns the Sequelize transaction manager for database transactions.
      * @return {Object} The transaction manager object.
@@ -73,10 +77,9 @@ class ProjectDAO {
             const person = await Person.findOne({
                 where: {
                     username: username,
-                    password: password // Note: Security concern about storing passwords directly
+                    password: password
                 }
             });
-
             return this.createPersonDTO(person);
         } catch (error) {
             throw new WError(
@@ -141,6 +144,31 @@ class ProjectDAO {
             person.password,
             person.role_id,
             person.username)
+    }
+
+
+    async findPersonByUsername(username) {
+        try {
+            Validators.isAlnumString(username, 'username');
+            const person = await Person.findOne(  {
+                where: {username: username},
+            });
+            if(person) {
+                return this.createPersonDTO(person);
+            }
+            return null;
+        } catch(err) {
+            throw new WError(
+                {
+                    cause: err,
+                    info: {
+                        ProjectDAO: 'Failed to find person',
+                        username: username,
+                    },
+                },
+                'Could not find person with username ${username}.',
+            );
+        }
     }
 }
 

@@ -6,18 +6,11 @@ require('dotenv-safe').config();
 const express = require('express');
 const app = express();
 const cors = require('cors'); // Import the cors middleware
-const session = require("express-session");
-const MemoryStore = require('memorystore')(session);
+
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
-    store: new MemoryStore({ checkPeriod: 86400000 }) // saved for 1 day, not recommended for production environments
-})); //                                           or applications with a large number of users because it stores session data in the server's memory
 
 const corsOptions = {
     origin: process.env.ORIGIN,
@@ -27,8 +20,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-//const cookieParser = require('cookie-parser');
-//app.use(cookieParser());
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 

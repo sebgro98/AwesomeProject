@@ -1,4 +1,5 @@
 const RequestHandler = require('./RequestHandler');
+const Authorization = require('./auth/Authorization');
 /**
  * Represents a REST API handler for managing Person-related operations.
  * @extends RequestHandler
@@ -41,14 +42,8 @@ class PersonAPI extends RequestHandler {
                     try {
                         const person = await this.contr.login(username, password);
                         if (person) {
-                            // If login is successful, set user data in session
-                            req.session.user = {
-                                password: person.password,
-                                username: person.username,
-                            };
-                            const mommy = req.session.user.username;
-                            res.send(`Welcome, ${mommy}!`);
-                            //this.sendHttpResponse(res, 200, "Login successful");
+                            Authorization.setAuthCookie(person, res);
+                            this.sendHttpResponse(res, 200, "Login successful");
                         } else {
                             this.sendHttpResponse(res, 401, "Login failed");
                         }
