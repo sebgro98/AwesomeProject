@@ -1,4 +1,5 @@
 const RequestHandler = require('./RequestHandler');
+const Authorization = require("./auth/Authorization");
 /**
  * Represents a REST API handler for managing Application-related operations.
  * @extends RequestHandler
@@ -33,6 +34,30 @@ class ApplicationAPI extends RequestHandler {
     async registerHandler() {
         try {
             await this.retrieveController();
+
+            this.router.get('/apply', async (req, res, next) => {
+                console.log("req2...........", req)
+                console.log("res2...........", res)
+                try {
+                    const isLoggedIn = await Authorization.isSignedIn(this.contr, 1, req, res);
+                    console.log("req1...........", req)
+                    console.log("res1...........", res)
+                    console.log("In personAPI...........", isLoggedIn)
+                    if (isLoggedIn) {
+                        // User is logged in, proceed with the /apply logic
+                        // ...
+
+                        // Example: Send a response indicating successful processing
+                        this.sendHttpResponse(res, 200, "Apply route accessed successfully");
+                    } else {
+                        // User is not logged in, handle accordingly
+                        this.sendHttpResponse(res, 401, "Unauthorized. User not logged in");
+                    }
+                } catch (error) {
+                    // Handle errors properly
+                    next(error);
+                }
+            });
 
 
         }
