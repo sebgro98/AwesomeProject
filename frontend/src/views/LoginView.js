@@ -30,7 +30,15 @@ const LoginView = () => {
             const response = await axios.post('http://localhost:8000/person/login',
                 { username, password }, { withCredentials: true });
             // Handle successful login
-            console.log(response.data);
+            console.log(response);
+            if (response.data.role_id == 1){
+                //Send the recruter to the recruter view.
+                navigate('/apply');
+            }
+            else{
+                navigate('/apply');
+            }
+
         } catch (error) {
             // Handle failed login
             setError('Login failed. Please check your credentials.');

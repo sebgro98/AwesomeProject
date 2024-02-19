@@ -35,18 +35,40 @@ class PersonAPI extends RequestHandler {
         try {
             await this.retrieveController();
 
+            // Add a middleware to check if the user is signed in before handling the /apply route
+            this.router.get('/apply', async (req, res, next) => {
+                console.log("req2...........", req)
+                console.log("res2...........", res)
+                try {
+                    const isLoggedIn = await Authorization.isSignedIn(this.contr, 1, req, res);
+                    console.log("req1...........", req)
+                    console.log("res1...........", res)
+                    console.log("In personAPI...........", isLoggedIn)
+                    if (isLoggedIn) {
+                        // User is logged in, proceed with the /apply logic
+                        // ...
+
+                        // Example: Send a response indicating successful processing
+                        this.sendHttpResponse(res, 200, "Apply route accessed successfully");
+                    } else {
+                        // User is not logged in, handle accordingly
+                        this.sendHttpResponse(res, 401, "Unauthorized. User not logged in");
+                    }
+                } catch (error) {
+                    // Handle errors properly
+                    next(error);
+                }
+            });
+
             this.router.post(
                 '/login',
                 async (req, res, next) => {
                     const { username, password } = req.body;
                     try {
-                        if( await Authorization.isSignedIn(this.contr, req, res)) {
-                            return this.sendHttpResponse(res, 200, "We did it");
-                        }
                         const person = await this.contr.login(username, password);
                         if (person) {
                             Authorization.setAuthCookie(person, res);
-                            return this.sendHttpResponse(res, 200, "Login successful");
+                            this.sendHttpResponse(res, 200, "Login successful");
                         } else {
                             this.sendHttpResponse(res, 401, "Login failed");
                         }
@@ -66,7 +88,6 @@ class PersonAPI extends RequestHandler {
                         const response = await this.contr.register(formData);
                         // Handle successful registration
                         res.send(response.data);
-                        //this.sendHttpResponse(res, 200, "are we alive?");
                     } catch (error) {
                         // Handle failed registration
                         this.sendHttpResponse(res, 400, "Registration failed");

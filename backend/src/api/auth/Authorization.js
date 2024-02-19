@@ -21,12 +21,7 @@ class Authorization {
 
         const jwtToken = this.generateToken(person);
         res.cookie(this.AUTH_COOKIE_NAME, jwtToken, cookieOptions);
-
-        console.log('Generated JWT Token:', jwtToken);
-        console.log('Cookie Options:', cookieOptions);
-        console.log('Response Headers:', res.getHeaders());
     }
-
 
     // Method to clear authentication cookie
     static clearAuthCookie(res) {
@@ -47,9 +42,8 @@ class Authorization {
     }
 
     // Middleware to check if user is logged in
-    static async isSignedIn(contr, req, res) {
+    static async isSignedIn(contr, allowedRoleId, req, res) {
         const authCookie = req.cookies.personAuth;
-
         if(!authCookie) {
             res.status(401).json({
                 error: 'Unauthorized. Missing authorization token'
