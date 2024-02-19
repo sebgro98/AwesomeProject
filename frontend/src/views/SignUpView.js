@@ -1,9 +1,10 @@
-// SignUpView.js
 import React, { useState } from 'react';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const SignUpView = () => {
     const [error, setError] = useState('');
+    const navigate = useNavigate(); // Get the navigate function from react-router-dom
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -26,20 +27,23 @@ const SignUpView = () => {
         e.preventDefault();
         setError('');
 
-
         try {
-            const response = await axios.post('http://localhost:8000/person/register', {formData});
-            // Handle successful login
-            console.log(response.data); // Or redirect user
+            const response = await axios.post('http://localhost:8000/person/register', { formData });
+            // Handle successful registration
+            console.log(response.data);
             alert('User registered successfully!');
+
             // Redirect to the login page
+            navigate('/');
         } catch (error) {
-            // Handle failed login
-            setError('Login failed. Please check your credentials.');
+            // Handle failed registration
+            setError('Registration failed. Please check your data.');
         }
-        // Add logic to send the form data to the server for registration
-        // You can use fetch or any other library to make an API request
-        console.log('Form data submitted:', formData);
+    };
+
+    const redirectToLogIn = () => {
+        // Use navigate to navigate to the SignUpView
+        navigate('/');
     };
 
     return (
@@ -77,6 +81,11 @@ const SignUpView = () => {
                 </label>
 
                 <button type="submit" style={{ marginTop: '10px' }}>Sign Up</button>
+
+                {/* Button to redirect to SignUpView */}
+                <button type="button" onClick={redirectToLogIn}>
+                    go back to log in
+                </button>
             </form>
         </div>
     );
