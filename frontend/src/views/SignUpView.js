@@ -31,6 +31,8 @@ const SignUpView = () => {
             const response = await axios.post('http://localhost:8000/person/register', {formData});
             // Handle successful login
             console.log(response.data); // Or redirect user
+            alert('User registered successfully!');
+            // Redirect to the login page
         } catch (error) {
             // Handle failed login
             setError('Login failed. Please check your credentials.');
