@@ -49,6 +49,7 @@ Install dependencies: npm install
 ##### Dotenv: For loading environment variables from a .env file into process.env.
 
 ## Running the Project
+
 ### Running the Frontend
 Inside the frontend directory: npm start
 Access the frontend at http://localhost:3000.
@@ -57,13 +58,12 @@ Access the frontend at http://localhost:3000.
 1. make a copty of the file .env.example and create your own .env file.
 2. Start your database.
 3. Inside the backend directory: npm start
-Inside the backend directory: npm start
 
 ### Deployment
 It will be deployed on Herouko
 
 ### Contributors
-Sebastian Rone
-Sushil KC
-Ingemar Cederholm
-Liam Bathini
+* Sebastian Rone
+* Sushil KC
+* Ingemar Cederholm
+* Liam Bathini
