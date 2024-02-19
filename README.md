@@ -14,6 +14,7 @@ npm (Node Package Manager)
 
 ## Installation
 Node.js and npm
+
 Download and install Node.js from the [official website](https://nodejs.org/en).
 npm is included with Node.js. After installing, you can verify the installation by running node -v and npm -v in your terminal.
 
