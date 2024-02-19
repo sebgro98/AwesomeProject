@@ -1,4 +1,5 @@
 const PersonAPI = require ('./PersonApi');
+const ApplicationAPI = require ('./ApplicationAPI');
 const ErrorResponseSender = require('./error/ErrorResponseSender')
 
 /**
@@ -58,6 +59,7 @@ class RequestHandlerLoader {
 // Instantiate and configure the RequestHandlerLoader with specific request and error handlers
 const loader = new RequestHandlerLoader();
 loader.addRequestHandler(new PersonAPI());
+loader.addRequestHandler(new ApplicationAPI());
 loader.addErrorHandler(new ErrorResponseSender());
 
 module.exports = loader;
