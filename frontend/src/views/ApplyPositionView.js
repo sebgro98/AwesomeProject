@@ -1,6 +1,6 @@
-// SignUpView.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const ApplyPositionView = () => {
     const [message, setMessage] = useState('');
@@ -11,6 +11,31 @@ const ApplyPositionView = () => {
     const [endDate, setEndDate] = useState('')
     const [competenceObject, setCompetenceObject] = useState([{competence: 1, experience: null}, {competence: 2, experience: null}, {competence: 3, experience: null}]);
     const [availabilityObject, setAvailabilityObject] = useState([]);
+
+    const [authorized, setAuthorized] = useState(false);
+    useEffect(() => {
+        // Use an API call or any other method to check user authorization
+        // If authorized, setAuthorized(true); otherwise, handle unauthorized state
+        // Example:
+        const checkAuthorization = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/person/apply', { withCredentials: true });
+                if (response.status === 200) {
+                    setAuthorized(true);
+                } else {
+                    // Handle unauthorized state, e.g., redirect to login
+                    navigate('/login');
+                }
+            } catch (error) {
+                console.error('Error checking authorization:', error);
+            }
+        };
+
+        checkAuthorization();
+    }, []);
+    const navigate = useNavigate();
+
+
 
     function handleCompetenceSubmit(e){
         e.preventDefault();
@@ -23,6 +48,8 @@ const ApplyPositionView = () => {
         setMessage(`Added competence ${getCompetenceName(competence)} with ${experience} years of experience`);
         resetForm();
     }
+
+
 
     function getCompetenceName(id) {
         switch(id) {
@@ -98,47 +125,46 @@ const ApplyPositionView = () => {
         console.log(requestData);
     }
 
-
-    return (
+    return authorized ? (
         <>
-        {pageNumber===1 && (
-            <div style={{display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: 'auto'}}>
-                <h2>Apply for a position</h2>
-                <h3>Page 1 of 3</h3>
-                <form onSubmit={handleCompetenceSubmit}>
+            {pageNumber===1 && (
+                <div style={{display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: 'auto'}}>
+                    <h2>Apply for a position</h2>
+                    <h3>Page 1 of 3</h3>
+                    <form onSubmit={handleCompetenceSubmit}>
 
-                    <label>Choose competence:</label><br/>
+                        <label>Choose competence:</label><br/>
 
-                    <label>
-                        Ticket sales
-                        <input type="radio" name="competence" value="1" onChange={() => setCompetence(1)} required/>
-                    </label><br/>
+                        <label>
+                            Ticket sales
+                            <input type="radio" name="competence" value="1" onChange={() => setCompetence(1)} required/>
+                        </label><br/>
 
-                    <label>
-                        Lotteries
-                        <input type="radio" name="competence" value="2" onChange={() => setCompetence(2)} required/>
-                    </label><br/>
+                        <label>
+                            Lotteries
+                            <input type="radio" name="competence" value="2" onChange={() => setCompetence(2)} required/>
+                        </label><br/>
 
-                    <label>
-                        Roller Coaster Operation
-                        <input type="radio" name="competence" value="3" onChange={() => setCompetence(3)} required/>
-                    </label>
-                    <br/><br/>
+                        <label>
+                            Roller Coaster Operation
+                            <input type="radio" name="competence" value="3" onChange={() => setCompetence(3)} required/>
+                        </label>
+                        <br/><br/>
 
-                    <label>
-                        Years of Experience:
+                        <label>
+                            Years of Experience:
 
-                    </label><br/>
-                    <input type="number" name="experience" value={experience} onChange={(e) => setExperience(e.target.value)} placeholder="Enter years of experience" required/>
+                        </label><br/>
+                        <input type="number" name="experience" value={experience} onChange={(e) => setExperience(e.target.value)} placeholder="Enter years of experience" required/>
+                        <br/>
+
+                        <button type="submit" style={{marginTop: '10px'}}>Submit Competence</button>
+                    </form>
                     <br/>
-
-                    <button type="submit" style={{marginTop: '10px'}}>Submit Competence</button>
-                </form>
-                <br/>
-                <button type="button" onClick={goToNextPage}>Go to next Page</button>
-                {message && <p>{message}</p>}
-            </div>
-        )}
+                    <button type="button" onClick={goToNextPage}>Go to next Page</button>
+                    {message && <p>{message}</p>}
+                </div>
+            )}
             {pageNumber===2 && (
                 <div style={{display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: 'auto'}}>
                     <h2>Apply for a position</h2>
@@ -184,6 +210,13 @@ const ApplyPositionView = () => {
                 </div>
             )}
         </>
+    ) : (
+        // Unauthorized state - You can redirect or display an unauthorized message
+        <div>
+            <p>You are not authorized to access this page. Please log in.</p>
+            {/* You can add a button or link to redirect the user to the login page */}
+            <button onClick={() => navigate('/')}>Log In</button>
+        </div>
     );
 };
 

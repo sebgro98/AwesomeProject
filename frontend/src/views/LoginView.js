@@ -27,7 +27,8 @@ const LoginView = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/person/login', { username, password });
+            const response = await axios.post('http://localhost:8000/person/login',
+                { username, password }, { withCredentials: true });
             // Handle successful login
             console.log(response.data);
         } catch (error) {

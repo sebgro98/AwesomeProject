@@ -40,10 +40,13 @@ class PersonAPI extends RequestHandler {
                 async (req, res, next) => {
                     const { username, password } = req.body;
                     try {
+                        if( await Authorization.isSignedIn(this.contr, req, res)) {
+                            return this.sendHttpResponse(res, 200, "We did it");
+                        }
                         const person = await this.contr.login(username, password);
                         if (person) {
                             Authorization.setAuthCookie(person, res);
-                            this.sendHttpResponse(res, 200, "Login successful");
+                            return this.sendHttpResponse(res, 200, "Login successful");
                         } else {
                             this.sendHttpResponse(res, 401, "Login failed");
                         }
@@ -63,6 +66,7 @@ class PersonAPI extends RequestHandler {
                         const response = await this.contr.register(formData);
                         // Handle successful registration
                         res.send(response.data);
+                        //this.sendHttpResponse(res, 200, "are we alive?");
                     } catch (error) {
                         // Handle failed registration
                         this.sendHttpResponse(res, 400, "Registration failed");
