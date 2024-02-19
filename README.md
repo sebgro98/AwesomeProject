@@ -1,4 +1,5 @@
-# Project Title
+# Recruitment app
+
 ## Project Description
 
 This web application provides a service for people to sign up and apply for a job at an amusement park. A person can sign in with their credentials and make an application.
