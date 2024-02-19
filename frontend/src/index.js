@@ -2,17 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
-import App from './App';
 import SignUpView from './views/SignUpView';
 import LoginView from './views/LoginView';
 import reportWebVitals from './reportWebVitals';
 
+/**
+ * Main entry point for the React application.
+ * Renders the application using React Router.
+ */
 ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Routes>
+                {/* Route for SignUpView */}
                 <Route path="/signup" element={<SignUpView />} />
+
+                {/* Default route for LoginView */}
                 <Route path="/" element={<LoginView />} />
+
                 {/* Add more routes if needed */}
             </Routes>
         </Router>

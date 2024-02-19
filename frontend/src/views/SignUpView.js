@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * SignUpView component for user registration.
+ * @returns {JSX.Element} Rendered SignUpView component.
+ */
 const SignUpView = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate(); // Get the navigate function from react-router-dom
@@ -15,6 +19,10 @@ const SignUpView = () => {
         password: '',
     });
 
+    /**
+     * Handles changes in form fields.
+     * @param {React.ChangeEvent} e - The change event.
+     */
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -23,6 +31,10 @@ const SignUpView = () => {
         }));
     };
 
+    /**
+     * Handles form submission for user registration.
+     * @param {React.FormEvent} e - The form event.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -41,8 +53,10 @@ const SignUpView = () => {
         }
     };
 
+    /**
+     * Redirects to the login page.
+     */
     const redirectToLogIn = () => {
-        // Use navigate to navigate to the SignUpView
         navigate('/');
     };
 
@@ -82,9 +96,9 @@ const SignUpView = () => {
 
                 <button type="submit" style={{ marginTop: '10px' }}>Sign Up</button>
 
-                {/* Button to redirect to SignUpView */}
+                {/* Button to redirect to login page */}
                 <button type="button" onClick={redirectToLogIn}>
-                    go back to log in
+                    Go back to log in
                 </button>
             </form>
         </div>
