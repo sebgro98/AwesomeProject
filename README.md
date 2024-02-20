@@ -71,7 +71,7 @@ Access the frontend at http://localhost:3000.
 3. Inside the backend directory: npm start
 
 ### Deployment
-It will be deployed on Herouko
+https://awesome-project-1fe60cd319b6.herokuapp.com/
 
 ### Contributors
 * Sebastian Rone
