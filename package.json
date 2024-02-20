@@ -1,12 +1,9 @@
 {
   "name": "awesome-project",
   "scripts": {
-    "start": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
-    "start-backend": "node backend/src/server.js",
-    "start-frontend": "npm start --prefix frontend",
-    "install-front": "npm install --prefix frontend",
-    "install-back": "npm install --prefix backend",
-    "postinstall": "npm run install-front && npm run install-back"
+    "start": "node backend/src/server.js",
+    "build": "npm run build --prefix frontend",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

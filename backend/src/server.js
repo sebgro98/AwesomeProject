@@ -6,6 +6,21 @@ require('dotenv-safe').config();
 
 const express = require('express');
 const app = express();
+
+// Serve static files from the React app in production
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "/../../frontend/build")));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, "/../../frontend/build/index.html"));
+    });
+} else {
+    // In development, handle any non-API requests with a simple message
+    app.get('*', (req, res) => {
+        res.send('Development mode: Backend server is running. Access frontend via React development server.');
+    });
+}
+
 const cors = require('cors'); // Import the cors middleware
 
 const bodyParser = require('body-parser');
