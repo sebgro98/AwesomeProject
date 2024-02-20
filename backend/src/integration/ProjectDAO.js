@@ -23,6 +23,8 @@ class ProjectDAO {
         const namespace = cls.createNamespace('projectDB');
         Sequelize.useCLS(namespace);
 
+        console.log("do i get here 2")
+
         // Establish database connection using environment variables
         this.database = new Sequelize(
             process.env.DB_NAME,
@@ -36,6 +38,7 @@ class ProjectDAO {
 
 
         // Create Person model
+
         Person.createModel(this.database);
         Availability.createModel(this.database);
         CompetenceProfile.createModel(this.database);
@@ -78,12 +81,16 @@ class ProjectDAO {
      */
     async findUserByUsernameAndPassword(username, password) {
         try {
+
             const person = await Person.findOne({
+
                 where: {
                     username: username,
                     password: password
                 }
+
             });
+            console.log("do i get here3", person)
             return this.createPersonDTO(person);
         } catch (error) {
             throw new WError(
