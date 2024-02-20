@@ -50,7 +50,7 @@ class Authorization {
      */
     static generateToken(payload, expiresIn = '1h') {
         return jwt.sign(
-            { username: payload.username, role: payload.role_id },
+            { username: payload.username, id: payload.person_id, role: payload.role_id },
             process.env.JWT_SECRET,
             { expiresIn: expiresIn }
         );
@@ -106,6 +106,13 @@ class Authorization {
         const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);
 
         return JWTPayload.username;
+    }
+
+    static async getJWTpersonID(req) {
+        const authCookie = req.cookies.personAuth;
+        const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);
+
+        return JWTPayload.id;
     }
 }
 

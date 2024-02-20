@@ -51,12 +51,26 @@ const ApplyPositionView = () => {
     function handleCompetenceSubmit(e){
         e.preventDefault();
 
-        const competenceData = {competence: competence, experience: experience}
+        let experienceNumber= parseFloat(experience);
+        if (isNaN(experienceNumber)) {
+            setMessage("Years of experience is not a number")
+            return;
+        }
+
+        experienceNumber = experienceNumber.toFixed(2);
+
+        if (experienceNumber.length > 5) {
+            setMessage("The years of experience number is too large");
+            return;
+        }
+
+        const competenceData = {competence: competence, experience: experienceNumber}
         const newCompetenceObject = competenceObject;
+        console.log("competenceData: ", competenceData);
         newCompetenceObject[competence-1] = competenceData;
         setCompetenceObject(newCompetenceObject);
 
-        setMessage(`Added competence ${getCompetenceName(competence)} with ${experience} years of experience`);
+        setMessage(`Added competence ${getCompetenceName(competence)} with ${experienceNumber} years of experience`);
         resetForm();
     }
 
@@ -154,7 +168,8 @@ const ApplyPositionView = () => {
         }
 
         try {
-            await axios.post('http://localhost:8000/application/apply', {competenceProfile: filteredCompetenceObject, availability: availabilityObject}, { withCredentials: true });
+            const response = await axios.post('http://localhost:8000/application/apply',
+                {competenceProfile: filteredCompetenceObject, availability: availabilityObject}, { withCredentials: true });
             alert('Successfully submitted the application!');
         } catch (error) {
             // Handle failed application submission
@@ -163,7 +178,6 @@ const ApplyPositionView = () => {
 
         const requestData = {competenceProfile: filteredCompetenceObject, availability: availabilityObject};
         console.log(requestData);
-
     }
 
     // Render component based on authorization status
@@ -195,7 +209,7 @@ const ApplyPositionView = () => {
                         <label>
                             Years of Experience:
                         </label><br/>
-                        <input type="number" name="experience" value={experience} onChange={(e) => setExperience(e.target.value)} placeholder="Enter years of experience" required/>
+                        <input type="text" name="experience" value={experience} onChange={(e) => setExperience(e.target.value)} placeholder="Enter years of experience" required/>
                         <br/>
                         {/* Submit button */}
                         <button type="submit" style={{marginTop: '10px'}}>Submit Competence</button>

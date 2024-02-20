@@ -56,6 +56,7 @@ class Person extends Sequelize.Model {
             },
             { sequelize, modelName: Person.PERSON_MODEL_NAME, tableName: Person.PERSON_MODEL_NAME, timestamps: false }
         );
+
         return Person;
     }
 }

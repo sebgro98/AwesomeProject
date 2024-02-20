@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const cls = require('cls-hooked');
 const Person = require('../model/Person');
+const Availability = require('../model/Availability');
+const CompetenceProfile = require('../model/CompetenceProfile');
 const WError = require('verror').WError;
 const PersonDTO = require('../model/PersonDTO');
 const Validators = require("../util/Validators");
@@ -35,6 +37,8 @@ class ProjectDAO {
 
         // Create Person model
         Person.createModel(this.database);
+        Availability.createModel(this.database);
+        CompetenceProfile.createModel(this.database);
 
 
         this.createTables();
@@ -193,6 +197,54 @@ class ProjectDAO {
                 'Could not find person with username ${username}.',
             );
         }
+    }
+
+    async createApplication(application) {
+        try {
+
+            //Delete availability from previous applications
+            await Availability.destroy({
+                where: {
+                    person_id: application.personId
+                }
+            });
+
+            //Delete competence from previous applications
+            await CompetenceProfile.destroy({
+                where: {
+                    person_id: application.personId
+                }
+            });
+
+            for (const competenceProfile of application.competenceProfile) {
+                await CompetenceProfile.create({
+                    person_id: application.personId,
+                    competence_id: competenceProfile.competence,
+                    years_of_experience: competenceProfile.experience,
+                });
+            }
+
+            for (const availability of application.availability) {
+                await Availability.create({
+                    person_id: application.personId,
+                    from_date: availability.startDate,
+                    to_date: availability.endDate,
+                });
+            }
+        }
+        catch(err) {
+            throw new WError(
+                {
+                    cause: err,
+                    info: {
+                        ProjectDAO: 'Failed to create application',
+                        application: application,
+                    },
+                },
+                'Could not create application'
+            );
+        }
+
     }
 }
 

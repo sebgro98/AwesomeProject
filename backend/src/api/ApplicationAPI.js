@@ -53,8 +53,21 @@ class ApplicationAPI extends RequestHandler {
             });
 
             this.router.post('/apply', async(req, res, next) => {
-                const application = req.body;
-                console.log(application);
+
+                try {
+                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleId, req, res)) ) {
+                        return;
+                    }
+
+                    const personId = await Authorization.getJWTpersonID(req);
+                    const application = req.body;
+                    application.personId = personId;
+                    const response = this.contr.apply(application);
+                    res.send(response);
+                }
+                catch (error) {
+                    next(error);
+                }
             });
 
 
