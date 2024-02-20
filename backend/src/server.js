@@ -2,7 +2,9 @@ const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
 
 // Load environment variables from .env file
-require('dotenv-safe').config();
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv-safe').config();
+}
 
 const express = require('express');
 const app = express();
