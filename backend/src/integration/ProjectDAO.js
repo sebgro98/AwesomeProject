@@ -124,7 +124,7 @@ class ProjectDAO {
                     email: userData.email,
                     password: userData.password,
                     role_id: 2, // this is for applicant or recruiter
-                    username: userData.username
+                    username: userData.username,
                 });
 
                 return this.createPersonDTO(existingPerson);
@@ -137,7 +137,7 @@ class ProjectDAO {
                     email: userData.email,
                     password: userData.password,
                     role_id: 2, // this is for applicant or recruiter
-                    username: userData.username
+                    username: userData.username,
                 });
 
                 return this.createPersonDTO(createdPerson);
@@ -171,7 +171,8 @@ class ProjectDAO {
             person.email,
             person.password,
             person.role_id,
-            person.username)
+            person.username,
+            person.application_status_id)
     }
 
 
@@ -201,7 +202,6 @@ class ProjectDAO {
 
     async createApplication(application) {
         try {
-
             //Delete availability from previous applications
             await Availability.destroy({
                 where: {
@@ -231,6 +231,11 @@ class ProjectDAO {
                     to_date: availability.endDate,
                 });
             }
+
+            await Person.update(
+                { application_status_id: 4 },
+                {where: { person_id: application.personId },}
+            );
         }
         catch(err) {
             throw new WError(
