@@ -30,10 +30,11 @@ app.use(bodyParser.json());
 
 // CORS configuration
 const corsOptions = {
-    origin: process.env.ORIGIN,
+    origin: process.env.NODE_ENV === 'production' ? process.env.PROD_ORIGIN : process.env.DEV_ORIGIN,
     methods: ['GET', 'POST'],
     credentials: true
 };
+
 app.use(cors(corsOptions));
 
 const cookieParser = require('cookie-parser');
@@ -53,10 +54,7 @@ reqHandlerLoader.loadReqHandlers(app);
 reqHandlerLoader.loadErrorHandlers(app);
 
 // Start the server
-const server = app.listen(
-    process.env.SERVER_PORT,
-    process.env.SERVER_HOST,
-    () => {
-        console.log(`Server on port ${server.address().address}:${server.address().port}`);
-    }
-);
+const server = app.listen(process.env.PORT || process.env.SERVER_PORT, () => {
+    console.log('Server up at ' + server.address().address + ':' + server.address().port);
+});
+
