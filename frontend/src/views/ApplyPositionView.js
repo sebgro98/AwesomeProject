@@ -29,7 +29,7 @@ const ApplyPositionView = () => {
         // Example:
         const checkAuthorization = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/application/apply', { withCredentials: true });
+                const response = await axios.get('http://localhost:8000/application/authorize', { withCredentials: true });
                 if (response.status === 200) {
                     setAuthorized(true);
                 } else {
@@ -146,10 +146,24 @@ const ApplyPositionView = () => {
     /**
      * Submits the final application.
      */
-    function submitApplication() {
+    async function submitApplication() {
         const filteredCompetenceObject = competenceObject.filter(item => item.experience !== null);
+        if (filteredCompetenceObject.length === 0 || availabilityObject.length === 0) {
+            setMessage("Competence or availability cannot be empty")
+            return;
+        }
+
+        try {
+            await axios.post('http://localhost:8000/application/apply', {competenceProfile: filteredCompetenceObject, availability: availabilityObject}, { withCredentials: true });
+            alert('Successfully submitted the application!');
+        } catch (error) {
+            // Handle failed application submission
+            setMessage('Application submission failed, try again or contact support');
+        }
+
         const requestData = {competenceProfile: filteredCompetenceObject, availability: availabilityObject};
         console.log(requestData);
+
     }
 
     // Render component based on authorization status
