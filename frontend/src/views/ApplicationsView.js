@@ -33,9 +33,16 @@ const ApplicationsView = () => {
                 <tr>
                     <th>Full Name</th>
                     <th>Status</th>
+
                 </tr>
                 </thead>
                 <tbody>
+                {applications.map(application => (
+                    <tr key={application.person_id} onClick={() => navigate(`/applications/${application.person_id}`)}>
+                        <td>{`${application.name} ${application.surname}`}</td>
+                        <td>{application.application_status_id === 1 ? "Rejected" : "Accepted"}</td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
         </div>

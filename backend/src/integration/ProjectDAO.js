@@ -261,14 +261,15 @@ class ProjectDAO {
 
     async getApplications() {
         try {
+            console.log('gjbfdivio')
             const persons = await Person.findAll({
                 where: {
                     application_status_id: {
-                        [Op.not]: 2 // Assuming application_status_id != 1
+                        [Op.not]: 1 // Assuming application_status_id != 1
                     }
                 }
             });
-
+            console.log('ioewjvowjv')
             return persons.map(person => this.createPersonDTO(person));
         } catch (error) {
             throw new WError(

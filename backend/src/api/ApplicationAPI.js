@@ -71,10 +71,8 @@ class ApplicationAPI extends RequestHandler {
             });
 
             this.router.post('/applications', async (req, res) => {
-                console.log('resssssssssssssssssssssss applications1');
                 try {
                     const response = await this.contr.getApplications();
-                    console.log('resssssssssssssssssssssss applications', response);
                     // Send the formatted applications as a response
                     res.send(response);
                 } catch (error) {
