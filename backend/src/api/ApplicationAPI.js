@@ -39,7 +39,7 @@ class ApplicationAPI extends RequestHandler {
         try {
             await this.retrieveController();
 
-            this.router.get('/authorize', async (req, res, next) => {
+            this.router.post('/authorize', async (req, res, next) => {
                 try {
                     if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleId, req, res)) ) {
                         return;
