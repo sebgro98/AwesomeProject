@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import ReactModal from "react-modal";
 
 /**
  * ApplyPositionView component for applying for a position.
@@ -15,7 +16,7 @@ const ApplyPositionView = () => {
     const [endDate, setEndDate] = useState('')
     const [competenceObject, setCompetenceObject] = useState([{competence: 1, experience: null}, {competence: 2, experience: null}, {competence: 3, experience: null}]);
     const [availabilityObject, setAvailabilityObject] = useState([]);
-
+    const [error, setError] = useState('');
     // State for authorization status
     const [authorized, setAuthorized] = useState(false);
 
@@ -161,6 +162,7 @@ const ApplyPositionView = () => {
      * Submits the final application.
      */
     async function submitApplication() {
+        setError('');
         const filteredCompetenceObject = competenceObject.filter(item => item.experience !== null);
         if (filteredCompetenceObject.length === 0 || availabilityObject.length === 0) {
             setMessage("Competence or availability cannot be empty")
@@ -168,12 +170,13 @@ const ApplyPositionView = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/application/apply',
+            const response = await axios.post('/application/apply',
                 {competenceProfile: filteredCompetenceObject, availability: availabilityObject}, { withCredentials: true });
             alert('Successfully submitted the application!');
         } catch (error) {
-            // Handle failed application submission
-            setMessage('Application submission failed, try again or contact support');
+                // The backend responded with an error
+                setError(error.response.data.message || 'Application failed. Please check your data.');
+
         }
 
         const requestData = {competenceProfile: filteredCompetenceObject, availability: availabilityObject};
@@ -269,6 +272,34 @@ const ApplyPositionView = () => {
                     {message && <p>{message}</p>}
                 </div>
             )}
+            <ReactModal
+                isOpen={!!error}
+                onRequestClose={() => setError('')}
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    },
+                    content: {
+                        position: 'static',
+                        inset: 'auto',
+                        border: 'none',
+                        background: 'none',
+                        padding: 'none',
+                        overflow: 'visible'
+                    }
+                }}
+            >
+                <div className="errorModalContent">
+                    <h2 className="errorModalHeader">Error</h2>
+                    <p>{error}</p>
+                    <button onClick={() => setError('')} className="errorModalButton">
+                        Close
+                    </button>
+                </div>
+            </ReactModal>
         </>
     ) : (
         // Unauthorized state - You can redirect or display an unauthorized message

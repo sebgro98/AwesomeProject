@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import ReactModal from 'react-modal';
+import '../ModalStyles.css';
+ReactModal.setAppElement('#root');
+
 
 /**
  * SignUpView component for user registration.
@@ -43,14 +47,15 @@ const SignUpView = () => {
             const response = await axios.post('/person/register',
                 { formData }, { withCredentials: true });
             // Handle successful registration
-            console.log(response.data);
+
             alert('User registered successfully!');
 
             // Redirect to the login page
             navigate('/');
-        } catch (error) {
-            // Handle failed registration
-            setError('Registration failed. Please check your data.');
+        }catch (error) {
+                // The backend responded with an error
+                setError(error.response.data.message || 'Registration failed. Please check your data.');
+
         }
     };
 
@@ -102,6 +107,34 @@ const SignUpView = () => {
                     Go back to log in
                 </button>
             </form>
+            <ReactModal
+                isOpen={!!error}
+                onRequestClose={() => setError('')}
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    },
+                    content: {
+                        position: 'static',
+                        inset: 'auto',
+                        border: 'none',
+                        background: 'none',
+                        padding: 'none',
+                        overflow: 'visible'
+                    }
+                }}
+            >
+                <div className="errorModalContent">
+                    <h2 className="errorModalHeader">Error</h2>
+                    <p>{error}</p>
+                    <button onClick={() => setError('')} className="errorModalButton">
+                        Close
+                    </button>
+                </div>
+            </ReactModal>
         </div>
     );
 };

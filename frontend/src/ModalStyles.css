@@ -1,0 +1,30 @@
+/* Error Modal Styles */
+.errorModalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+
+.errorModalHeader {
+    color: #D32F2F; /* Red color for error header */
+    margin-bottom: 15px;
+}
+
+.errorModalButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #D32F2F; /* Red color for button */
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.errorModalButton:hover {
+    background-color: #9A0007; /* Darker red on hover */
+}

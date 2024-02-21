@@ -80,6 +80,11 @@ class Controller {
         });
     }
 
+    /**
+     * Submit a new application
+     *
+     * @param {Object} application An object containing the application data
+     */
     async getApplications(){
         return this.transactionMgr.transaction(async (t1) => {
             return this.projectDAO.getApplications();
