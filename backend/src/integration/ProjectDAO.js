@@ -23,10 +23,8 @@ class ProjectDAO {
         const namespace = cls.createNamespace('projectDB');
         Sequelize.useCLS(namespace);
 
-        console.log("do i get here 2")
-
         // Check if running in production (on Heroku)
-        if (process.env.NODE_ENV === 'production') {
+
             // Use DATABASE_URL for Heroku
             this.database = new Sequelize(process.env.DATABASE_URL, {
                 dialect: 'postgres',
@@ -38,20 +36,7 @@ class ProjectDAO {
                     }
                 }
             });
-        } else {
-            // Use individual environment variables for local development
-            this.database = new Sequelize(
-                process.env.DB_NAME,
-                process.env.DB_USER,
-                process.env.DB_PASS,
-                {
-                    host: process.env.DB_HOST,
-                    dialect: process.env.DB_DIALECT
-                }
-            );
 
-
-        }
             // Create Person model
 
             Person.createModel(this.database);
@@ -104,7 +89,6 @@ class ProjectDAO {
                 }
 
             });
-            console.log("do i get here3", person)
             return this.createPersonDTO(person);
         } catch (error) {
             throw new WError(
