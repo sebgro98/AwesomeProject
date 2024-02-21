@@ -70,19 +70,17 @@ class ApplicationAPI extends RequestHandler {
                 }
             });
 
-            this.router.get('/applications', requireRecruiterAuth, async (req, res) => {
+            this.router.get('/applications', async (req, res) => {
                 try {
-                    // Fetch all applications from the database
-                    const applications = await db.query('SELECT * FROM application');
+                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleId, req, res)) ) {
+                        return;
+                    }
 
-                    // Format the data as required
-                    const formattedApplications = applications.rows.map(application => ({
-                        fullName: `${application.name} ${application.surname}`, // Assuming name and surname fields exist in your database
-                        status: application.status // Assuming status field exists in your database
-                    }));
+                    const response = this.contr.getApplications();
 
                     // Send the formatted applications as a response
-                    res.json(formattedApplications);
+                    res.send(response);
+                    console.log('res', res);
                 } catch (error) {
                     console.error('Error fetching applications:', error);
                     res.status(500).json({ message: 'Internal Server Error' });

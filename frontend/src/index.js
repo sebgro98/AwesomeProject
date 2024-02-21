@@ -6,6 +6,7 @@ import SignUpView from './views/SignUpView';
 import LoginView from './views/LoginView';
 import reportWebVitals from './reportWebVitals';
 import ApplyPositionView from "./views/ApplyPositionView";
+import ApplicationsView from "./views/ApplicationsView";
 
 // Create a root for rendering the application
 const root = createRoot(document.getElementById('root'));
@@ -23,6 +24,8 @@ root.render(
 
                 {/* Route for applying */}
                 <Route path="/apply" element={<ApplyPositionView />} />
+
+                <Route path="/applications" element={<ApplicationsView />} />
 
                 {/* Add more routes if needed */}
             </Routes>

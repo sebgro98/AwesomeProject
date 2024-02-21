@@ -8,9 +8,12 @@ const ApplicationsView = () => {
 
     useEffect(() => {
         // Fetch applications from the server
-        axios.get('/api/applications')
+        axios.get('/application/applications')
             .then(response => {
                 setApplications(response.data);
+                console.log('applications',applications);
+                console.log('hej' , response.data);
+
             })
             .catch(error => {
                 console.error('Error fetching applications:', error);
@@ -28,7 +31,7 @@ const ApplicationsView = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {applications.map(application => (
+                {applications && applications.map(application => (
                     <tr key={application.id} onClick={() => navigate(`/applications/${application.id}`)}>
                         <td>{application.fullName}</td>
                         <td>{application.status}</td>

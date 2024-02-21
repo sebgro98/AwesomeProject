@@ -256,6 +256,32 @@ class ProjectDAO {
         }
 
     }
+
+    async getApplications() {
+        try {
+            const persons = await Person.findAll({
+                where: {
+                    application_status_id: {
+                        [Op.not]: 1 // Assuming application_status_id != 1
+                    }
+                }
+            });
+
+            return persons.map(person => this.createPersonDTO(person));
+        } catch (error) {
+            throw new WError(
+                {
+                    cause: error,
+                    info: {
+                        ProjectDAO: 'Failed to retrieve applications'
+                    }
+                },
+                'Could not retrieve applications'
+            );
+        }
+    }
 }
+
+
 
 module.exports = ProjectDAO;

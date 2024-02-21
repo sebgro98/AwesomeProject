@@ -29,8 +29,14 @@ const LoginView = () => {
         try {
             const response = await axios.post('/person/login',
                 { username, password }, { withCredentials: true });
+            console.log(response.data);
 
+            if (response.data.success === 'recruiter') {
+                navigate('/applications');
+            } else {
                 navigate('/apply');
+                // Redirect or show an error message to non-recruiters
+            }
 
 
         } catch (error) {
