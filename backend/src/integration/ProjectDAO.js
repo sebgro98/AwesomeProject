@@ -6,6 +6,8 @@ const CompetenceProfile = require('../model/CompetenceProfile');
 const WError = require('verror').WError;
 const PersonDTO = require('../model/PersonDTO');
 const Validators = require("../util/Validators");
+const { Op } = require('sequelize');
+
 
 /**
  * ProjectDAO class handles database operations related to the project.
@@ -270,6 +272,33 @@ class ProjectDAO {
         }
 
     }
+
+    async getApplications() {
+        try {
+            console.log('gjbfdivio')
+            const persons = await Person.findAll({
+                where: {
+                    application_status_id: {
+                        [Op.not]: 1 // Assuming application_status_id != 1
+                    }
+                }
+            });
+            console.log('ioewjvowjv')
+            return persons.map(person => this.createPersonDTO(person));
+        } catch (error) {
+            throw new WError(
+                {
+                    cause: error,
+                    info: {
+                        ProjectDAO: 'Failed to retrieve applications'
+                    }
+                },
+                'Could not retrieve applications'
+            );
+        }
+    }
 }
+
+
 
 module.exports = ProjectDAO;

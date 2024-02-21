@@ -45,10 +45,19 @@ class PersonAPI extends RequestHandler {
                     try {
                         const person = await this.contr.login(username, password);
                         if (person) {
-                            const role = (person.role_id === 1) ? "recruiter" : "applicant";
-                            //console.log(res, "hello")
+                            const roleOf = (person.role_id === 1) ? "recruiter" : "applicant";
+
+                            // Assuming person has properties like name, id, application_status_id, and role_id
+                            const responseData = {
+                                name: person.name,
+                                id: person.person_id,
+                                application_status_id: person.application_status_id,
+                                role_id: person.role_id,
+                                role: roleOf
+                            };
+
                             Authorization.setAuthCookie(person, res);
-                            this.sendHttpResponse(res, 200, role);
+                            this.sendHttpResponse(res, 200, responseData);
                         } else {
                             this.sendHttpResponse(res, 401, "Login failed");
                         }

@@ -41,6 +41,7 @@ class Controller {
      *  */
     async login(username, password) {
         return this.transactionMgr.transaction(async (t1) => {
+            console.log("do i get here 1")
             return this.projectDAO.findUserByUsernameAndPassword(username, password);
         })
     }
@@ -84,6 +85,12 @@ class Controller {
      *
      * @param {Object} application An object containing the application data
      */
+    async getApplications(){
+        return this.transactionMgr.transaction(async (t1) => {
+            return this.projectDAO.getApplications();
+        })
+    }
+
     async apply(application) {
         return this.transactionMgr.transaction(async (t1) => {
             return this.projectDAO.createApplication(application);

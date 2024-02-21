@@ -82,6 +82,16 @@ class ApplicationAPI extends RequestHandler {
                 }
             });
 
+            this.router.post('/applications', async (req, res) => {
+                try {
+                    const response = await this.contr.getApplications();
+                    // Send the formatted applications as a response
+                    res.send(response);
+                } catch (error) {
+                    console.error('Error fetching applications:', error);
+                    res.status(500).json({ message: 'Internal Server Error' });
+                }
+            });
 
         }
         catch (err) {
