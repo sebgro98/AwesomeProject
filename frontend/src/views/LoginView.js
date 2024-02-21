@@ -29,9 +29,7 @@ const LoginView = () => {
         try {
             const response = await axios.post('/person/login',
                 { username, password }, { withCredentials: true });
-
                 navigate('/apply');
-
 
         } catch (error) {
             // Handle failed login
@@ -67,6 +65,7 @@ const LoginView = () => {
                     Sign Up
                 </button>
             </form>
+            <h6>If you are existing user and don't have a password. Go to signup and creat a new username and password with your personal nummber</h6>
         </div>
     );
 };
