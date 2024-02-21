@@ -41,7 +41,6 @@ class Controller {
      *  */
     async login(username, password) {
         return this.transactionMgr.transaction(async (t1) => {
-            console.log("do i get here 1")
             return this.projectDAO.findUserByUsernameAndPassword(username, password);
         })
     }

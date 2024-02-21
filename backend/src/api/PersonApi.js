@@ -69,9 +69,9 @@ class PersonAPI extends RequestHandler {
                         // Handle successful registration
                         res.send(response.data);
                     } catch (error) {
-                        // Handle failed registration
-                        this.sendHttpResponse(res, 400, "Registration failed");
+                        res.status(500).json({ message: "Error creating/updating user Please try again later", error: error.message });
                     }
+
                 }
             );
 

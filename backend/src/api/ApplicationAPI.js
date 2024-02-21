@@ -66,7 +66,7 @@ class ApplicationAPI extends RequestHandler {
                     res.send(response);
                 }
                 catch (error) {
-                    next(error);
+                    res.status(500).json({ message: "Error applying for a position. Please try again later", error: error.message });
                 }
             });
 
