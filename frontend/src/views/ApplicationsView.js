@@ -7,18 +7,23 @@ const ApplicationsView = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch applications from the server
-        axios.get('/application/applications')
-            .then(response => {
+        // Define an asynchronous function inside useEffect
+        const fetchData = async () => {
+            try {
+                // Fetch applications from the server
+                const response = await axios.post('/application/applications');
                 setApplications(response.data);
-                console.log('applications',applications);
-                console.log('hej' , response.data);
-
-            })
-            .catch(error => {
+                console.log('hejdsfdsfdsfsd', response);
+                console.log('applications', applications);
+                console.log('hej', response.data);
+            } catch (error) {
                 console.error('Error fetching applications:', error);
-            });
-    }, []);
+            }
+        };
+
+        // Call the asynchronous function
+        fetchData();
+    }, []); // Empty dependency array ensures the effect runs once when the component mounts
 
     return (
         <div>
@@ -31,12 +36,6 @@ const ApplicationsView = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {applications && applications.map(application => (
-                    <tr key={application.id} onClick={() => navigate(`/applications/${application.id}`)}>
-                        <td>{application.fullName}</td>
-                        <td>{application.status}</td>
-                    </tr>
-                ))}
                 </tbody>
             </table>
         </div>

@@ -29,9 +29,9 @@ const LoginView = () => {
         try {
             const response = await axios.post('/person/login',
                 { username, password }, { withCredentials: true });
-            console.log(response.data);
+            console.log(response);
 
-            if (response.data.success === 'recruiter') {
+            if (response.data.success.role === 'recruiter') {
                 navigate('/applications');
             } else {
                 navigate('/apply');

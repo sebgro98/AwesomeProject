@@ -6,6 +6,8 @@ const CompetenceProfile = require('../model/CompetenceProfile');
 const WError = require('verror').WError;
 const PersonDTO = require('../model/PersonDTO');
 const Validators = require("../util/Validators");
+const { Op } = require('sequelize');
+
 
 /**
  * ProjectDAO class handles database operations related to the project.
@@ -262,7 +264,7 @@ class ProjectDAO {
             const persons = await Person.findAll({
                 where: {
                     application_status_id: {
-                        [Op.not]: 1 // Assuming application_status_id != 1
+                        [Op.not]: 2 // Assuming application_status_id != 1
                     }
                 }
             });
