@@ -205,6 +205,20 @@ class ProjectDAO {
         }
     }
 
+    /**
+     * Asynchronously creates a new application, handling the submission
+     * of availabilities, competence profiles, and updating application status.
+     *
+     * @param {Object} application - The application object containing applicant details,
+     * competencies, and availabilities.
+     * @param {string} application.personId - The unique identifier of the person submitting the application.
+     * @param {Array} application.competenceProfile - An array of competence profiles associated with the application.
+     * @param {string} application.competenceProfile.competence - The ID of the competence.
+     * @param {number} application.competenceProfile.experience - Years of experience in the competence.
+     * @param {Array} application.availability - An array of availability periods associated with the application.
+     * @param {string} application.availability.startDate - The start date of the availability period.
+     * @param {string} application.availability.endDate - The end date of the availability period.
+     */
     async createApplication(application) {
         try {
             //Delete availability from previous applications

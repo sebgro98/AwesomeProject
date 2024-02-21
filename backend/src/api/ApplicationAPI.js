@@ -52,6 +52,18 @@ class ApplicationAPI extends RequestHandler {
                 }
             });
 
+
+            /**
+             * Express route handler for handling HTTP POST requests to submit a job application.
+             *
+             * @param {Request} req - Express Request object containing the HTTP request details.
+             * @param {Response} res - Express Response object for sending the HTTP response.
+             * @param {NextFunction} next - Express NextFunction for passing control to the next middleware.
+             *
+             * @throws {Error} Throws an error if there are issues with authorization or if the application submission fails.
+             *
+             * @returns {void} Responds with an appropriate HTTP status and message based on the success or failure of the application submission.
+             */
             this.router.post('/apply', async(req, res, next) => {
 
                 try {
