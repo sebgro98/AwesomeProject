@@ -28,10 +28,12 @@ class ApplicationAPI extends RequestHandler {
         return ApplicationAPI.APPLICATION_API_PATH;
     }
 
-    get allowedRoleId() {
+    get allowedRoleIdApplicant() {
         return 2;
     }
-
+    get allowedRoleIdRecruiter() {
+        return 1;
+    }
     /**
      * Handles the registration of API routes for Application-related operations.
      */
@@ -41,7 +43,7 @@ class ApplicationAPI extends RequestHandler {
 
             this.router.post('/authorize', async (req, res, next) => {
                 try {
-                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleId, req, res)) ) {
+                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
                         return;
                     }
                         this.sendHttpResponse(res, 200, "Apply route accessed successfully");
@@ -67,7 +69,7 @@ class ApplicationAPI extends RequestHandler {
             this.router.post('/apply', async(req, res, next) => {
 
                 try {
-                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleId, req, res)) ) {
+                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
                         return;
                     }
 
@@ -84,6 +86,11 @@ class ApplicationAPI extends RequestHandler {
 
             this.router.post('/applications', async (req, res) => {
                 try {
+
+                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdRecruiter, req, res)) ) {
+                        return;
+                    }
+
                     const response = await this.contr.getApplications();
                     // Send the formatted applications as a response
                     res.send(response);
