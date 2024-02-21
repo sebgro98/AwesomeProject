@@ -29,7 +29,7 @@ const ApplyPositionView = () => {
         // Example:
         const checkAuthorization = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/application/authorize', { withCredentials: true });
+                const response = await axios.get('/application/authorize', { withCredentials: true });
                 if (response.status === 200) {
                     setAuthorized(true);
                 } else {

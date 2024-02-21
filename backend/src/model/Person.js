@@ -53,6 +53,11 @@ class Person extends Sequelize.Model {
                     type: Sequelize.STRING,
                     allowNull: true,
                 },
+                application_status_id: {
+                    type: Sequelize.INTEGER,
+                    allowNull: false,
+                    defaultValue: 1, // Set the default value to 1
+                },
             },
             { sequelize, modelName: Person.PERSON_MODEL_NAME, tableName: Person.PERSON_MODEL_NAME, timestamps: false }
         );

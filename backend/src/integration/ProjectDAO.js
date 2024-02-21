@@ -23,27 +23,44 @@ class ProjectDAO {
         const namespace = cls.createNamespace('projectDB');
         Sequelize.useCLS(namespace);
 
-        // Establish database connection using environment variables
-        this.database = new Sequelize(
-            process.env.DB_NAME,
-            process.env.DB_USER,
-            process.env.DB_PASS,
-            {
-                host: process.env.DB_HOST,
-                dialect: process.env.DB_DIALECT
-            }
-        );
+        console.log("do i get here 2")
+
+        // Check if running in production (on Heroku)
+        if (process.env.NODE_ENV === 'production') {
+            // Use DATABASE_URL for Heroku
+            this.database = new Sequelize(process.env.DATABASE_URL, {
+                dialect: 'postgres',
+                protocol: 'postgres',
+                dialectOptions: {
+                    ssl: {
+                        require: true,
+                        rejectUnauthorized: false // Required for Heroku's self-signed certificate
+                    }
+                }
+            });
+        } else {
+            // Use individual environment variables for local development
+            this.database = new Sequelize(
+                process.env.DB_NAME,
+                process.env.DB_USER,
+                process.env.DB_PASS,
+                {
+                    host: process.env.DB_HOST,
+                    dialect: process.env.DB_DIALECT
+                }
+            );
 
 
-        // Create Person model
-        Person.createModel(this.database);
-        Availability.createModel(this.database);
-        CompetenceProfile.createModel(this.database);
+        }
+            // Create Person model
+
+            Person.createModel(this.database);
+            Availability.createModel(this.database);
+            CompetenceProfile.createModel(this.database);
 
 
-        this.createTables();
+            this.createTables();
     }
-
 
 
 
@@ -78,12 +95,16 @@ class ProjectDAO {
      */
     async findUserByUsernameAndPassword(username, password) {
         try {
+
             const person = await Person.findOne({
+
                 where: {
                     username: username,
                     password: password
                 }
+
             });
+            console.log("do i get here3", person)
             return this.createPersonDTO(person);
         } catch (error) {
             throw new WError(
@@ -124,7 +145,7 @@ class ProjectDAO {
                     email: userData.email,
                     password: userData.password,
                     role_id: 2, // this is for applicant or recruiter
-                    username: userData.username
+                    username: userData.username,
                 });
 
                 return this.createPersonDTO(existingPerson);
@@ -137,7 +158,7 @@ class ProjectDAO {
                     email: userData.email,
                     password: userData.password,
                     role_id: 2, // this is for applicant or recruiter
-                    username: userData.username
+                    username: userData.username,
                 });
 
                 return this.createPersonDTO(createdPerson);
@@ -171,7 +192,8 @@ class ProjectDAO {
             person.email,
             person.password,
             person.role_id,
-            person.username)
+            person.username,
+            person.application_status_id)
     }
 
 
@@ -201,7 +223,6 @@ class ProjectDAO {
 
     async createApplication(application) {
         try {
-
             //Delete availability from previous applications
             await Availability.destroy({
                 where: {
@@ -231,6 +252,11 @@ class ProjectDAO {
                     to_date: availability.endDate,
                 });
             }
+
+            await Person.update(
+                { application_status_id: 4 },
+                {where: { person_id: application.personId },}
+            );
         }
         catch(err) {
             throw new WError(

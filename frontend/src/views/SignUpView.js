@@ -40,7 +40,7 @@ const SignUpView = () => {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:8000/person/register',
+            const response = await axios.post('/person/register',
                 { formData }, { withCredentials: true });
             // Handle successful registration
             console.log(response.data);
