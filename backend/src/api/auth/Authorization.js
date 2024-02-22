@@ -1,4 +1,7 @@
+//can help catch common coding bloopers and make your code more robust.
 'use strict';
+
+//  provides functions for generating and verifying JSON Web Tokens
 const jwt = require('jsonwebtoken');
 
 /**
@@ -16,6 +19,11 @@ class Authorization {
 
     /**
      * Set the authentication cookie for a given person.
+     * Cookie options, httpOnly will ensure that the cookie is only accessible through the webserver
+     * The sessionCookie option will expire when the browsing session ends
+     *
+     * res.cookie will set the cookie with the name personAuth together will the payload and the cookieOptions
+     *
      * @param {Object} person - The user object containing username and role information.
      * @param {Object} res - The Express response object.
      */
@@ -44,7 +52,9 @@ class Authorization {
 
     /**
      * Generate a JWT token for a given payload.
-     * @param {Object} payload - The payload containing username and role information.
+     * The payload will take information about the object payload which is a person and use that information
+     * to create a token together with the expiresIn which is 1 hour.
+     * @param {Object} payload - The payload containing the person object information.
      * @param {string} expiresIn - The expiration time for the token.
      * @returns {string} The generated JWT token.
      */
@@ -75,13 +85,16 @@ class Authorization {
 
         try {
             const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);
+            // send the cookie payload to check if this user is logged in or not. or if it's even the same user.
             const loggedInUser = await contr.isLoggedIn(JWTPayload.username);
 
             if (loggedInUser == null) {
                 this.clearAuthCookie(res);
                 return false;
             }
-
+            /* if user is not logged in then we want to clear the cookie that was there before, or if
+                the role id for the user logged in is not the same as the allowed one.
+            * */
             const roleId = JWTPayload.role;
             if (loggedInUser || (roleId !== allowedRoleId)) {
                 this.clearAuthCookie(res);
