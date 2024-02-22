@@ -81,16 +81,23 @@ class Controller {
     }
 
     /**
-     * Submit a new application
+     * Retrieves all applications from the database.
+     * This function wraps the database call in a transaction, ensuring that
+     * all database operations are performed atomically.
      *
-     * @param {Object} application An object containing the application data
+     * @returns {Promise<Array>} A promise that resolves to an array of application objects.
      */
-    async getApplications(){
+     async getApplications(){
         return this.transactionMgr.transaction(async (t1) => {
             return this.projectDAO.getApplications();
         })
     }
 
+    /**
+     * Submit a new application
+     *
+     * @param {Object} application An object containing the application data
+     */
     async apply(application) {
         return this.transactionMgr.transaction(async (t1) => {
             return this.projectDAO.createApplication(application);

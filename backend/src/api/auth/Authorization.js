@@ -121,6 +121,11 @@ class Authorization {
         return JWTPayload.username;
     }
 
+    /**
+     * Get the personID from the JWT in the request cookie.
+     * @param {Object} req - The Express request object.
+     * @returns {string} The username extracted from the JWT.
+     */
     static async getJWTpersonID(req) {
         const authCookie = req.cookies.personAuth;
         const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);

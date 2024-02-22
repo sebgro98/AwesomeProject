@@ -182,7 +182,13 @@ class ProjectDAO {
             person.application_status_id)
     }
 
-
+    /**
+     * Asynchronously finds a person by their username.
+     *
+     * @param {string} username - The username of the person to be found.
+     * @returns {PersonDTO|null} Returns a Person Data Transfer Object (DTO) if the person is found, otherwise returns null.
+     * @throws {WError} Throws a wrapped error if there's an issue during the process, including database errors or if the username does not meet validation criteria.
+     */
     async findPersonByUsername(username) {
         try {
             Validators.isAlnumString(username, 'username');
@@ -273,6 +279,16 @@ class ProjectDAO {
 
     }
 
+    /**
+     * Retrieves all applications where the application status is not equal to 1.
+     * This function does not take any external parameters.
+     *
+     * @returns {Array} An array of application data transformed into DTOs (Data Transfer Objects).
+     *                  Each DTO represents a person who has applied.
+     *
+     * @throws {WError} Throws a wrapped error (WError) if there is a failure in retrieving the applications.
+     *                  The error includes details specific to the ProjectDAO context and a descriptive message.
+     */
     async getApplications() {
         try {
 
