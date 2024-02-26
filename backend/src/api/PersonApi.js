@@ -53,6 +53,7 @@ class PersonAPI extends RequestHandler {
                                 id: person.person_id,
                                 application_status_id: person.application_status_id,
                                 role_id: person.role_id,
+                                personMail: person.email,
                                 role: roleOf
                             };
 

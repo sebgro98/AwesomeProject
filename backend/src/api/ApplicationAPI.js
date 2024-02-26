@@ -1,5 +1,6 @@
 const RequestHandler = require('./RequestHandler');
 const Authorization = require("./auth/Authorization");
+const mailApi = require('./mail/mailApi');
 /**
  * Represents a REST API handler for managing Application-related operations.
  * @extends RequestHandler
@@ -74,10 +75,20 @@ class ApplicationAPI extends RequestHandler {
                     }
 
                     const personId = await Authorization.getJWTpersonID(req);
+                    const personEmail = await Authorization.getJWTpersonMail(req);
                     const application = req.body;
-                    application.personId = personId;
+                    // Send email and wait for it to complete
                     const response = this.contr.apply(application);
-                    res.send(response);
+                    application.personId = personId;
+                    mailApi.sendMail(application, personEmail)
+                        .then(() => {
+                            console.log('Email sending process completed');
+                            res.send(response);  // Move the response sending here
+                        })
+                        .catch((error) => {
+                            console.error('Error in email sending process:', error);
+                            res.status(500).json({ message: 'Error sending email' });
+                        });
                 }
                 catch (error) {
                     res.status(500).json({ message: "Error applying for a position. Please try again later", error: error.message });

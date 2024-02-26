@@ -60,7 +60,7 @@ class Authorization {
      */
     static generateToken(payload, expiresIn = '1h') {
         return jwt.sign(
-            { username: payload.username, id: payload.person_id, role: payload.role_id },
+            { username: payload.username, id: payload.person_id, role: payload.role_id, personMail: payload.email },
             process.env.JWT_SECRET,
             { expiresIn: expiresIn }
         );
@@ -131,6 +131,17 @@ class Authorization {
         const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);
 
         return JWTPayload.id;
+    }
+
+    /**
+     * Get the personID from the JWT in the request cookie.
+     * @param {Object} req - The Express request object.
+     * @returns {string} The email extracted from the JWT.
+     */
+    static async getJWTpersonMail(req) {
+        const authCookie = req.cookies.personAuth;
+        const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);
+        return JWTPayload.personMail;
     }
 }
 
