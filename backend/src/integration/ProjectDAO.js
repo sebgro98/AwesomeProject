@@ -7,13 +7,19 @@ const WError = require('verror').WError;
 const PersonDTO = require('../model/PersonDTO');
 const Validators = require("../util/Validators");
 const { Op } = require('sequelize');
-
+const {
+    isValidEmail,
+    isValidPersonNumber,
+    // Add other validation functions as needed
+} = require('./Validation');
 
 /**
  * ProjectDAO class handles database operations related to the project.
  * It uses Sequelize ORM to interact with the database and manages the Person model.
  */
 class ProjectDAO {
+
+
 
     /**
      * Creates a new instance of ProjectDAO and initializes the database connection.
@@ -112,14 +118,24 @@ class ProjectDAO {
      * If a user with the same pnr already exists, updates the existing record.
      * @param {Object} userData An object containing user registration data.
      * @return {PersonDTO} A PersonDTO object representing the newly created or updated user.
-     * @throws {Error} If an error occurs during the database operation.
+     * @throws {Error} If an error occurs during the database operation or if the validation fails.
      */
     async createNewUser(userData) {
         try {
-            // Check if a person with the same pnr exists
+            // Validate email
+            if (!isValidEmail(userData.email)) {
+                throw new Error('Invalid email address');
+            }
+
+            // Validate person number
+            if (!isValidPersonNumber(userData.personNumber)) {
+                throw new Error('Invalid person number');
+            }
+
+            // Check if a person with the same email exists
             const existingPerson = await Person.findOne({
                 where: {
-                    pnr: userData.email
+                    email: userData.email
                 }
             });
 

@@ -50,6 +50,7 @@ const SignUpView = () => {
                 const response = await axios.post('/person/register', { formData }, { withCredentials: true });
                 // Handle successful registration
                 alert('User registered successfully!');
+                navigate('/');
             } else {
                 const response = await axios.post('/person/sendVerification', { formData }, { withCredentials: true });
                 // Prompt user to enter verification code
