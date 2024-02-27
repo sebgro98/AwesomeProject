@@ -5,14 +5,16 @@ import ReactModal from 'react-modal';
 import '../ModalStyles.css';
 ReactModal.setAppElement('#root');
 
-
 /**
  * SignUpView component for user registration.
  * @returns {JSX.Element} Rendered SignUpView component.
  */
 const SignUpView = () => {
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // Get the navigate function from react-router-dom
+    const [isNewUser, setIsNewUser] = useState(true);
+    const [verificationCode, setVerificationCode] = useState('');
+    const [showVerificationView, setShowVerificationView] = useState(false);
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -36,7 +38,7 @@ const SignUpView = () => {
     };
 
     /**
-     * Handles form submission for user registration.
+     * Handles form submission for user registration or verification.
      * @param {React.FormEvent} e - The form event.
      */
     const handleSubmit = async (e) => {
@@ -44,18 +46,31 @@ const SignUpView = () => {
         setError('');
 
         try {
-            const response = await axios.post('/person/register',
-                { formData }, { withCredentials: true });
-            // Handle successful registration
+            if (isNewUser) {
+                const response = await axios.post('/person/register', { formData }, { withCredentials: true });
+                // Handle successful registration
+                alert('User registered successfully!');
+            } else {
+                const response = await axios.post('/person/sendVerification', { formData }, { withCredentials: true });
+                // Prompt user to enter verification code
+                setShowVerificationView(true);
+            }
+        } catch (error) {
+            setError(error.response?.data?.message || 'Registration failed. Please check your data.');
+        }
+    };
 
-            alert('User registered successfully!');
-
+    /**
+     * Handles submission of the verification code for existing users.
+     */
+    const handleVerificationSubmit = async () => {
+        try {
+            const response = await axios.post('/person/verifyVerificationCode', { formData, verificationCode }, { withCredentials: true });
+            alert('User verified successfully!');
             // Redirect to the login page
             navigate('/');
-        }catch (error) {
-                // The backend responded with an error
-                setError(error.response.data.message || 'Registration failed. Please check your data.');
-
+        } catch (error) {
+            setError(error.response?.data?.message || 'Verification failed. Please check your data.');
         }
     };
 
@@ -66,10 +81,30 @@ const SignUpView = () => {
         navigate('/');
     };
 
+    /**
+     * Handles checkbox change to switch between new and existing user.
+     */
+    const handleCheckboxChange = () => {
+        setIsNewUser((prev) => !prev);
+        setVerificationCode('');
+        setShowVerificationView(false);
+    };
+
+
+
     return (
         <div>
             <h2>Sign Up</h2>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: 'auto' }}>
+            {showVerificationView ? (
+                <div>
+                    <p>Please enter the verification code sent to your email:</p>
+                    <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} required />
+                    <button type="button" onClick={handleVerificationSubmit}>
+                        Verify
+                    </button>
+                </div>
+            ) : (
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: 'auto' }}>
                 <label>
                     First Name:
                     <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
@@ -100,13 +135,20 @@ const SignUpView = () => {
                     <input type="password" name="password" value={formData.password} onChange={handleChange} required />
                 </label>
 
-                <button type="submit" style={{ marginTop: '10px' }}>Sign Up</button>
+                    <label>
+                        <input type="checkbox" checked={isNewUser} onChange={handleCheckboxChange} />
+                        New User
+                    </label>
 
-                {/* Button to redirect to login page */}
-                <button type="button" onClick={redirectToLogIn}>
-                    Go back to log in
-                </button>
-            </form>
+                    <button type="submit" style={{ marginTop: '10px' }}>
+                        {isNewUser ? 'Sign Up' : 'Verify'}
+                    </button>
+
+                    <button type="button" onClick={redirectToLogIn}>
+                        Go back to log in
+                    </button>
+                </form>
+            )}
             <ReactModal
                 isOpen={!!error}
                 onRequestClose={() => setError('')}

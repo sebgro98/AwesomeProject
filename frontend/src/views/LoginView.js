@@ -38,7 +38,6 @@ const LoginView = () => {
                 // Redirect or show an error message to non-recruiters
             }
 
-
         } catch (error) {
             // Handle failed login
             setError('Login failed. Please check your credentials.');
@@ -72,6 +71,8 @@ const LoginView = () => {
                 <button type="button" onClick={redirectToSignUp}>
                     Sign Up
                 </button>
+
+                <h6>If you are an existing user and want to create a new account, please do so by verifying your email on the registration page.</h6>
             </form>
         </div>
     );

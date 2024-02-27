@@ -1,5 +1,7 @@
 const RequestHandler = require('./RequestHandler');
 const Authorization = require('./auth/Authorization');
+const MailVerify = require('./mail/MailVerify');
+
 /**
  * Represents a REST API handler for managing Person-related operations.
  * @extends RequestHandler
@@ -74,7 +76,6 @@ class PersonAPI extends RequestHandler {
                 async (req, res, next) => {
                     const { formData } = req.body;
                     try {
-                        // Assuming `this.contr.register` is a method to handle registration
                         const response = await this.contr.register(formData);
                         // Handle successful registration
                         res.send(response.data);
@@ -82,6 +83,42 @@ class PersonAPI extends RequestHandler {
                         res.status(500).json({ message: "Error creating/updating user Please try again later", error: error.message });
                     }
 
+                }
+            );
+
+            //sending verification code to existing users.
+            this.router.post(
+                '/sendVerification',
+                async (req, res, next) => {
+                    const { formData } = req.body;
+                    try {
+                        const verificationCode = MailVerify.sendVerificationCode(formData.email); //email address is in formData.personMail
+                        // Handle successful verification code sending
+                        res.status(200).json({ message: "Verification code sent successfully" });
+                    } catch (error) {
+                        console.error('Error sending verification code:', error);
+                        res.status(500).json({ message: "Error sending verification code. Please try again later", error: error.message });
+                    }
+                }
+            );
+
+            this.router.post(
+                '/verifyVerificationCode',
+                async (req, res, next) => {
+                    const { formData, verificationCode } = req.body;
+                    try {
+                        const ourVerificationCode = MailVerify.getVarificationCode();
+                        if (verificationCode === ourVerificationCode ) {
+                            const response = await this.contr.register(formData);
+                            res.status(200).json({ message: "Verification code matched", response });
+                        } else {
+                            console.log('Verification code does not match');
+                            res.status(400).json({ message: "Verification code mismatch" });
+                        }
+                    } catch (error) {
+                        console.error('Error verifying verification code:', error);
+                        res.status(500).json({ message: "Error verifying verification code. Please try again later", error: error.message });
+                    }
                 }
             );
 

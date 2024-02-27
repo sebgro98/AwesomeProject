@@ -27,8 +27,6 @@ function sendMail(application, personMail) {
     // Construct email text
     const emailText = `Hello,\n\nYour application has been submitted successfully.\nYour competence profile:\n${competenceProfileText}\n\nYour availability period:\n${availabilityText}\n\nThank you for applying.`;
 
-    console.log("appppppppppppppppppp", application)
-
     // Replace with your email content
     const mailOptions = {
         from: 'sushilkc@kth.se',

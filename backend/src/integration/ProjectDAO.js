@@ -119,7 +119,7 @@ class ProjectDAO {
             // Check if a person with the same pnr exists
             const existingPerson = await Person.findOne({
                 where: {
-                    pnr: userData.personNumber
+                    pnr: userData.email
                 }
             });
 
