@@ -11,6 +11,7 @@ ReactModal.setAppElement('#root');
  */
 const SignUpView = () => {
     const [error, setError] = useState('');
+    const [isNewUser, setIsNewUser] = useState(true);
     const [verificationCode, setVerificationCode] = useState('');
     const [showVerificationView, setShowVerificationView] = useState(false);
     const navigate = useNavigate();
@@ -45,6 +46,7 @@ const SignUpView = () => {
         setError('');
 
         try {
+
                 const response = await axios.post('/person/sendVerification', { formData }, { withCredentials: true });
                 // Prompt user to enter verification code
                 setShowVerificationView(true);
