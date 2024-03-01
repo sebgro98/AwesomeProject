@@ -4,6 +4,26 @@ const validator = require('validator');
 class Validators {
 
     /**
+     * Validates an email address.
+     * @param {string} email - The email address to validate.
+     * @returns {boolean} True if the email is valid, false otherwise.
+     */
+    static isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    /**
+     * Validates a person number.
+     * @param {string} personNumber - The person number to validate.
+     * @returns {boolean} True if the person number is valid, false otherwise.
+     */
+    static isValidPersonNumber(personNumber) {
+        const personNumberRegex = /^\d{8}-\d{4}$/;
+        return personNumberRegex.test(personNumber);
+    }
+
+    /**
      * Checks if the given value is a string.
      *
      * @param {any} val - The value to be checked.
@@ -12,6 +32,7 @@ class Validators {
     static isString(val, name) {
         assert.equal(typeof val, 'string', `${name} must be a string`);
     }
+
 
     /**
      * Checks if the given value is an alphanumeric string.

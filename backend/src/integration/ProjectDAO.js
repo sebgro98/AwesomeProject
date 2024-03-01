@@ -7,11 +7,7 @@ const WError = require('verror').WError;
 const PersonDTO = require('../model/PersonDTO');
 const Validators = require("../util/Validators");
 const { Op } = require('sequelize');
-const {
-    isValidEmail,
-    isValidPersonNumber,
-    // Add other validation functions as needed
-} = require('./Validation');
+
 
 /**
  * ProjectDAO class handles database operations related to the project.
@@ -123,12 +119,12 @@ class ProjectDAO {
     async createNewUser(userData) {
         try {
             // Validate email
-            if (!isValidEmail(userData.email)) {
+            if (!Validators.isValidEmail(userData.email)) {
                 throw new Error('Invalid email address');
             }
 
             // Validate person number
-            if (!isValidPersonNumber(userData.personNumber)) {
+            if (!Validators.isValidPersonNumber(userData.personNumber)) {
                 throw new Error('Invalid person number');
             }
 
