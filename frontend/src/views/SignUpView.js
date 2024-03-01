@@ -11,7 +11,6 @@ ReactModal.setAppElement('#root');
  */
 const SignUpView = () => {
     const [error, setError] = useState('');
-    const [isNewUser, setIsNewUser] = useState(true);
     const [verificationCode, setVerificationCode] = useState('');
     const [showVerificationView, setShowVerificationView] = useState(false);
     const navigate = useNavigate();
@@ -46,16 +45,10 @@ const SignUpView = () => {
         setError('');
 
         try {
-            if (isNewUser) {
-                const response = await axios.post('/person/register', { formData }, { withCredentials: true });
-                // Handle successful registration
-                alert('User registered successfully!');
-                navigate('/');
-            } else {
                 const response = await axios.post('/person/sendVerification', { formData }, { withCredentials: true });
                 // Prompt user to enter verification code
                 setShowVerificationView(true);
-            }
+
         } catch (error) {
             setError(error.response?.data?.message || 'Registration failed. Please check your data.');
         }
@@ -136,13 +129,9 @@ const SignUpView = () => {
                     <input type="password" name="password" value={formData.password} onChange={handleChange} required />
                 </label>
 
-                    <label>
-                        <input type="checkbox" checked={isNewUser} onChange={handleCheckboxChange} />
-                        New User
-                    </label>
 
                     <button type="submit" style={{ marginTop: '10px' }}>
-                        {isNewUser ? 'Sign Up' : 'Verify'}
+                        Sign Up
                     </button>
 
                     <button type="button" onClick={redirectToLogIn}>
