@@ -7,7 +7,7 @@ const WError = require('verror').WError;
 const PersonDTO = require('../model/PersonDTO');
 const Validators = require("../util/Validators");
 const { Op } = require('sequelize');
-
+const bcrypt = require('bcrypt');
 /**
  * ProjectDAO class handles database operations related to the project.
  * It uses Sequelize ORM to interact with the database and manages the Person model.
@@ -83,16 +83,17 @@ class ProjectDAO {
      */
     async findUserByUsernameAndPassword(username, password) {
         try {
-
             const person = await Person.findOne({
-
                 where: {
-                    username: username,
-                    password: password
+                    username: username
                 }
-
             });
-            return this.createPersonDTO(person);
+
+            if (person && await bcrypt.compare(password, person.password)) {
+                return this.createPersonDTO(person);
+            } else {
+                throw new Error('Invalid login credentials');
+            }
         } catch (error) {
             throw new WError(
                 {
@@ -100,13 +101,16 @@ class ProjectDAO {
                     info: {
                         ProjectDAO: 'Failed to login',
                         username: username,
-                        password: password
                     }
                 },
                 'Could not find user by login details'
             )
         }
     }
+
+
+
+
 
     /**
      * Creates a new user and returns a PersonDTO object for the created user.
@@ -117,6 +121,8 @@ class ProjectDAO {
      */
     async createNewUser(userData) {
         try {
+            const hashedPassword = await bcrypt.hash(userData.password, 10); // 10 is the salt rounds
+
             // Validate email
             //let error;
             if (!Validators.isValidEmail(userData.email)) {
@@ -136,27 +142,27 @@ class ProjectDAO {
             });
 
             if (existingPerson) {
-                // Update the existing record if a person with the same pnr is found
+                // Update the existing record with the hashed password
                 await existingPerson.update({
                     name: userData.firstName,
                     surname: userData.lastName,
                     email: userData.email,
-                    password: userData.password,
                     role_id: 2, // this is for applicant or recruiter
                     username: userData.username,
+                    password: hashedPassword, // use the hashed password
                 });
 
                 return this.createPersonDTO(existingPerson);
             } else {
-                // Create a new user if no person with the same pnr is found
+                // Create a new user with the hashed password
                 const createdPerson = await Person.create({
                     name: userData.firstName,
                     surname: userData.lastName,
                     pnr: userData.personNumber,
                     email: userData.email,
-                    password: userData.password,
                     role_id: 2, // this is for applicant or recruiter
                     username: userData.username,
+                    password: hashedPassword, // use the hashed password
                 });
 
                 return this.createPersonDTO(createdPerson);

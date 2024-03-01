@@ -42,7 +42,7 @@ function sendVerificationCode(personMail) {
     });
 
     const mailOptions = {
-        from: 'sushilkc@kth.se',
+        from: process.env.SMTP_FROM,
         to: personMail,
         subject: 'Verification Code',
         text: `Your verification code is: ${verificationCode}`,

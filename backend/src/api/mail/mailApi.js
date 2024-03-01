@@ -29,7 +29,7 @@ function sendMail(application, personMail) {
 
     // Replace with your email content
     const mailOptions = {
-        from: 'sushilkc@kth.se',
+        from: process.env.SMTP_FROM,
         to: personMail,
         subject: 'Application Submitted',
         text: `${emailText}`,
