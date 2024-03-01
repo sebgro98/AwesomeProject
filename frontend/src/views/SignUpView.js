@@ -46,7 +46,6 @@ const SignUpView = () => {
         setError('');
 
         try {
-
                 const response = await axios.post('/person/sendVerification', { formData }, { withCredentials: true });
                 // Prompt user to enter verification code
                 setShowVerificationView(true);
@@ -66,7 +65,8 @@ const SignUpView = () => {
             // Redirect to the login page
             navigate('/');
         } catch (error) {
-            setError(error.response?.data?.message || 'Verification failed. Please check your data.');
+            console.error(error)
+            setError(error.response?.data?.message && error.response?.data?.customError || 'Verification failed. Please check your data.');
         }
     };
 

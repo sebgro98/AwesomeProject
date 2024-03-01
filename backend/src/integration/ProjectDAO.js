@@ -8,7 +8,6 @@ const PersonDTO = require('../model/PersonDTO');
 const Validators = require("../util/Validators");
 const { Op } = require('sequelize');
 
-
 /**
  * ProjectDAO class handles database operations related to the project.
  * It uses Sequelize ORM to interact with the database and manages the Person model.
@@ -119,6 +118,7 @@ class ProjectDAO {
     async createNewUser(userData) {
         try {
             // Validate email
+            //let error;
             if (!Validators.isValidEmail(userData.email)) {
                 throw new Error('Invalid email address');
             }
@@ -166,7 +166,7 @@ class ProjectDAO {
                 {
                     cause: error,
                     info: {
-                        ProjectDAO: 'Failed to create/update a user',
+                        ProjectDAO: error,
                         userData: userData
                     }
                 },

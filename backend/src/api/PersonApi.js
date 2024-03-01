@@ -69,7 +69,7 @@ class PersonAPI extends RequestHandler {
                     }
                 }
             );
-
+/*
             // New registration route for when a user signs up to our application
             this.router.post(
                 '/register',
@@ -85,7 +85,7 @@ class PersonAPI extends RequestHandler {
 
                 }
             );
-
+*/
             //sending verification code to existing users.
             this.router.post(
                 '/sendVerification',
@@ -115,9 +115,18 @@ class PersonAPI extends RequestHandler {
                             console.log('Verification code does not match');
                             res.status(400).json({ message: "Verification code mismatch" });
                         }
-                    } catch (error) {
+                    }catch (error) {
                         console.error('Error verifying verification code:', error);
-                        res.status(500).json({ message: "Error verifying verification code. Please try again later", error: error.message });
+
+                        // Extract specific error information
+                        const errorMsg = {
+                            message: error.message,
+                            error: error,
+                            projectDAOError: error.jse_info && error.jse_info.ProjectDAO ? error.jse_info.ProjectDAO : null,
+                            customError: (error.jse_cause ? error.jse_cause.toString() : ''), // Include the specific error information
+                        };
+
+                        res.status(500).json(errorMsg);
                     }
                 }
             );
