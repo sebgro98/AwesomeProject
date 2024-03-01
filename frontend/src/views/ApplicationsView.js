@@ -33,7 +33,6 @@ const ApplicationsView = () => {
                 <tr>
                     <th>Full Name</th>
                     <th>Status</th>
-
                 </tr>
                 </thead>
                 <tbody>
