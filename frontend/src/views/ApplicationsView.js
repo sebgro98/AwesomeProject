@@ -40,7 +40,13 @@ const ApplicationsView = () => {
                 {applications.map(application => (
                     <tr key={application.person_id} onClick={() => navigate(`/applications/${application.person_id}`)}>
                         <td>{`${application.name} ${application.surname}`}</td>
-                        <td>{application.application_status_id === 1 ? "Rejected" : "Accepted"}</td>
+                        <td>
+                            {application.application_status_id === 2
+                                ? "Accepted"
+                                : application.application_status_id === 3
+                                    ? "Rejected"
+                                    : "Unhandled"}
+                        </td>
                     </tr>
                 ))}
                 </tbody>
