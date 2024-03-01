@@ -80,7 +80,7 @@ class PersonAPI extends RequestHandler {
                         // Handle successful registration
                         res.send(response.data);
                     } catch (error) {
-                        res.status(500).json({ message: "Error creating/updating user Please try again later", error: error.message });
+                        res.status(500).json({ message: error.message, error: error.message });
                     }
 
                 }
@@ -92,6 +92,7 @@ class PersonAPI extends RequestHandler {
                 async (req, res, next) => {
                     const { formData } = req.body;
                     try {
+
                         const verificationCode = MailVerify.sendVerificationCode(formData.email); //email address is in formData.personMail
                         // Handle successful verification code sending
                         res.status(200).json({ message: "Verification code sent successfully" });
