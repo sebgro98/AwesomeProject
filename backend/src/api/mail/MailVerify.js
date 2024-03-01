@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config({ path: '../../.env' });
+const crypto = require('crypto');
 
 let verificationCode; // Declare the variable outside the function
 
@@ -16,7 +17,10 @@ function getVarificationCode(){
  * @returns {string} A 5-digit verification code.
  */
 function generateVerificationCode() {
-    return Math.floor(10000 + Math.random() * 90000).toString();
+    const randomBytes = crypto.randomBytes(2);
+    const code = (randomBytes.readUInt16BE() % 90000) + 10000;
+    console.log('VARIIIIII CPDE ', randomBytes, code);
+    return code.toString();
 }
 
 /**
