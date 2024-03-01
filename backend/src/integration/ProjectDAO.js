@@ -15,7 +15,6 @@ const bcrypt = require('bcrypt');
 class ProjectDAO {
 
 
-
     /**
      * Creates a new instance of ProjectDAO and initializes the database connection.
      * Optionally, it can sync models with the database by calling createTables().
@@ -49,7 +48,6 @@ class ProjectDAO {
 
             this.createTables();
     }
-
 
 
     /**
@@ -331,7 +329,11 @@ class ProjectDAO {
             );
         }
     }
+
+
 }
+
+
 
 
 

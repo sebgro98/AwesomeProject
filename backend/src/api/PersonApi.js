@@ -46,6 +46,7 @@ class PersonAPI extends RequestHandler {
                     const { username, password } = req.body;
                     try {
                         const person = await this.contr.login(username, password);
+
                         if (person) {
                             const roleOf = (person.role_id === 1) ? "recruiter" : "applicant";
 
