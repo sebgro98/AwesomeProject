@@ -3,19 +3,98 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import ApplyPositionView from "../views/ApplyPositionView";
 
+/**
+ * ApplyPositionPresenter component manages the state and logic for applying to a position.
+ * <ApplyPositionPresenter />
+ */
 const ApplyPositionPresenter = () => {
+    /**
+     * State to store success/error messages.
+     * @type {string}
+     * @default ''
+     */
     const [message, setMessage] = useState('');
+
+    /**
+     * State to store the current page number in the application process.
+     * @type {number}
+     * @default 1
+     */
     const [pageNumber, setPageNumber] = useState(1);
+
+    /**
+     * State to store selected competence.
+     * @type {number|null}
+     * @default null
+     */
     const [competence, setCompetence] = useState(null);
+
+    /**
+     * State to store years of experience.
+     * @type {string}
+     * @default ''
+     */
     const [experience, setExperience] = useState('');
+
+    /**
+     * State to store the start date for availability.
+     * @type {string}
+     * @default ''
+     */
     const [startDate, setStartDate] = useState('');
+
+    /**
+     * State to store the end date for availability.
+     * @type {string}
+     * @default ''
+     */
     const [endDate, setEndDate] = useState('');
-    const [competenceObject, setCompetenceObject] = useState([{competence: 1, experience: null}, {competence: 2, experience: null}, {competence: 3, experience: null}]);
+
+    /**
+     * State to store competence data.
+     * @type {Array}
+     * @default [{competence: 1, experience: null}, {competence: 2, experience: null}, {competence: 3, experience: null}]
+     */
+    const [competenceObject, setCompetenceObject] = useState([
+        { competence: 1, experience: null },
+        { competence: 2, experience: null },
+        { competence: 3, experience: null }
+    ]);
+
+    /**
+     * State to store availability data.
+     * @type {Array}
+     * @default []
+     */
     const [availabilityObject, setAvailabilityObject] = useState([]);
+
+    /**
+     * State to store error messages.
+     * @type {string}
+     * @default ''
+     */
     const [error, setError] = useState('');
+
+    /**
+     * State to track user authorization status.
+     * @type {boolean}
+     * @default false
+     */
     const [authorized, setAuthorized] = useState(false);
+
+    /**
+     * React Router navigation hook.
+     * @type {Function}
+     */
     const navigate = useNavigate();
 
+    /**
+     * Check user authorization on component mount.
+     * Redirects to login page if not authorized.
+     * @function
+     * @async
+     * @returns {void}
+     */
     useEffect(() => {
         const checkAuthorization = async () => {
             try {
@@ -32,21 +111,62 @@ const ApplyPositionPresenter = () => {
         checkAuthorization();
     }, []);
 
+    /**
+     * Get the name of a competence based on its ID.
+     * @function
+     * @param {number} id - Competence ID.
+     * @returns {string} - Competence name.
+     */
     function getCompetenceName(id) {
-        switch(id) {
+        switch (id) {
             case 1:
                 return "ticket sales";
             case 2:
-                return "lotteries"
+                return "lotteries";
             case 3:
-                return "roller coaster operation"
+                return "roller coaster operation";
+            default:
+                return "Unknown Competence";
         }
     }
+
+    /**
+     * Handle change in selected competence.
+     * @function
+     * @param {number} id - Competence ID.
+     * @returns {void}
+     */
     const handleCompetenceChange = (id) => setCompetence(id);
+
+    /**
+     * Handle change in years of experience input.
+     * @function
+     * @param {React.ChangeEvent<HTMLInputElement>} e - Input change event.
+     * @returns {void}
+     */
     const handleExperienceChange = (e) => setExperience(e.target.value);
+
+    /**
+     * Handle change in start date input.
+     * @function
+     * @param {React.ChangeEvent<HTMLInputElement>} e - Input change event.
+     * @returns {void}
+     */
     const handleStartDateChange = (e) => setStartDate(e.target.value);
+
+    /**
+     * Handle change in end date input.
+     * @function
+     * @param {React.ChangeEvent<HTMLInputElement>} e - Input change event.
+     * @returns {void}
+     */
     const handleEndDateChange = (e) => setEndDate(e.target.value);
 
+    /**
+     * Reset form inputs.
+     * @function
+     * @returns {void}
+     */
     const resetForm = () => {
         setExperience('');
         setStartDate('');
@@ -56,11 +176,20 @@ const ApplyPositionPresenter = () => {
         });
     };
 
-    const handleCompetenceSubmit = (e) => {e.preventDefault();
+    /**
+     * Handle competence form submission.
+     * Validates input and updates competenceObject state.
+     * @function
+     * @param {React.FormEvent} e - Form submission event.
+     * @returns {void}
+     */
+    const handleCompetenceSubmit = (e) => {
+        e.preventDefault();
 
-        let experienceNumber= parseFloat(experience);
+        let experienceNumber = parseFloat(experience);
+
         if (isNaN(experienceNumber)) {
-            setMessage("Years of experience is not a number")
+            setMessage("Years of experience is not a number");
             return;
         }
 
@@ -71,65 +200,94 @@ const ApplyPositionPresenter = () => {
             return;
         }
 
-        const competenceData = {competence: competence, experience: experienceNumber}
-        const newCompetenceObject = competenceObject;
-        console.log("competenceData: ", competenceData);
-        newCompetenceObject[competence-1] = competenceData;
+        const competenceData = { competence: competence, experience: experienceNumber };
+        const newCompetenceObject = competenceObject.slice();
+        newCompetenceObject[competence - 1] = competenceData;
         setCompetenceObject(newCompetenceObject);
 
         setMessage(`Added competence ${getCompetenceName(competence)} with ${experienceNumber} years of experience`);
-        resetForm();};
-    const handleAvailabilitySubmit = (e) => { e.preventDefault();
+        resetForm();
+    };
 
-        // Convert the start and end dates to JavaScript Date objects
+    /**
+     * Handle availability form submission.
+     * Validates input and updates availabilityObject state.
+     * @function
+     * @param {React.FormEvent} e - Form submission event.
+     * @returns {void}
+     */
+    const handleAvailabilitySubmit = (e) => {
+        e.preventDefault();
+
         const startDateObj = new Date(startDate);
         const endDateObj = new Date(endDate);
 
-        const tomorrow  = new Date();
+        const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
+        tomorrow.setHours(0, 0, 0, 0);
 
-        // Check if startDate is at least tomorrow
-        if (startDateObj < tomorrow ) {
+        if (startDateObj < tomorrow) {
             setMessage('Start date must be at least tomorrow');
             return;
         }
 
-        // Check if endDate is after startDate
         if (endDateObj <= startDateObj) {
             setMessage('End date must be after start date');
             return;
         }
 
-        const availabilityData = {startDate: startDate, endDate: endDate};
-        const newAvailabilityObject = availabilityObject;
+        const availabilityData = { startDate: startDate, endDate: endDate };
+        const newAvailabilityObject = availabilityObject.slice();
         newAvailabilityObject.push(availabilityData);
         setAvailabilityObject(newAvailabilityObject);
 
         setMessage(`Added availability between ${startDate} and ${endDate}`);
-        resetForm();};
+        resetForm();
+    };
+
+    /**
+     * Move to the next page in the application process.
+     * @function
+     * @returns {void}
+     */
     const goToNextPage = () => setPageNumber(pageNumber + 1);
+
+    /**
+     * Move to the previous page in the application process.
+     * @function
+     * @returns {void}
+     */
     const goToPreviousPage = () => setPageNumber(pageNumber - 1);
-    const submitApplication = async () => {setError('');
+
+    /**
+     * Submit the application to the server.
+     * @function
+     * @async
+     * @returns {void}
+     */
+    const submitApplication = async () => {
+        setError('');
         const filteredCompetenceObject = competenceObject.filter(item => item.experience !== null);
+
         if (filteredCompetenceObject.length === 0 || availabilityObject.length === 0) {
-            setMessage("Competence or availability cannot be empty")
+            setMessage("Competence or availability cannot be empty");
             return;
         }
 
         try {
             const response = await axios.post('/application/apply',
-                {competenceProfile: filteredCompetenceObject, availability: availabilityObject}, { withCredentials: true });
+                { competenceProfile: filteredCompetenceObject, availability: availabilityObject }, { withCredentials: true });
+
             alert('Successfully submitted the application!');
         } catch (error) {
-            // The backend responded with an error
-            setError(error.response.data.message || 'Application failed. Please check your data.');
-
+            setError(error.response?.data?.message || 'Application failed. Please check your data.');
         }
+    };
 
-        const requestData = {competenceProfile: filteredCompetenceObject, availability: availabilityObject};
-        console.log(requestData);};
-
+    /**
+     * Render the ApplyPositionView component with the necessary props.
+     * @returns {JSX.Element} - The rendered React component.
+     */
     return (
         <ApplyPositionView
             authorized={authorized}
