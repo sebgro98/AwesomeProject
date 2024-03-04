@@ -14,7 +14,7 @@ const ApplyPositionView = () => {
     const [experience, setExperience] = useState('')
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
-    const [competenceObject, setCompetenceObject] = useState([{competence: 1, experience: null}, {competence: 2, experience: null}, {competence: 3, experience: null}]);
+    const [competenceObject, setCompetenceObject] = useState([]);
     const [availabilityObject, setAvailabilityObject] = useState([]);
     const [error, setError] = useState('');
     // State for authorization status
@@ -47,7 +47,6 @@ const ApplyPositionView = () => {
             try {
                 const response = await axios.post('/application/retrieve');
                 setCompetenceNames(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.error('Error retrieving competences:', error);
             }
@@ -92,14 +91,8 @@ const ApplyPositionView = () => {
      * @returns {string} - Competence name.
      */
     function getCompetenceName(id) {
-        switch(id) {
-            case 1:
-                return "ticket sales";
-            case 2:
-                return "lotteries"
-            case 3:
-                return "roller coaster operation"
-        }
+        const competenceName = competenceNames.find(competence => competence.competence_id === id)
+        return competenceName ? competenceName.name : null;
     }
 
     /**
@@ -205,19 +198,24 @@ const ApplyPositionView = () => {
                     <form onSubmit={handleCompetenceSubmit}>
                         {/* Competence selection radio buttons */}
                         <label>Choose competence:</label><br/>
-                        <label>
-                            Ticket sales
-                            <input type="radio" name="competence" value="1" onChange={() => setCompetence(1)} required/>
-                        </label><br/>
-                        <label>
-                            Lotteries
-                            <input type="radio" name="competence" value="2" onChange={() => setCompetence(2)} required/>
-                        </label><br/>
-                        <label>
-                            Roller Coaster Operation
-                            <input type="radio" name="competence" value="3" onChange={() => setCompetence(3)} required/>
-                        </label>
-                        <br/><br/>
+
+                        {competenceNames.map((competence, index) => (
+                            <>
+                                <label key={index}>
+                                    {competence.name}
+                                    <input
+                                        type="radio"
+                                        name="competence"
+                                        value={competence.competence_id}
+                                        onChange={() => setCompetence(competence.competence_id)}
+                                        required
+                                    />
+                                </label>
+                                <br/>
+                            </>
+                        ))}
+
+                        <br/>
                         {/* Years of experience input */}
                         <label>
                             Years of Experience:

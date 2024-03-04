@@ -117,6 +117,7 @@ class ApplicationAPI extends RequestHandler {
                         return;
                     }
 
+                    console.log("retrieve in application")
                     const response = await this.contr.getCompetences();
                     // Send the formatted competences as a response
                     res.send(response);
