@@ -1,30 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
-const ApplicationsView = () => {
-    const [applications, setApplications] = useState([]);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        // Define an asynchronous function inside useEffect
-        const fetchData = async () => {
-            try {
-                // Fetch applications from the server
-                const response = await axios.post('/application/applications');
-                setApplications(response.data);
-                console.log('hejdsfdsfdsfsd', response);
-                console.log('applications', applications);
-                console.log('hej', response.data);
-            } catch (error) {
-                console.error('Error fetching applications:', error);
-            }
-        };
-
-        // Call the asynchronous function
-        fetchData();
-    }, []); // Empty dependency array ensures the effect runs once when the component mounts
-
+const ApplicationsView = ({ applications, navigate }) => {
     return (
         <div>
             <h1>All Applications</h1>

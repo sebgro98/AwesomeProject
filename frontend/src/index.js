@@ -2,11 +2,11 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
-import SignUpView from './views/SignUpView';
-import LoginView from './views/LoginView';
+import SignUpPresenter from './presenter/SignUpPresenter';
+import LoginPresenter from './presenter/LoginPresenter';
 import reportWebVitals from './reportWebVitals';
-import ApplyPositionView from "./views/ApplyPositionView";
-import ApplicationsView from "./views/ApplicationsView";
+import ApplyPositionPresenter from "./presenter/ApplyPositionPresenter";
+import ApplicationsPresenter from "./presenter/ApplicationsPresenter";
 
 // Create a root for rendering the application
 const root = createRoot(document.getElementById('root'));
@@ -17,15 +17,15 @@ root.render(
         <Router>
             <Routes>
                 {/* Route for SignUpView */}
-                <Route path="/signup" element={<SignUpView />} />
+                <Route path="/signup" element={<SignUpPresenter />} />
 
                 {/* Default route for LoginView */}
-                <Route path="/" element={<LoginView />} />
+                <Route path="/" element={<LoginPresenter />} />
 
                 {/* Route for applying */}
-                <Route path="/apply" element={<ApplyPositionView />} />
+                <Route path="/apply" element={<ApplyPositionPresenter />} />
 
-                <Route path="/applications" element={<ApplicationsView />} />
+                <Route path="/applications" element={<ApplicationsPresenter />} />
 
                 {/* Add more routes if needed */}
             </Routes>
