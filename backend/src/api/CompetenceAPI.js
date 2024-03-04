@@ -1,4 +1,5 @@
 const RequestHandler = require('./RequestHandler');
+const Authorization = require("./auth/Authorization");
 /**
  * Represents a REST API handler for managing Competence-related operations.
  * @extends RequestHandler
@@ -34,6 +35,20 @@ class CompetenceAPI extends RequestHandler {
         try {
             await this.retrieveController();
 
+            this.router.post('/retrieve', async (req, res) => {
+                try {
+                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
+                        return;
+                    }
+
+                    const response = await this.contr.getCompetences();
+                    // Send the formatted competences as a response
+                    res.send(response);
+                } catch (error) {
+                    console.error('Error fetching competences:', error);
+                    res.status(500).json({ message: 'Internal Server Error' });
+                }
+            });
 
         }
         catch (err) {

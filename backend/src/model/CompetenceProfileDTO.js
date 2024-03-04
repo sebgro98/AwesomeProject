@@ -2,7 +2,7 @@
 class CompetenceProfileDTO {
 
     /**
-     * Constructs a new Competence object.
+     * Constructs a new CompetenceProfile object.
      *
      * @param {number} id - Unique identifier for the competence entry.
      * @param {number} person_id - Identifier of the person associated with this competence.

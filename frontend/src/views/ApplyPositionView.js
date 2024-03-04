@@ -19,6 +19,7 @@ const ApplyPositionView = () => {
     const [error, setError] = useState('');
     // State for authorization status
     const [authorized, setAuthorized] = useState(false);
+    const [competenceNames, setCompetenceNames] = useState([]);
 
     // Navigation hook for page redirection
     const navigate = useNavigate();
@@ -42,7 +43,18 @@ const ApplyPositionView = () => {
             }
         };
 
+        const getCompetences = async () => {
+            try {
+                const response = await axios.post('/application/retrieve');
+                setCompetenceNames(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error('Error retrieving competences:', error);
+            }
+        }
+
         checkAuthorization();
+        getCompetences();
     }, []);
 
     /**
@@ -67,7 +79,6 @@ const ApplyPositionView = () => {
 
         const competenceData = {competence: competence, experience: experienceNumber}
         const newCompetenceObject = competenceObject;
-        console.log("competenceData: ", competenceData);
         newCompetenceObject[competence-1] = competenceData;
         setCompetenceObject(newCompetenceObject);
 
@@ -180,7 +191,6 @@ const ApplyPositionView = () => {
         }
 
         const requestData = {competenceProfile: filteredCompetenceObject, availability: availabilityObject};
-        console.log(requestData);
     }
 
     // Render component based on authorization status

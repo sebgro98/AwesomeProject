@@ -1,13 +1,18 @@
 const Sequelize = require('sequelize');
 const cls = require('cls-hooked');
-const Person = require('../model/Person');
-const Availability = require('../model/Availability');
-const CompetenceProfile = require('../model/CompetenceProfile');
 const WError = require('verror').WError;
-const PersonDTO = require('../model/PersonDTO');
 const Validators = require("../util/Validators");
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
+
+const Person = require('../model/Person');
+const Availability = require('../model/Availability');
+const CompetenceProfile = require('../model/CompetenceProfile');
+const Competence = require('../model/Competence');
+
+const CompetenceDTO = require('../model/CompetenceDTO');
+const PersonDTO = require('../model/PersonDTO');
+
 /**
  * ProjectDAO class handles database operations related to the project.
  * It uses Sequelize ORM to interact with the database and manages the Person model.
@@ -44,6 +49,7 @@ class ProjectDAO {
             Person.createModel(this.database);
             Availability.createModel(this.database);
             CompetenceProfile.createModel(this.database);
+            Competence.createModel(this.database);
 
 
             this.createTables();
@@ -181,24 +187,6 @@ class ProjectDAO {
 
 
     /**
-     * Creates a PersonDTO object from the given Person model object.
-     * @param {Object} person The Person model object.
-     * @return {PersonDTO} A PersonDTO object representing the given Person.
-     */
-    createPersonDTO(person) {
-        return new PersonDTO(
-            person.person_id,
-            person.name,
-            person.surname,
-            person.pnr,
-            person.email,
-            person.password,
-            person.role_id,
-            person.username,
-            person.application_status_id)
-    }
-
-    /**
      * Asynchronously finds a person by their username.
      *
      * @param {string} username - The username of the person to be found.
@@ -330,7 +318,53 @@ class ProjectDAO {
         }
     }
 
+    async getCompetences() {
+        try {
+            const competences = await Competence.findAll();
+            return competences.map(competence => this.createCompetenceDTO(competence));
+        } catch (error) {
+            throw new WError(
+                {
+                    cause: error,
+                    info: {
+                        ProjectDAO: "Failed to retrieve competences"
+                    }
+                },
+                'Could not retrieve competences'
+            )
+        }
+    }
 
+
+    /**
+     * Creates a PersonDTO object from the given Person model object.
+     * @param {Object} person The Person model object.
+     * @return {PersonDTO} A PersonDTO object representing the given Person.
+     */
+    createPersonDTO(person) {
+        return new PersonDTO(
+            person.person_id,
+            person.name,
+            person.surname,
+            person.pnr,
+            person.email,
+            person.password,
+            person.role_id,
+            person.username,
+            person.application_status_id)
+    }
+
+    /**
+     * Creates a CompetenceDTO object from the given Competence model object.
+     * @param {Object} competence The Competence model object.
+     * @return {CompetenceDTO} A CompetenceDTO object representing the given Competence.
+     */
+    createCompetenceDTO(competence) {
+        return new CompetenceDTO(
+            competence.competence_id,
+            competence.name
+        );
+    }
 }
 
 

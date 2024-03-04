@@ -111,6 +111,21 @@ class ApplicationAPI extends RequestHandler {
                 }
             });
 
+            this.router.post('/retrieve', async (req, res) => {
+                try {
+                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
+                        return;
+                    }
+
+                    const response = await this.contr.getCompetences();
+                    // Send the formatted competences as a response
+                    res.send(response);
+                } catch (error) {
+                    console.error('Error fetching competences:', error);
+                    res.status(500).json({ message: 'Internal Server Error' });
+                }
+            });
+
         }
         catch (err) {
             console.log(err);
