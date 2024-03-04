@@ -32,6 +32,16 @@ const ApplyPositionPresenter = () => {
         checkAuthorization();
     }, []);
 
+    function getCompetenceName(id) {
+        switch(id) {
+            case 1:
+                return "ticket sales";
+            case 2:
+                return "lotteries"
+            case 3:
+                return "roller coaster operation"
+        }
+    }
     const handleCompetenceChange = (id) => setCompetence(id);
     const handleExperienceChange = (e) => setExperience(e.target.value);
     const handleStartDateChange = (e) => setStartDate(e.target.value);
