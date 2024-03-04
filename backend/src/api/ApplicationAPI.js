@@ -111,7 +111,7 @@ class ApplicationAPI extends RequestHandler {
                 }
             });
 
-            this.router.post('/retrieve', async (req, res) => {
+            this.router.post('/retrieveCompetences', async (req, res) => {
                 try {
                     if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
                         return;

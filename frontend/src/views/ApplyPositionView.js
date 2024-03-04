@@ -45,7 +45,7 @@ const ApplyPositionView = () => {
 
         const getCompetences = async () => {
             try {
-                const response = await axios.post('/application/retrieve');
+                const response = await axios.post('/application/retrieveCompetences');
                 setCompetenceNames(response.data);
             } catch (error) {
                 console.error('Error retrieving competences:', error);
