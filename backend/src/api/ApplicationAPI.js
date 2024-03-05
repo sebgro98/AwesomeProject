@@ -35,6 +35,7 @@ class ApplicationAPI extends RequestHandler {
     get allowedRoleIdRecruiter() {
         return 1;
     }
+
     /**
      * Handles the registration of API routes for Application-related operations.
      */
@@ -42,19 +43,18 @@ class ApplicationAPI extends RequestHandler {
         try {
             await this.retrieveController();
 
-            this.router.post('/authorize', async (req, res, next) => {
+            this.router.post('/retrieveStatus', async (req, res) => {
                 try {
-                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
+                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdRecruiter, req, res)) ) {
                         return;
                     }
-                        this.sendHttpResponse(res, 200, "Apply route accessed successfully");
-
+                    const response = await this.contr.getApplicationStatus();
+                    res.send(response);
                 } catch (error) {
-                    // Handle errors properly
-                    next(error);
+                    console.error('Error fetching application status:', error);
+                    res.status(500).json({ message: 'Internal Server Error' });
                 }
             });
-
 
             /**
              * Express route handler for handling HTTP POST requests to submit a job application.
@@ -97,13 +97,11 @@ class ApplicationAPI extends RequestHandler {
 
             this.router.post('/applications', async (req, res) => {
                 try {
-
+                    const roleId = await Authorization.getJWTRoleID(req);
                     if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdRecruiter, req, res)) ) {
                         return;
                     }
-
                     const response = await this.contr.getApplications();
-                    // Send the formatted applications as a response
                     res.send(response);
                 } catch (error) {
                     console.error('Error fetching applications:', error);
@@ -113,32 +111,17 @@ class ApplicationAPI extends RequestHandler {
 
             this.router.post('/retrieveCompetences', async (req, res) => {
                 try {
+                    const roleId = await Authorization.getJWTRoleID(req);
                     if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
                         return;
                     }
                     const response = await this.contr.getCompetences();
-                    // Send the formatted competences as a response
                     res.send(response);
                 } catch (error) {
                     console.error('Error fetching competences:', error);
                     res.status(500).json({ message: 'Internal Server Error' });
                 }
             });
-
-            this.router.post('/retrieveStatus', async (req, res, next) => {
-                try {
-                    console.log("hello");
-                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
-                        return;
-                    }
-                    const response = await this.contr.getApplicationStatus();
-                    res.send(response);
-                } catch (error) {
-                    console.error('Error fetching application status:', error);
-                    res.status(500).json({ message: 'Internal Server Error' });
-                }
-            });
-
         }
         catch (err) {
             console.log(err);

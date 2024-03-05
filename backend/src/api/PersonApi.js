@@ -30,6 +30,13 @@ class PersonAPI extends RequestHandler {
         return PersonAPI.PERSON_API_PATH;
     }
 
+    get allowedRoleIdApplicant() {
+        return 2;
+    }
+    get allowedRoleIdRecruiter() {
+        return 1;
+    }
+
     /**
      * Handles the registration of API routes for Person-related operations like logín and registering a person.
      */
@@ -39,7 +46,6 @@ class PersonAPI extends RequestHandler {
 
             // Add a middleware to check if the user is signed in before handling the /apply route
 
-
             this.router.post(
                 '/login',
                 async (req, res, next) => {
@@ -48,7 +54,8 @@ class PersonAPI extends RequestHandler {
                         const person = await this.contr.login(username, password);
 
                         if (person) {
-                            const roleOf = (person.role_id === 1) ? "recruiter" : "applicant";
+                            const roles = await this.contr.getRoles();
+                            const roleName = roles.find(role => role.role_id === person.role_id).name || "Unknown";
 
                             // Assuming person has properties like name, id, application_status_id, and role_id
                             const responseData = {
@@ -57,7 +64,7 @@ class PersonAPI extends RequestHandler {
                                 application_status_id: person.application_status_id,
                                 role_id: person.role_id,
                                 personMail: person.email,
-                                role: roleOf
+                                role: roleName
                             };
 
                             Authorization.setAuthCookie(person, res);
@@ -70,23 +77,7 @@ class PersonAPI extends RequestHandler {
                     }
                 }
             );
-/*
-            // New registration route for when a user signs up to our application
-            this.router.post(
-                '/register',
-                async (req, res, next) => {
-                    const { formData } = req.body;
-                    try {
-                        const response = await this.contr.register(formData);
-                        // Handle successful registration
-                        res.send(response.data);
-                    } catch (error) {
-                        res.status(500).json({ message: error.message, error: error.message });
-                    }
 
-                }
-            );
-*/
             //sending verification code to existing users.
             this.router.post(
                 '/sendVerification',
@@ -132,6 +123,32 @@ class PersonAPI extends RequestHandler {
                     }
                 }
             );
+
+            this.router.post('/authorizeApplicant', async (req, res, next) => {
+                try {
+                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
+                        return;
+                    }
+                    this.sendHttpResponse(res, 200, "Applicant successfully authorized");
+
+                } catch (error) {
+                    // Handle errors properly
+                    next(error);
+                }
+            });
+
+            this.router.post('/authorizeRecruiter', async (req, res, next) => {
+                try {
+                    if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdRecruiter, req, res)) ) {
+                        return;
+                    }
+                    this.sendHttpResponse(res, 200, "Recruiter successfully authorized");
+
+                } catch (error) {
+                    // Handle errors properly
+                    next(error);
+                }
+            });
 
         }
         catch (err) {

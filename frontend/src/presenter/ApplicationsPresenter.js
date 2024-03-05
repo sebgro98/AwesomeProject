@@ -33,7 +33,7 @@ const ApplicationsPresenter = () => {
     useEffect(() => {
         const checkAuthorization = async () => {
             try {
-                const response = await axios.post('/application/authorize', { withCredentials: true });
+                const response = await axios.post('/person/authorizeRecruiter', { withCredentials: true });
                 if (response.status === 200) {
                     setAuthorized(true);
                 } else {
@@ -50,7 +50,7 @@ const ApplicationsPresenter = () => {
          */
         const fetchData = async () => {
             try {
-                const response = await axios.post('/application/applications');
+                const response = await axios.post('/application/applications', { withCredentials: true });
                 setApplications(response.data);
             } catch (error) {
                 console.error('Error fetching applications:', error);
@@ -59,14 +59,15 @@ const ApplicationsPresenter = () => {
 
         const getApplicationStatus = async () => {
             try {
-                const response = await axios.post('application/retrieveCompetences');
+                const response = await axios.post('application/retrieveStatus', { withCredentials: true });
                 setApplicationStatus(response.data);
                 console.log("application status: ", response.data);
             }
             catch (error) {
                 console.log("Error fetching application status:", error);
             }
-        }
+        };
+
         checkAuthorization();
         fetchData();
         getApplicationStatus();
@@ -80,6 +81,7 @@ const ApplicationsPresenter = () => {
         applications={applications}
         navigate={navigate}
         authorized={authorized}
+        applicationStatus={applicationStatus}
     />;
 }
 

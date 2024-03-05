@@ -102,7 +102,7 @@ const ApplyPositionPresenter = () => {
     useEffect(() => {
         const checkAuthorization = async () => {
             try {
-                const response = await axios.post('/application/authorize', { withCredentials: true });
+                const response = await axios.post('/person/authorizeApplicant', { withCredentials: true });
                 if (response.status === 200) {
                     setAuthorized(true);
                 } else {

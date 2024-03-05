@@ -115,6 +115,12 @@ class Controller {
         })
     }
 
+    async getRoles() {
+        return this.transactionMgr.transaction(async (t1) => {
+            return this.projectDAO.getRoles();
+        })
+    }
+
 
 }
 

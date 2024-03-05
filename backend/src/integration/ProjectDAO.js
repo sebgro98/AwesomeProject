@@ -10,10 +10,12 @@ const Availability = require('../model/Availability');
 const CompetenceProfile = require('../model/CompetenceProfile');
 const Competence = require('../model/Competence');
 const ApplicationStatus = require('../model/ApplicationStatus');
+const Role = require('../model/Role');
 
 const CompetenceDTO = require('../model/CompetenceDTO');
 const PersonDTO = require('../model/PersonDTO');
 const ApplicationStatusDTO = require('../model/ApplicationStatusDTO');
+const RoleDTO = require('../model/RoleDTO');
 
 /**
  * ProjectDAO class handles database operations related to the project.
@@ -53,6 +55,7 @@ class ProjectDAO {
             CompetenceProfile.createModel(this.database);
             Competence.createModel(this.database);
             ApplicationStatus.createModel(this.database);
+            Role.createModel(this.database);
             this.createTables();
     }
 
@@ -353,6 +356,23 @@ class ProjectDAO {
         }
     }
 
+    async getRoles() {
+        try {
+            const roles = await Role.findAll();
+            return roles.map(role => this.createRoleDTO(role));
+        } catch (error) {
+            throw new WError(
+                {
+                    cause: error,
+                    info: {
+                        ProjectDAO: "Failed to retrieve roles"
+                    }
+                },
+                'Could not retrieve roles'
+            )
+        }
+    }
+
 
     /**
      * Creates a PersonDTO object from the given Person model object.
@@ -395,10 +415,18 @@ class ProjectDAO {
             applicationStatus.name
         );
     }
+
+    /**
+     * Creates a RoleDTO object from the given Role model object.
+     * @param {Object} role The Role model object.
+     * @return {RoleDTO} A RoleDTO object representing the given Role.
+     */
+    createRoleDTO(role) {
+        return new RoleDTO(
+            role.role_id,
+            role.name
+        );
+    }
 }
-
-
-
-
 
 module.exports = ProjectDAO;
