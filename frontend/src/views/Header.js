@@ -1,12 +1,19 @@
 import React from 'react';
 
-function Footer() {
-    return (
-        <footer>
-            {/* Your footer content here */}
-            <p>© 2024 My App, Inc.</p>
-        </footer>
-    );
-}
 
-export default Footer;
+const Header = () => (
+    <div style={headerStyle}>
+        <p>Welcome</p>
+    </div>
+);
+
+
+const headerStyle = {
+    width: '100%',
+    backgroundColor: '#f0f0f0',
+    textAlign: 'center',
+    padding: '10px 0'
+};
+
+
+export default Header;
