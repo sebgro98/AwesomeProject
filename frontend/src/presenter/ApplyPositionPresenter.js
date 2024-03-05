@@ -10,10 +10,11 @@ const ApplyPositionPresenter = () => {
     const [experience, setExperience] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [competenceObject, setCompetenceObject] = useState([{competence: 1, experience: null}, {competence: 2, experience: null}, {competence: 3, experience: null}]);
+    const [competenceObject, setCompetenceObject] = useState([]);
     const [availabilityObject, setAvailabilityObject] = useState([]);
     const [error, setError] = useState('');
     const [authorized, setAuthorized] = useState(false);
+    const [competenceNames, setCompetenceNames] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,19 +30,25 @@ const ApplyPositionPresenter = () => {
                 console.error('Error checking authorization:', error);
             }
         };
+
+        const getCompetences = async () => {
+            try {
+                const response = await axios.post('/application/retrieveCompetences');
+                setCompetenceNames(response.data);
+            } catch (error) {
+                console.error('Error retrieving competences:', error);
+            }
+        }
+
         checkAuthorization();
+        getCompetences();
     }, []);
 
     function getCompetenceName(id) {
-        switch(id) {
-            case 1:
-                return "ticket sales";
-            case 2:
-                return "lotteries"
-            case 3:
-                return "roller coaster operation"
-        }
+        const competenceName = competenceNames.find(competence => competence.competence_id === id)
+        return competenceName ? competenceName.name : null;
     }
+
     const handleCompetenceChange = (id) => setCompetence(id);
     const handleExperienceChange = (e) => setExperience(e.target.value);
     const handleStartDateChange = (e) => setStartDate(e.target.value);
@@ -84,7 +91,6 @@ const ApplyPositionPresenter = () => {
         // Convert the start and end dates to JavaScript Date objects
         const startDateObj = new Date(startDate);
         const endDateObj = new Date(endDate);
-
         const tomorrow  = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
         tomorrow.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
@@ -108,8 +114,16 @@ const ApplyPositionPresenter = () => {
 
         setMessage(`Added availability between ${startDate} and ${endDate}`);
         resetForm();};
-    const goToNextPage = () => setPageNumber(pageNumber + 1);
-    const goToPreviousPage = () => setPageNumber(pageNumber - 1);
+    const goToNextPage = () => {
+        setPageNumber(pageNumber+1);
+        setMessage('');
+        resetForm();
+    }
+    const goToPreviousPage = () => {
+        setPageNumber(pageNumber-1);
+        setMessage('');
+        resetForm();
+    }
     const submitApplication = async () => {setError('');
         const filteredCompetenceObject = competenceObject.filter(item => item.experience !== null);
         if (filteredCompetenceObject.length === 0 || availabilityObject.length === 0) {
@@ -152,6 +166,7 @@ const ApplyPositionPresenter = () => {
             experience={experience}
             startDate={startDate}
             endDate={endDate}
+            competenceNames={competenceNames}
         />
     );
 };

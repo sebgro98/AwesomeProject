@@ -109,6 +109,12 @@ class Controller {
         })
     }
 
+    async getApplicationStatus() {
+        return this.transactionMgr.transaction(async (t1) => {
+            return this.projectDAO.getApplicationStatus();
+        })
+    }
+
 
 }
 

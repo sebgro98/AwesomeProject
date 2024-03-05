@@ -22,8 +22,7 @@ const ApplyPositionView = ({
                                startDate,
                                endDate,
                                setError,
-
-
+                               competenceNames,
                            }) => {
     const getCompetenceName = (id) => {
         switch(id) {
@@ -42,18 +41,21 @@ const ApplyPositionView = ({
                     <h3>Page 1 of 3</h3>
                     <form onSubmit={handleCompetenceSubmit}>
                         <label>Choose competence:</label><br/>
-                        <label>
-                            Ticket sales
-                            <input type="radio" name="competence" value="1" onChange={() => handleCompetenceChange(1)} required/>
-                        </label><br/>
-                        <label>
-                            Lotteries
-                            <input type="radio" name="competence" value="2" onChange={() => handleCompetenceChange(2)} required/>
-                        </label><br/>
-                        <label>
-                            Roller Coaster Operation
-                            <input type="radio" name="competence" value="3" onChange={() => handleCompetenceChange(3)} required/>
-                        </label><br/><br/>
+                        {competenceNames.map((competence, index) => (
+                            <>
+                                <label key={index}>
+                                    {competence.name}
+                                    <input
+                                        type="radio"
+                                        name="competence"
+                                        value={competence.competence_id}
+                                        onChange={() => handleCompetenceChange(competence.competence_id)}
+                                        required
+                                    />
+                                </label>
+                                <br/>
+                            </>
+                        ))}<br/>
                         <label>Years of Experience:</label><br/>
                         <input type="text" name="experience" value={experience} onChange={handleExperienceChange} placeholder="Enter years of experience" required/><br/>
                         <button type="submit" style={{marginTop: '10px'}}>Submit Competence</button>
@@ -85,14 +87,14 @@ const ApplyPositionView = ({
                 <div style={{display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: 'auto'}}>
                     <h2>Apply for a position</h2>
                     <h3>Page 3 of 3</h3>
-                    <p><b>Competence</b></p>
+                    <p style={{margin: '0', padding: '0'}}><b>Competence</b></p>
                     {competenceObject.filter(item => item.experience !== null).map((item, index) => (
-                        <p key={index}>{`${getCompetenceName(item.competence)}: ${item.experience} years of experience`}</p>
+                        <p style={{ margin: '0', padding: '0' }} key={index}>{`${getCompetenceName(item.competence)}: ${item.experience} years of experience`}</p>
                     ))}
                     <br/>
-                    <p><b>Availability</b></p>
+                    <p style={{margin: '0', padding: '0'}}><b>Availability</b></p>
                     {availabilityObject.map((item, index) => (
-                        <p key={index}>{`Between ${item.startDate} and ${item.endDate}`}</p>
+                        <p style={{ margin: '0', padding: '0' }} key={index}>{`Between ${item.startDate} and ${item.endDate}`}</p>
                     ))}
                     <br/>
                     <button type="button" onClick={goToPreviousPage}>Go to previous Page</button>

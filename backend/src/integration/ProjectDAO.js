@@ -9,9 +9,11 @@ const Person = require('../model/Person');
 const Availability = require('../model/Availability');
 const CompetenceProfile = require('../model/CompetenceProfile');
 const Competence = require('../model/Competence');
+const ApplicationStatus = require('../model/ApplicationStatus');
 
 const CompetenceDTO = require('../model/CompetenceDTO');
 const PersonDTO = require('../model/PersonDTO');
+const ApplicationStatusDTO = require('../model/ApplicationStatusDTO');
 
 /**
  * ProjectDAO class handles database operations related to the project.
@@ -50,8 +52,7 @@ class ProjectDAO {
             Availability.createModel(this.database);
             CompetenceProfile.createModel(this.database);
             Competence.createModel(this.database);
-
-
+            ApplicationStatus.createModel(this.database);
             this.createTables();
     }
 
@@ -335,6 +336,23 @@ class ProjectDAO {
         }
     }
 
+    async getApplicationStatus() {
+        try {
+            const applicationStatus = await ApplicationStatus.findAll();
+            return applicationStatus.map(applicationStatus => this.createApplicationStatusDTO(applicationStatus));
+        } catch (error) {
+            throw new WError(
+                {
+                    cause: error,
+                    info: {
+                        ProjectDAO: "Failed to retrieve application status"
+                    }
+                },
+                'Could not retrieve application status'
+            )
+        }
+    }
+
 
     /**
      * Creates a PersonDTO object from the given Person model object.
@@ -363,6 +381,18 @@ class ProjectDAO {
         return new CompetenceDTO(
             competence.competence_id,
             competence.name
+        );
+    }
+
+    /**
+     * Creates a CompetenceDTO object from the given Competence model object.
+     * @param {Object} applicationStatus The Competence model object.
+     * @return {CompetenceDTO} A CompetenceDTO object representing the given Competence.
+     */
+    createApplicationStatusDTO(applicationStatus) {
+        return new ApplicationStatusDTO(
+            applicationStatus.application_status_id,
+            applicationStatus.name
         );
     }
 }
