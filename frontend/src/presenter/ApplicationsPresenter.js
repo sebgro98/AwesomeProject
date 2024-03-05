@@ -59,9 +59,8 @@ const ApplicationsPresenter = () => {
 
         const getApplicationStatus = async () => {
             try {
-                const response = await axios.post('application/retrieveStatus', { withCredentials: true });
+                const response = await axios.post('application/retrieveStatus',{lang: 'en'}, { withCredentials: true });
                 setApplicationStatus(response.data);
-                console.log("application status: ", response.data);
             }
             catch (error) {
                 console.log("Error fetching application status:", error);

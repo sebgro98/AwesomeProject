@@ -8,13 +8,13 @@ const bcrypt = require('bcrypt');
 const Person = require('../model/Person');
 const Availability = require('../model/Availability');
 const CompetenceProfile = require('../model/CompetenceProfile');
-const Competence = require('../model/Competence');
-const ApplicationStatus = require('../model/ApplicationStatus');
+const CompetenceTranslator = require('../model/./CompetenceTranslator');
+const ApplicationStatusTranslator = require('../model/ApplicationStatusTranslator');
 const Role = require('../model/Role');
 
-const CompetenceDTO = require('../model/CompetenceDTO');
+const CompetenceTranslatorDTO = require('../model/CompetenceTranslatorDTO');
 const PersonDTO = require('../model/PersonDTO');
-const ApplicationStatusDTO = require('../model/ApplicationStatusDTO');
+const ApplicationStatusTranslatorDTO = require('../model/ApplicationStatusTranslatorDTO');
 const RoleDTO = require('../model/RoleDTO');
 
 /**
@@ -53,8 +53,8 @@ class ProjectDAO {
             Person.createModel(this.database);
             Availability.createModel(this.database);
             CompetenceProfile.createModel(this.database);
-            Competence.createModel(this.database);
-            ApplicationStatus.createModel(this.database);
+            CompetenceTranslator.createModel(this.database);
+            ApplicationStatusTranslator.createModel(this.database);
             Role.createModel(this.database);
             this.createTables();
     }
@@ -322,10 +322,12 @@ class ProjectDAO {
         }
     }
 
-    async getCompetences() {
+    async getCompetences(lang) {
         try {
-            const competences = await Competence.findAll();
-            return competences.map(competence => this.createCompetenceDTO(competence));
+            const competences = await CompetenceTranslator.findAll({
+                where: {lang: lang}
+            });
+            return competences.map(competence => this.createCompetenceTranslatorDTO(competence));
         } catch (error) {
             throw new WError(
                 {
@@ -339,10 +341,12 @@ class ProjectDAO {
         }
     }
 
-    async getApplicationStatus() {
+    async getApplicationStatus(lang) {
         try {
-            const applicationStatus = await ApplicationStatus.findAll();
-            return applicationStatus.map(applicationStatus => this.createApplicationStatusDTO(applicationStatus));
+            const applicationStatus = await ApplicationStatusTranslator.findAll({
+                where: {lang: lang}
+            });
+            return applicationStatus.map(applicationStatus => this.createApplicationStatusTranslatorDTO(applicationStatus));
         } catch (error) {
             throw new WError(
                 {
@@ -393,26 +397,28 @@ class ProjectDAO {
     }
 
     /**
-     * Creates a CompetenceDTO object from the given Competence model object.
-     * @param {Object} competence The Competence model object.
-     * @return {CompetenceDTO} A CompetenceDTO object representing the given Competence.
+     * Creates a CompetenceTranslatorDTO object from the given CompetenceTranslator model object.
+     * @param {Object} competenceTranslator The CompetenceTranslator model object.
+     * @return {CompetenceTranslatorDTO} A CompetenceTranslatorDTO object representing the given CompetenceTranslator.
      */
-    createCompetenceDTO(competence) {
-        return new CompetenceDTO(
-            competence.competence_id,
-            competence.name
+    createCompetenceTranslatorDTO(competenceTranslator) {
+        return new CompetenceTranslatorDTO(
+            competenceTranslator.competence_id,
+            competenceTranslator.lang,
+            competenceTranslator.translated_name
         );
     }
 
     /**
-     * Creates a CompetenceDTO object from the given Competence model object.
-     * @param {Object} applicationStatus The Competence model object.
-     * @return {CompetenceDTO} A CompetenceDTO object representing the given Competence.
+     * Creates a ApplicationStatusTranslatorDTO object from the given ApplicationStatusTranslator model object.
+     * @param {Object} applicationStatusTranslator The ApplicationStatusTranslator model object.
+     * @return {ApplicationStatusTranslatorDTO} A ApplicationStatusTranslatorDTO object representing the given ApplicationStatusTranslator.
      */
-    createApplicationStatusDTO(applicationStatus) {
-        return new ApplicationStatusDTO(
-            applicationStatus.application_status_id,
-            applicationStatus.name
+    createApplicationStatusTranslatorDTO(applicationStatusTranslator) {
+        return new ApplicationStatusTranslatorDTO(
+            applicationStatusTranslator.application_status_id,
+            applicationStatusTranslator.lang,
+            applicationStatusTranslator.translated_name
         );
     }
 

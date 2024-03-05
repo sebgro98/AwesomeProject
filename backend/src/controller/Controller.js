@@ -115,15 +115,15 @@ class Controller {
         });
     }
 
-    async getCompetences() {
+    async getCompetences(lang) {
         return this.transactionMgr.transaction(async (t1) => {
-            return this.projectDAO.getCompetences();
+            return this.projectDAO.getCompetences(lang);
         })
     }
 
-    async getApplicationStatus() {
+    async getApplicationStatus(lang) {
         return this.transactionMgr.transaction(async (t1) => {
-            return this.projectDAO.getApplicationStatus();
+            return this.projectDAO.getApplicationStatus(lang);
         })
     }
 

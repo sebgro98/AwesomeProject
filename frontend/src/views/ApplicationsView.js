@@ -17,7 +17,7 @@ const ApplicationsView = ({ applications, navigate, authorized, applicationStatu
                         <tr key={application.person_id} onClick={() => navigate(`/applications/${application.person_id}`)}>
                             <td>{`${application.name} ${application.surname}`}</td>
                             <td>
-                                {applicationStatus.find(status => status.application_status_id === application.application_status_id)?.name || "Unknown"}
+                                {applicationStatus.find(status => status.application_status_id === application.application_status_id)?.translated_name || "Unknown"}
                             </td>
                         </tr>
                     ))}

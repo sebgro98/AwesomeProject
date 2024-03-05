@@ -149,7 +149,6 @@ class PersonAPI extends RequestHandler {
                     next(error);
                 }
             });
-
         }
         catch (err) {
             console.log(err);

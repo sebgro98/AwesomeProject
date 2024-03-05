@@ -23,20 +23,13 @@ const ApplyPositionView = ({
                                endDate,
                                setError,
                                competenceNames,
+                               getCompetenceName
                            }) => {
-    const getCompetenceName = (id) => {
-        switch(id) {
-            case 1: return "ticket sales";
-            case 2: return "lotteries";
-            case 3: return "roller coaster operation";
-            default: return "";
-        }
-    };
 
     return authorized ? (
         <>
             {pageNumber === 1 && (
-                <div style={{display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: 'auto'}}>
+                <div style={{display: 'flex', flexDirection: 'column', maxWidth: '500px', margin: 'auto'}}>
                     <h2>Apply for a position</h2>
                     <h3>Page 1 of 3</h3>
                     <form onSubmit={handleCompetenceSubmit}>
@@ -44,7 +37,7 @@ const ApplyPositionView = ({
                         {competenceNames.map((competence, index) => (
                             <>
                                 <label key={index}>
-                                    {competence.name}
+                                    {competence.translated_name}
                                     <input
                                         type="radio"
                                         name="competence"
@@ -66,7 +59,7 @@ const ApplyPositionView = ({
                 </div>
             )}
             {pageNumber === 2 && (
-                <div style={{display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: 'auto'}}>
+                <div style={{display: 'flex', flexDirection: 'column', maxWidth: '500px', margin: 'auto'}}>
                     <h2>Apply for a position</h2>
                     <h3>Page 2 of 3</h3>
                     <form onSubmit={handleAvailabilitySubmit}>
@@ -84,7 +77,7 @@ const ApplyPositionView = ({
                 </div>
             )}
             {pageNumber === 3 && (
-                <div style={{display: 'flex', flexDirection: 'column', maxWidth: '400px', margin: 'auto'}}>
+                <div style={{display: 'flex', flexDirection: 'column', maxWidth: '500px', margin: 'auto'}}>
                     <h2>Apply for a position</h2>
                     <h3>Page 3 of 3</h3>
                     <p style={{margin: '0', padding: '0'}}><b>Competence</b></p>

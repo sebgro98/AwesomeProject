@@ -8,6 +8,7 @@ import ApplyPositionView from "../views/ApplyPositionView";
  * <ApplyPositionPresenter />
  */
 const ApplyPositionPresenter = () => {
+
     /**
      * State to store success/error messages.
      * @type {string}
@@ -115,7 +116,7 @@ const ApplyPositionPresenter = () => {
 
         const getCompetences = async () => {
             try {
-                const response = await axios.post('/application/retrieveCompetences');
+                const response = await axios.post('/application/retrieveCompetences', {lang: 'sv'},{withCredentials: true});
                 setCompetenceNames(response.data);
             } catch (error) {
                 console.error('Error retrieving competences:', error);
@@ -128,14 +129,14 @@ const ApplyPositionPresenter = () => {
 
     function getCompetenceName(id) {
         const competenceName = competenceNames.find(competence => competence.competence_id === id)
-        return competenceName ? competenceName.name : null;
+        return competenceName ? competenceName.translated_name : null;
     }
 
 
     /**
      * Handle change in selected competence.
      * @function
-     * @param {number} id - Competence ID.
+     * @param {number} id - CompetenceTranslator ID.
      * @returns {void}
      */
     const handleCompetenceChange = (id) => setCompetence(id);
@@ -279,7 +280,7 @@ const ApplyPositionPresenter = () => {
         const filteredCompetenceObject = competenceObject.filter(item => item.experience !== null);
 
         if (filteredCompetenceObject.length === 0 || availabilityObject.length === 0) {
-            setMessage("Competence or availability cannot be empty");
+            setMessage("CompetenceTranslator or availability cannot be empty");
             return;
         }
 
@@ -320,6 +321,7 @@ const ApplyPositionPresenter = () => {
             startDate={startDate}
             endDate={endDate}
             competenceNames={competenceNames}
+            getCompetenceName={getCompetenceName}
         />
     );
 };
