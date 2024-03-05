@@ -15,12 +15,6 @@ const SignUpPresenter = () => {
      */
     const [error, setError] = useState('');
 
-    /**
-     * State to determine whether the user is a new user or not.
-     * @type {boolean}
-     * @default true
-     */
-    const [isNewUser, setIsNewUser] = useState(true);
 
     /**
      * State to store the verification code during sign-up.
@@ -115,15 +109,7 @@ const SignUpPresenter = () => {
         navigate('/');
     };
 
-    /**
-     * Handle checkbox change to toggle between new and existing user.
-     * @returns {void}
-     */
-    const handleCheckboxChange = () => {
-        setIsNewUser((prev) => !prev);
-        setVerificationCode('');
-        setShowVerificationView(false);
-    };
+
 
     /**
      * Render the SignUpView component with the necessary props.
@@ -132,7 +118,6 @@ const SignUpPresenter = () => {
     return (
         <SignUpView
             error={error}
-            isNewUser={isNewUser}
             verificationCode={verificationCode}
             showVerificationView={showVerificationView}
             formData={formData}
@@ -140,7 +125,6 @@ const SignUpPresenter = () => {
             handleSubmit={handleSubmit}
             handleVerificationSubmit={handleVerificationSubmit}
             redirectToLogIn={redirectToLogIn}
-            handleCheckboxChange={handleCheckboxChange}
             setError={setError}
             setVerificationCode={setVerificationCode}
         />

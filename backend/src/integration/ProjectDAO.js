@@ -56,6 +56,7 @@ class ProjectDAO {
             CompetenceTranslator.createModel(this.database);
             ApplicationStatusTranslator.createModel(this.database);
             Role.createModel(this.database);
+
             this.createTables();
     }
 
