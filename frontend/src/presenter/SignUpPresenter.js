@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import SignUpView from "../views/SignUpView";
-
 /**
  * SignUpPresenter component manages the state and logic for user sign-up.
  * <SignUpPresenter />
@@ -69,6 +68,38 @@ const SignUpPresenter = () => {
     };
 
     /**
+     * Validates an email address.
+     *
+     * @param {string} email - The email address to validate.
+     */
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    /**
+     * Validates a person number.
+     *
+     * @param {string} personNumber - The person number to validate.
+     */
+    const isValidPersonNumber = (personNumber) => {
+        const personNumberRegex = /^\d{8}-\d{4}$/;
+        return personNumberRegex.test(personNumber);
+    };
+
+    /**
+     * Checks if the length of the given string is within the specified range.
+     *
+     * @param {string} value - The string value to be checked.
+     * @param {object} options - The options object with min and max properties specifying the length range.
+     * @returns {boolean} - True if the length is within the specified range, false otherwise.
+     */
+    const isValidLength = (value, { min, max }) => {
+        return value.length >= min && value.length <= max;
+    };
+
+
+    /**
      * Handle form submission for sending verification code.
      * @async
      * @param {React.FormEvent} e - The form submission event.
@@ -77,6 +108,23 @@ const SignUpPresenter = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        // Validate email and person number before making the API call
+        if (!isValidEmail(formData.email)) {
+            alert('Invalid email address format.');
+            return;
+        }
+        if (!isValidPersonNumber(formData.personNumber)) {
+            alert('Invalid person number format. It should be in the format YYYYMMDD-XXXX.');
+            return;
+        }
+        if (!isValidLength(formData.firstName, { min: 2, max: 50})) {
+            alert('Firstname must be more then 2 letters');
+            return;
+        }
+        if (!isValidLength(formData.lastName, { min: 2, max: 50})) {
+            alert('Last name must be more then 2 letters');
+            return;
+        }
 
         try {
             const response = await axios.post('/person/sendVerification', { formData }, { withCredentials: true });
@@ -108,7 +156,6 @@ const SignUpPresenter = () => {
     const redirectToLogIn = () => {
         navigate('/');
     };
-
 
 
     /**
