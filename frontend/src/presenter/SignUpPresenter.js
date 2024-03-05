@@ -103,7 +103,7 @@ const SignUpPresenter = () => {
             alert('User verified successfully!');
             navigate('/');
         } catch (error) {
-            setError(error.response?.data?.message && error.response?.data?.customError || 'Verification failed. Please check your data.');
+            setError(error.response?.data?.message || 'Verification failed. Please check your data.');
         }
     };
 

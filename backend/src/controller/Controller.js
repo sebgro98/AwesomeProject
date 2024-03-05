@@ -41,6 +41,8 @@ class Controller {
      *  */
     async login(username, password) {
         return this.transactionMgr.transaction(async (t1) => {
+            Validators.isNotEmptyString(username, 'username');
+            Validators.isAlnumString(username, 'username');
             return this.projectDAO.findUserByUsernameAndPassword(username, password);
         })
     }
@@ -55,6 +57,14 @@ class Controller {
      */
     async register(userData) {
         return this.transactionMgr.transaction(async (t1) => {
+            Validators.isNotEmptyString(userData.username, 'username');
+            Validators.isAlnumString(userData.username, 'username');
+            Validators.isValidEmail(userData.email);
+            Validators.isValidPersonNumber(userData.personNumber);
+            Validators.isValidLength(userData.firstName, 'firstName', { min: 2, max: 50 });
+            Validators.isValidLength(userData.lastName, 'lastName', { min: 2, max: 50 });
+            Validators.isValidDateOfBirth(userData.personNumber);
+            console.log('USERDATAAAAAA',userData);
             // You need to implement the method in ProjectDAO for user registration
             // Assuming createNewUser is a method in ProjectDAO to create a new user
             return this.projectDAO.createNewUser(userData);
@@ -68,6 +78,8 @@ class Controller {
      */
     async isLoggedIn(username) {
         return this.transactionMgr.transaction(async (t1) => {
+            Validators.isNotEmptyString(username, 'username');
+            Validators.isAlnumString(username, 'username');
 
             const person = await this.projectDAO.findPersonByUsername(username);
 
