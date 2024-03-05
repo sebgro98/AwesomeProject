@@ -92,7 +92,7 @@ class Validators {
     static isValidDateOfBirth(personNumber) {
         Validators.isString(personNumber, 'personNumber');
 
-        // Extract the date of birth from the person number (assuming YYYYMMDD format)
+        // Extract the date of birth from the person number ( YYYYMMDD format)
         const year = parseInt(personNumber.substr(0, 4), 10);
         const month = parseInt(personNumber.substr(4, 2), 10) - 1; // Month is zero-based in JavaScript
         const day = parseInt(personNumber.substr(6, 2), 10);
@@ -121,6 +121,41 @@ class Validators {
             `${varName} must be a non-empty string.`
         );
     }
+
+    /**
+     * Validates the structure and data types of an application object.
+     *
+     * @param {Object} application - The application object to be validated.
+     * @returns {boolean} - True if the application is valid, false otherwise.
+     */
+    static validateApplication(application) {
+        // Check if competenceProfile is an array with at least one element
+        assert(Array.isArray(application.competenceProfile) && application.competenceProfile.length > 0,
+            'competenceProfile should be a non-empty array');
+
+        // Check if competence is a number and experience is a string representing a number
+        const firstCompetence = application.competenceProfile[0];
+        assert(typeof firstCompetence.competence === 'number' && !isNaN(firstCompetence.competence),
+            'competence should be a number');
+        assert(typeof firstCompetence.experience === 'string' && !isNaN(parseFloat(firstCompetence.experience)),
+            'experience should be a string representing a number');
+
+        // Check if availability is an array with at least one element
+        assert(Array.isArray(application.availability) && application.availability.length > 0,
+            'availability should be a non-empty array');
+
+        // Check if startDate and endDate are valid date strings
+        const firstAvailability = application.availability[0];
+        const startDate = new Date(firstAvailability.startDate);
+        const endDate = new Date(firstAvailability.endDate);
+
+        assert(!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()),
+            'startDate and endDate should be valid date strings');
+
+        // If all checks pass, the application is valid
+        return true;
+    }
+
 
 }
 

@@ -64,9 +64,6 @@ class Controller {
             Validators.isValidLength(userData.firstName, 'firstName', { min: 2, max: 50 });
             Validators.isValidLength(userData.lastName, 'lastName', { min: 2, max: 50 });
             Validators.isValidDateOfBirth(userData.personNumber);
-            console.log('USERDATAAAAAA',userData);
-            // You need to implement the method in ProjectDAO for user registration
-            // Assuming createNewUser is a method in ProjectDAO to create a new user
             return this.projectDAO.createNewUser(userData);
         });
     }
@@ -111,6 +108,7 @@ class Controller {
      */
     async apply(application) {
         return this.transactionMgr.transaction(async (t1) => {
+            Validators.validateApplication(application);
             return this.projectDAO.createApplication(application);
         });
     }

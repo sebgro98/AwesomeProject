@@ -131,17 +131,6 @@ class ProjectDAO {
         try {
             const hashedPassword = await bcrypt.hash(userData.password, 10); // 10 is the salt rounds
 
-            // Validate email
-            //let error;
-            if (!Validators.isValidEmail(userData.email)) {
-                throw new Error('Invalid email address');
-            }
-
-            // Validate person number
-            if (!Validators.isValidPersonNumber(userData.personNumber)) {
-                throw new Error('Invalid person number');
-            }
-
             // Check if a person with the same email exists
             const existingPerson = await Person.findOne({
                 where: {
