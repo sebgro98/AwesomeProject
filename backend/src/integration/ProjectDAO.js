@@ -92,6 +92,8 @@ class ProjectDAO {
      */
     async findUserByUsernameAndPassword(username, password) {
         try {
+            Validators.isNotEmptyString(username, 'username');
+            Validators.isAlnumString(username, 'username');
             const person = await Person.findOne({
                 where: {
                     username: username
@@ -130,6 +132,13 @@ class ProjectDAO {
      */
     async createNewUser(userData) {
         try {
+            Validators.isNotEmptyString(userData.username, 'username');
+            Validators.isAlnumString(userData.username, 'username');
+            Validators.isValidEmail(userData.email);
+            Validators.isValidPersonNumber(userData.personNumber);
+            Validators.isValidLength(userData.firstName, 'firstName', { min: 2, max: 50 });
+            Validators.isValidLength(userData.lastName, 'lastName', { min: 2, max: 50 });
+            Validators.isValidDateOfBirth(userData.personNumber);
             const hashedPassword = await bcrypt.hash(userData.password, 10); // 10 is the salt rounds
 
             // Check if a person with the same email exists
@@ -189,6 +198,7 @@ class ProjectDAO {
      */
     async findPersonByUsername(username) {
         try {
+            Validators.isNotEmptyString(username, 'username');
             Validators.isAlnumString(username, 'username');
             const person = await Person.findOne(  {
                 where: {username: username},
@@ -227,6 +237,8 @@ class ProjectDAO {
      */
     async createApplication(application) {
         try {
+            Validators.validateApplication(application);
+
             //Delete availability from previous applications
             await Availability.destroy({
                 where: {
