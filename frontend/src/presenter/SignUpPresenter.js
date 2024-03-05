@@ -3,13 +3,55 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import SignUpView from "../views/SignUpView";
 
+/**
+ * SignUpPresenter component manages the state and logic for user sign-up.
+ * <SignUpPresenter />
+ */
 const SignUpPresenter = () => {
+    /**
+     * State to store error messages during sign-up.
+     * @type {string}
+     * @default ''
+     */
     const [error, setError] = useState('');
+
+    /**
+     * State to determine whether the user is a new user or not.
+     * @type {boolean}
+     * @default true
+     */
     const [isNewUser, setIsNewUser] = useState(true);
+
+    /**
+     * State to store the verification code during sign-up.
+     * @type {string}
+     * @default ''
+     */
     const [verificationCode, setVerificationCode] = useState('');
+
+    /**
+     * State to control the visibility of the verification view.
+     * @type {boolean}
+     * @default false
+     */
     const [showVerificationView, setShowVerificationView] = useState(false);
+
+    /**
+     * React Router navigation hook.
+     * @type {Function}
+     */
     const navigate = useNavigate();
 
+    /**
+     * State to store form data during sign-up.
+     * @type {Object}
+     * @property {string} firstName - User's first name.
+     * @property {string} lastName - User's last name.
+     * @property {string} email - User's email address.
+     * @property {string} personNumber - User's personal identification number.
+     * @property {string} username - User's chosen username.
+     * @property {string} password - User's chosen password.
+     */
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -19,6 +61,11 @@ const SignUpPresenter = () => {
         password: '',
     });
 
+    /**
+     * Handle input changes in the sign-up form.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event.
+     * @returns {void}
+     */
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -27,6 +74,12 @@ const SignUpPresenter = () => {
         }));
     };
 
+    /**
+     * Handle form submission for sending verification code.
+     * @async
+     * @param {React.FormEvent} e - The form submission event.
+     * @returns {void}
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -39,6 +92,11 @@ const SignUpPresenter = () => {
         }
     };
 
+    /**
+     * Handle verification code submission.
+     * @async
+     * @returns {void}
+     */
     const handleVerificationSubmit = async () => {
         try {
             const response = await axios.post('/person/verifyVerificationCode', { formData, verificationCode }, { withCredentials: true });
@@ -49,16 +107,28 @@ const SignUpPresenter = () => {
         }
     };
 
+    /**
+     * Redirect to the login page.
+     * @returns {void}
+     */
     const redirectToLogIn = () => {
         navigate('/');
     };
 
+    /**
+     * Handle checkbox change to toggle between new and existing user.
+     * @returns {void}
+     */
     const handleCheckboxChange = () => {
         setIsNewUser((prev) => !prev);
         setVerificationCode('');
         setShowVerificationView(false);
     };
 
+    /**
+     * Render the SignUpView component with the necessary props.
+     * @returns {JSX.Element} - The rendered React component.
+     */
     return (
         <SignUpView
             error={error}
