@@ -2,8 +2,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
-import Header from './/Header'; // Adjust the path as necessary
-import Footer from './/Footer'; // Adjust the path as necessary
+import Header from './views/Header'; // Adjust the path as necessary
+import Footer from './views/Footer'; // Adjust the path as necessary
 import SignUpPresenter from './presenter/SignUpPresenter';
 import LoginPresenter from './presenter/LoginPresenter';
 import ApplyPositionPresenter from "./presenter/ApplyPositionPresenter";
