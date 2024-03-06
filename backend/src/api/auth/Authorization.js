@@ -143,12 +143,6 @@ class Authorization {
         const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);
         return JWTPayload.personMail;
     }
-
-    static async getJWTRoleID(req) {
-        const authCookie = req.cookies.personAuth;
-        const JWTPayload = jwt.verify(authCookie, process.env.JWT_SECRET);
-        return JWTPayload.role;
-    }
 }
 
 module.exports = Authorization;

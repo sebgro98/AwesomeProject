@@ -6,6 +6,7 @@ const mailApi = require('./mail/mailApi');
  * @extends RequestHandler
  */
 class ApplicationAPI extends RequestHandler {
+
     /**
      * Creates an instance of ApplicationAPI.
      */
@@ -29,6 +30,7 @@ class ApplicationAPI extends RequestHandler {
         return ApplicationAPI.APPLICATION_API_PATH;
     }
 
+    // Role IDs for authorization
     get allowedRoleIdApplicant() {
         return 2;
     }
@@ -61,15 +63,16 @@ class ApplicationAPI extends RequestHandler {
                         return;
                     }
 
+                    // Retrieve person ID and email from JWT token
                     const personId = await Authorization.getJWTpersonID(req);
                     const personEmail = await Authorization.getJWTpersonMail(req);
                     const application = req.body;
+
                     // Send email and wait for it to complete
                     const response = this.contr.apply(application);
                     application.personId = personId;
                     mailApi.sendMail(application, personEmail)
                         .then(() => {
-                            console.log('Email sending process completed');
                             res.send(response);  // Move the response sending here
                         })
                         .catch((error) => {
@@ -82,6 +85,15 @@ class ApplicationAPI extends RequestHandler {
                 }
             });
 
+            /**
+             * Express route handler for handling HTTP POST requests to retrieve a list of job applications.
+             * This route requires the user to be signed in as a recruiter. The response contains an array of application objects.
+             *
+             * @param {Request} req - Express Request object containing the HTTP request details.
+             * @param {Response} res - Express Response object for sending the HTTP response.
+             * @throws {Error} Throws an error if there are issues with authorization or if retrieving applications fails.
+             * @returns {void} Responds with an appropriate HTTP status and a JSON array of application objects.
+             */
             this.router.post('/applications', async (req, res) => {
                 try {
                     if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdRecruiter, req, res)) ) {
@@ -95,6 +107,16 @@ class ApplicationAPI extends RequestHandler {
                 }
             });
 
+            /**
+             * Express route handler for handling HTTP POST requests to retrieve a list of competences.
+             * This route requires the user to be signed in as an applicant. The language parameter is sent in the request body.
+             * The response contains an array of competence objects in the specified language.
+             *
+             * @param {Request} req - Express Request object containing the HTTP request details.
+             * @param {Response} res - Express Response object for sending the HTTP response.
+             * @throws {Error} Throws an error if there are issues with authorization or if retrieving competences fails.
+             * @returns {void} Responds with an appropriate HTTP status and a JSON array of competence objects.
+             */
             this.router.post('/retrieveCompetences', async (req, res) => {
                 try {
                     if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
@@ -109,6 +131,16 @@ class ApplicationAPI extends RequestHandler {
                 }
             });
 
+            /**
+             * Express route handler for handling HTTP POST requests to retrieve a list of application statuses.
+             * This route requires the user to be signed in as a recruiter. The language parameter is sent in the request body.
+             * The response contains an array of application status objects in the specified language.
+             *
+             * @param {Request} req - Express Request object containing the HTTP request details.
+             * @param {Response} res - Express Response object for sending the HTTP response.
+             * @throws {Error} Throws an error if there are issues with authorization or if retrieving application statuses fails.
+             * @returns {void} Responds with an appropriate HTTP status and a JSON array of application status objects.
+             */
             this.router.post('/retrieveStatus', async (req, res) => {
                 try {
                     if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdRecruiter, req, res)) ) {

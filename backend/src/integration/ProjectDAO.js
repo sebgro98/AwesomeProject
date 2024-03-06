@@ -119,10 +119,6 @@ class ProjectDAO {
         }
     }
 
-
-
-
-
     /**
      * Creates a new user and returns a PersonDTO object for the created user.
      * If a user with the same pnr already exists, updates the existing record.
@@ -324,8 +320,15 @@ class ProjectDAO {
         }
     }
 
+    /**
+     * Retrieves all competences from the database for a specific language.
+     * @param {string} lang - The language for which competences should be retrieved.
+     * @returns {Array} An array of competence data transformed into DTOs (Data Transfer Objects).
+     * @throws {WError} Throws a wrapped error (WError) if there is a failure in retrieving the competences.
+     */
     async getCompetences(lang) {
         try {
+            Validators.isValidLength(lang, "lang", { min: 2, max: 2 });
             const competences = await CompetenceTranslator.findAll({
                 where: {lang: lang}
             });
@@ -343,8 +346,15 @@ class ProjectDAO {
         }
     }
 
+    /**
+     * Retrieves all applications where the application status is not equal to 1.
+     * This function does not take any external parameters.
+     * @returns {Array} An array of application data transformed into DTOs (Data Transfer Objects).
+     * @throws {WError} Throws a wrapped error (WError) if there is a failure in retrieving the applications.
+     */
     async getApplicationStatus(lang) {
         try {
+            Validators.isValidLength(lang, "lang", { min: 2, max: 2 });
             const applicationStatus = await ApplicationStatusTranslator.findAll({
                 where: {lang: lang}
             });
@@ -362,6 +372,11 @@ class ProjectDAO {
         }
     }
 
+    /**
+     * Retrieves all roles from the database.
+     * @returns {Array} An array of role data transformed into DTOs (Data Transfer Objects).
+     * @throws {WError} Throws a wrapped error (WError) if there is a failure in retrieving the roles.
+     */
     async getRoles() {
         try {
             const roles = await Role.findAll();
