@@ -68,7 +68,7 @@
     },
     "unauthorized": {
       "unauthorized_message": "You are not authorized to access this page. Please log in.",
-      "login": "Login"
+      "login": "Log In"
     }
   }
 }
