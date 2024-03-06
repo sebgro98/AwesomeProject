@@ -53,7 +53,7 @@
       "end_date_error": "End date must be after start date",
       "added_availability_between": "Added availability between",
       "and": "and",
-      "competence_or_availability_cannot_be_empty": "CompetenceTranslator or availability cannot be empty",
+      "competence_or_availability_cannot_be_empty": "Competence or availability cannot be empty",
       "application_success_alert": "Successfully submitted the application!",
       "application_error": "Application failed. Please check your data."
     },
