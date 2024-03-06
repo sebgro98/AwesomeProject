@@ -6,7 +6,9 @@ import { useTranslation } from 'react-i18next';
 /**
  * HeaderPresenter component manages the state and logic for the header section of the application.
  * Handles language selection, user logout, and rendering the HeaderView.
- * <HeaderPresenter />
+ *
+ * @component
+ * @returns {JSX.Element} The rendered React component.
  */
 const HeaderPresenter = () => {
     // Translation hook for language support

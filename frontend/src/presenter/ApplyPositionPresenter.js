@@ -197,14 +197,14 @@ const ApplyPositionPresenter = () => {
         let experienceNumber = parseFloat(experience);
 
         if (isNaN(experienceNumber)) {
-            setMessage("Years of experience is not a number");
+            setMessage(t("application.apply_for_a_position.year_of_experience_not_a_number"));
             return;
         }
 
         experienceNumber = experienceNumber.toFixed(2);
 
         if (experienceNumber.length > 5) {
-            setMessage("The years of experience number is too large");
+            setMessage(t("application.apply_for_a_position.year_of_experience_number_too_large"));
             return;
         }
 
@@ -213,7 +213,7 @@ const ApplyPositionPresenter = () => {
         newCompetenceObject[competence - 1] = competenceData;
         setCompetenceObject(newCompetenceObject);
 
-        setMessage(`Added competence ${getCompetenceName(competence)} with ${experienceNumber} years of experience`);
+        setMessage(t("application.apply_for_a_position.added_competence") + " " + getCompetenceName(competence) + " " + t("application.apply_for_a_position.with") + " " + experienceNumber + " " + t("application.apply_for_a_position.years_of_experience"));
         resetForm();
     };
 
@@ -234,12 +234,12 @@ const ApplyPositionPresenter = () => {
         tomorrow.setHours(0, 0, 0, 0);
 
         if (startDateObj < tomorrow) {
-            setMessage('Start date must be at least tomorrow');
+            setMessage(t("application.apply_for_a_position.start_date_error"));
             return;
         }
 
         if (endDateObj <= startDateObj) {
-            setMessage('End date must be after start date');
+            setMessage(t("application.apply_for_a_position.end_date_error"));
             return;
         }
 
@@ -248,7 +248,7 @@ const ApplyPositionPresenter = () => {
         newAvailabilityObject.push(availabilityData);
         setAvailabilityObject(newAvailabilityObject);
 
-        setMessage(`Added availability between ${startDate} and ${endDate}`);
+        setMessage(t("application.apply_for_a_position.added_availability_between") + " " + startDate + " " + t("application.apply_for_a_position.and") + " " + endDate);
         resetForm();
     };
 
@@ -285,7 +285,7 @@ const ApplyPositionPresenter = () => {
         const filteredCompetenceObject = competenceObject.filter(item => item.experience !== null);
 
         if (filteredCompetenceObject.length === 0 || availabilityObject.length === 0) {
-            setMessage("CompetenceTranslator or availability cannot be empty");
+            setMessage(t("application.apply_for_a_position.competence_or_availability_cannot_be_empty"));
             return;
         }
 
@@ -293,9 +293,9 @@ const ApplyPositionPresenter = () => {
             const response = await axios.post('/application/apply',
                 { competenceProfile: filteredCompetenceObject, availability: availabilityObject }, { withCredentials: true });
 
-            alert('Successfully submitted the application!');
+            alert(t("application.apply_for_a_position.application_success_alert"));
         } catch (error) {
-            setError(error.response?.data?.message || 'Application failed. Please check your data.');
+            setError(error.response?.data?.message || t("application.apply_for_a_position.application_error"));
         }
     };
 

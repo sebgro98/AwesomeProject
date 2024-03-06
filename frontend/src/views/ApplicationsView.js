@@ -28,7 +28,7 @@ const thStyle = {
 const tdStyle = {
     padding: '10px',
     borderBottom: '1px solid #dddddd',
-    cursor: 'pointer', // Adds a pointer cursor to indicate clickable rows
+    cursor: 'pointer',
 };
 
 const trHoverStyle = {
@@ -51,15 +51,29 @@ const loginButtonStyle = {
     cursor: 'pointer',
 };
 
+/**
+ * Represents a React component for displaying a list of job applications.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array} props.applications - An array of job applications to display.
+ * @param {function} props.navigate - A function to handle navigation.
+ * @param {boolean} props.authorized - A boolean indicating whether the user is authorized to view the applications.
+ * @param {Array} props.applicationStatus - An array of application status data.
+ * @param {function} props.languageData - A function to retrieve language-specific data.
+ * @returns {JSX.Element} The JSX representation of the component.
+ */
 const ApplicationsView = ({ applications, navigate, authorized, applicationStatus, languageData}) => {
+    // / Render the component differently based on the user's authorization status
     return authorized ? (
+        // Display application data if the user is authorized
         <div style={containerStyle}>
-            <h1 style={headerStyle}>All Applications</h1>
+            <h1 style={headerStyle}>{languageData("application.applications.all_applications")}</h1>
             <table style={tableStyle}>
                 <thead>
                 <tr>
-                    <th style={thStyle}>Full Name</th>
-                    <th style={thStyle}>Status</th>
+                    <th style={thStyle}>{languageData("application.applications.full_name")}</th>
+                    <th style={thStyle}>{languageData("application.applications.status")}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -75,9 +89,10 @@ const ApplicationsView = ({ applications, navigate, authorized, applicationStatu
             </table>
         </div>
     ) : (
+        // Display an unauthorized message and a login button if the user is not authorized
         <div style={unauthorizedStyle}>
-            <p>You are not authorized to access this page. Please log in.</p>
-            <button onClick={() => navigate('/')} style={loginButtonStyle}>Log In</button>
+            <p>{languageData("application.unauthorized.unauthorized_message")}</p>
+            <button onClick={() => navigate('/')} style={loginButtonStyle}>{languageData("application.unauthorized.login")}</button>
         </div>
     );
 }

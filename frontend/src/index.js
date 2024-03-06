@@ -22,6 +22,7 @@ root.render(
             <Router>
                 {/* Including the Header component */}
                 <Header/>
+                {/* Defining routes for different paths */}
                 <Routes>
                     {/* Routing for different paths */}
                     <Route path="/signup" element={<SignUpPresenter />} />

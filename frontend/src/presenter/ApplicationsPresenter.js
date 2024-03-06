@@ -22,11 +22,36 @@ const ApplicationsPresenter = () => {
      */
     const navigate = useNavigate();
 
+    /**
+     * State to track user authorization status.
+     *
+     * @type {boolean}
+     * @default false
+     */
     const [authorized, setAuthorized] = useState(false);
+
+    /**
+     * State to store the list of application statuses.
+     *
+     * @type {Array}
+     * @default []
+     */
     const [applicationStatus, setApplicationStatus] = useState([])
 
+    /**
+     * React-i18next translation hook.
+     *
+     * @type {Function}
+     */
     const [t, i18n] = useTranslation("translation");
 
+    /**
+     * Fetch application statuses data from the server using Axios on component mount.
+     *
+     * @async
+     * @function
+     * @returns {void}
+     */
     useEffect(() => {
         const getApplicationStatus = async () => {
             try {
@@ -34,7 +59,7 @@ const ApplicationsPresenter = () => {
                 setApplicationStatus(response.data);
             }
             catch (error) {
-                console.log("Error fetching application status:", error);
+                console.error("Error fetching application status:", error);
             }
         };
         getApplicationStatus();
@@ -79,6 +104,7 @@ const ApplicationsPresenter = () => {
 
     /**
      * Render the ApplicationsView component with the fetched applications data.
+     *
      * @returns {JSX.Element} - The rendered React component.
      */
     return <ApplicationsView
