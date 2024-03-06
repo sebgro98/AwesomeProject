@@ -17,6 +17,17 @@ The backend of our application adopts a combination of MVC (Model-View-Controlle
 * Model Layer: Here, all Sequelize models and Data Transfer Objects (DTOs) reside.
 * Integration Layer: Dedicated to database interactions, this layer handles all communications with the database.
 
+### Internationalization
+here are two steps required in order to add a new language to the application, firstly inside the frontend and secondly inside the database
+
+#### Frontend
+* Create a new folder inside `frontend/src/translations` with the two letter code of the language. Afterwards, create a config `global.json` filde under the newly created folder and include all the required config data which can be found in another config file.
+* in `frontend/src/i18n.js` import the new config file, add the language in supportedLngs and inside resources.
+
+### Database
+* Firstly find the id's needed to be added inside `application_status` and `competence` with the following PSQL queries: `select * from application_status;` and `select * from competence;`
+* Once you have retrieved all the id's you insert the required data with `INSERT INTO public.application_status_translation (application_status_id, lang, translated_name) VALUES(id, '2 letter language', 'application status name');` and `INSERT INTO public.competence_translation (competence_id, lang, translated_name) VALUES (id, '2 letter language', 'competence name');` for each row. 
+
 ## Prerequisites
 Before you begin, ensure you have installed:
 
@@ -49,8 +60,10 @@ Install dependencies: npm install
 ##### React: A JavaScript library for building user interfaces.
 ##### Axios: For making HTTP requests.
 ##### React Create Root: For routing in React applications.
-##### Sequelize: An ORM for Node.js, used to interact with PostgreSQL.
+##### i18next: Internationalization framework for handling translations in your React application.
 ##### Testing Libraries: Includes Jest Dom, React Testing Library for testing React components.
+
+
 
 ### Backend
 ##### Express: A fast, unopinionated, minimalist web framework for Node.js.
@@ -58,6 +71,7 @@ Install dependencies: npm install
 ##### JSON Web Tokens (JWT): For implementing authentication.
 ##### Cors: For enabling CORS (Cross-Origin Resource Sharing).
 ##### Dotenv: For loading environment variables from a .env file into process.env.
+##### Sequelize: An ORM for Node.js, used to interact with PostgreSQL.
 
 ## Running the Project
 
