@@ -21,9 +21,19 @@ const logoutButtonStyle = {
     cursor: 'pointer',
 };
 
-const HeaderView = ({ onLogout }) => (
+const HeaderView = ({ onLogout, supportedLngs, changeLang }) => (
     <div style={headerStyle}>
         <p>Welcome</p>
+        <div className="button">
+            {supportedLngs.map((lang) =>
+                <button
+                    name={lang}
+                    key={lang}
+                    onClick={(e) => changeLang(e)}>
+                    {lang}
+                </button>
+            )}
+        </div>
         <button onClick={onLogout} style={logoutButtonStyle}>Logout</button>
     </div>
 );
