@@ -15,7 +15,7 @@ const containerStyle = {
 const formStyle = {
     display: 'flex',
     flexDirection: 'column',
-    width: '300px',
+    width: '350px',
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
