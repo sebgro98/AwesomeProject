@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import ApplicationsView from "../views/ApplicationsView";
+import {useTranslation} from "react-i18next";
 
 /**
  * ApplicationsPresenter component fetches and displays a list of applications.
@@ -23,6 +24,21 @@ const ApplicationsPresenter = () => {
 
     const [authorized, setAuthorized] = useState(false);
     const [applicationStatus, setApplicationStatus] = useState([])
+
+    const [t, i18n] = useTranslation("translation");
+
+    useEffect(() => {
+        const getApplicationStatus = async () => {
+            try {
+                const response = await axios.post('application/retrieveStatus',{lang: i18n.language}, { withCredentials: true });
+                setApplicationStatus(response.data);
+            }
+            catch (error) {
+                console.log("Error fetching application status:", error);
+            }
+        };
+        getApplicationStatus();
+    }, [i18n.language]);
 
     /**
      * Fetch applications data from the server using Axios on component mount.
@@ -57,19 +73,8 @@ const ApplicationsPresenter = () => {
             }
         };
 
-        const getApplicationStatus = async () => {
-            try {
-                const response = await axios.post('application/retrieveStatus',{lang: 'en'}, { withCredentials: true });
-                setApplicationStatus(response.data);
-            }
-            catch (error) {
-                console.log("Error fetching application status:", error);
-            }
-        };
-
         checkAuthorization();
         fetchData();
-        getApplicationStatus();
     }, []);
 
     /**
@@ -81,6 +86,7 @@ const ApplicationsPresenter = () => {
         navigate={navigate}
         authorized={authorized}
         applicationStatus={applicationStatus}
+        languageData={t}
     />;
 }
 

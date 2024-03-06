@@ -21,10 +21,18 @@ const logoutButtonStyle = {
     cursor: 'pointer',
 };
 
-const HeaderView = ({ onLogout, language }) => (
+const languageStyle = {
+    display: 'flex',
+    gap: '10px', /* Adjust the gap between buttons as needed */
+};
+
+const HeaderView = ({ onLogout, languageData, changeLang, languages }) => (
     <div style={headerStyle}>
         <p>Welcome</p>
-        <p>{language("login.message")}</p>
+        <div style={languageStyle}>{languages.map((lang) => (
+            <button name={lang} key={lang} value={lang} onClick={(e) => changeLang(e)}>{lang}</button>
+        ))}
+        </div>
         <button onClick={onLogout} style={logoutButtonStyle}>Logout</button>
     </div>
 );

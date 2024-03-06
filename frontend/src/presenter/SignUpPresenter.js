@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import SignUpView from "../views/SignUpView";
+import {useTranslation} from "react-i18next";
 /**
  * SignUpPresenter component manages the state and logic for user sign-up.
  * <SignUpPresenter />
  */
 const SignUpPresenter = () => {
+    const [t, i18n] = useTranslation("translation");
     /**
      * State to store error messages during sign-up.
      * @type {string}
@@ -174,6 +176,7 @@ const SignUpPresenter = () => {
             redirectToLogIn={redirectToLogIn}
             setError={setError}
             setVerificationCode={setVerificationCode}
+            languageData={t}
         />
     );
 };

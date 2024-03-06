@@ -23,7 +23,8 @@ const ApplyPositionView = ({
                                endDate,
                                setError,
                                competenceNames,
-                               getCompetenceName
+                               getCompetenceName,
+                               languageData
                            }) => {
 
     return authorized ? (

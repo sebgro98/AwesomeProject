@@ -9,8 +9,7 @@ import {useTranslation} from "react-i18next";
  * <LoginPresenter />
  */
 const LoginPresenter = () => {
-
-    const [language, i18n] = useTranslation("global");
+    const [t, i18n] = useTranslation("translation");
     /**
      * State to store the entered username.
      * @type {string}
@@ -108,7 +107,7 @@ const LoginPresenter = () => {
             handlePasswordChange={handlePasswordChange}
             handleSubmit={handleSubmit}
             redirectToSignUp={redirectToSignUp}
-            language={language}
+            languageData = {t}
         />
     );
 };

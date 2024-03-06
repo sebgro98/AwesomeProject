@@ -2,12 +2,27 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import ApplyPositionView from "../views/ApplyPositionView";
+import {useTranslation} from "react-i18next";
 
 /**
  * ApplyPositionPresenter component manages the state and logic for applying to a position.
  * <ApplyPositionPresenter />
  */
 const ApplyPositionPresenter = () => {
+
+    const [t, i18n] = useTranslation("translation");
+
+    useEffect(() => {
+        const getCompetences = async () => {
+            try {
+                const response = await axios.post('/application/retrieveCompetences', {lang: i18n.language},{withCredentials: true});
+                setCompetenceNames(response.data);
+            } catch (error) {
+                console.error('Error retrieving competences:', error);
+            }
+        }
+        getCompetences();
+    }, [i18n.language]);
 
     /**
      * State to store success/error messages.
@@ -113,18 +128,7 @@ const ApplyPositionPresenter = () => {
                 console.error('Error checking authorization:', error);
             }
         };
-
-        const getCompetences = async () => {
-            try {
-                const response = await axios.post('/application/retrieveCompetences', {lang: 'sv'},{withCredentials: true});
-                setCompetenceNames(response.data);
-            } catch (error) {
-                console.error('Error retrieving competences:', error);
-            }
-        }
-
         checkAuthorization();
-        getCompetences();
     }, []);
 
     function getCompetenceName(id) {
@@ -322,6 +326,7 @@ const ApplyPositionPresenter = () => {
             endDate={endDate}
             competenceNames={competenceNames}
             getCompetenceName={getCompetenceName}
+            languageData={t}
         />
     );
 };

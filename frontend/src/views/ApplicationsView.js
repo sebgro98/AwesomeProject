@@ -51,7 +51,7 @@ const loginButtonStyle = {
     cursor: 'pointer',
 };
 
-const ApplicationsView = ({ applications, navigate, authorized, applicationStatus}) => {
+const ApplicationsView = ({ applications, navigate, authorized, applicationStatus, languageData}) => {
     return authorized ? (
         <div style={containerStyle}>
             <h1 style={headerStyle}>All Applications</h1>

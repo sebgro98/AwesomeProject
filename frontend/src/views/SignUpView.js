@@ -62,6 +62,7 @@ const SignUpView = ({
                         redirectToLogIn,
                         setError,
                         setVerificationCode,
+                        languageData,
                     }) => {
     ReactModal.setAppElement('body'); // Adjust according to your app's root element
 

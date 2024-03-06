@@ -10,6 +10,7 @@
     "axios": "^1.6.7",
     "cors": "^2.8.5",
     "i18next": "^23.10.0",
+    "i18next-browser-languagedetector": "^7.2.0",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "react": "^18.2.0",
