@@ -112,12 +112,12 @@ const ApplyPositionView = ({
                     <h3>{languageData("application.apply_for_a_position.page")} 3 {languageData("application.apply_for_a_position.of")} 3</h3>
                     <p style={{margin: '0', padding: '0'}}><b>{languageData("application.apply_for_a_position.competence")}</b></p>
                     {competenceObject.filter(item => item.experience !== null).map((item, index) => (
-                        <p style={{ margin: '0', padding: '0' }} key={index}>{`${getCompetenceName(item.competence)}: ${item.experience} years of experience`}</p>
+                        <p style={{ margin: '0', padding: '0' }} key={index}>{`${getCompetenceName(item.competence)}: ${item.experience}`} {languageData("application.apply_for_a_position.years_of_experience")}</p>
                     ))}
                     <br/>
                     <p style={{margin: '0', padding: '0'}}><b>{languageData("application.apply_for_a_position.availability")}</b></p>
                     {availabilityObject.map((item, index) => (
-                        <p style={{ margin: '0', padding: '0' }} key={index}>{`Between ${item.startDate} and ${item.endDate}`}</p>
+                        <p style={{ margin: '0', padding: '0' }} key={index}> {languageData("application.apply_for_a_position.added_availability_between")} {`${item.startDate}`} {languageData("application.apply_for_a_position.and")} {`${item.endDate}`}</p>
                     ))}
                     <br/>
                     <button type="button" onClick={goToPreviousPage}>{languageData("application.apply_for_a_position.previous_page")}</button>

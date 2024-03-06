@@ -64,18 +64,15 @@ const LoginPresenter = () => {
      */
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form Submitted');
         setError('');
 
         if (!username || !password) {
-            setError('Both username and password are required');
+            setError(t("application.log_in_page.username_password_required"));
             return;
         }
 
         try {
-            console.log('Attempting login', { username, password }); // Debug log
             const response = await axios.post('/person/login', { username, password }, { withCredentials: true });
-            console.log('Login response', response); // Debug log
 
             if (response.data.success && response.data.success.role === 'recruiter') {
                 navigate('/applications');
@@ -85,7 +82,7 @@ const LoginPresenter = () => {
 
         } catch (error) {
             console.error('Login error', error); // Debug log
-            setError('Login failed. Please check your credentials.');
+            setError(t("application.log_in_page.log_in_error"));
         }
     };
 
@@ -94,7 +91,6 @@ const LoginPresenter = () => {
      * @returns {void}
      */
     const redirectToSignUp = () => {
-        console.log('Redirecting to SignUp'); // Debug log
         navigate('/signup');
     };
 

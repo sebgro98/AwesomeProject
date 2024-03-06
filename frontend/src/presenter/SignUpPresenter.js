@@ -115,19 +115,19 @@ const SignUpPresenter = () => {
         setError('');
         // Validate email and person number before making the API call
         if (!isValidEmail(formData.email)) {
-            alert('Invalid email address format.');
+            alert(t("application.sign_up_page.invalid_email"));
             return;
         }
         if (!isValidPersonNumber(formData.personNumber)) {
-            alert('Invalid person number format. It should be in the format YYYYMMDD-XXXX.');
+            alert(t("application.sign_up_page.invalid_person_number"));
             return;
         }
         if (!isValidLength(formData.firstName, { min: 2, max: 50})) {
-            alert('Firstname must be more then 2 letters');
+            alert(t("application.sign_up_page.invalid_first_name_length"));
             return;
         }
         if (!isValidLength(formData.lastName, { min: 2, max: 50})) {
-            alert('Last name must be more then 2 letters');
+            alert(t("application.sign_up_page.invalid_last_name_length"));
             return;
         }
 
@@ -135,7 +135,7 @@ const SignUpPresenter = () => {
             const response = await axios.post('/person/sendVerification', { formData }, { withCredentials: true });
             setShowVerificationView(true);
         } catch (error) {
-            setError(error.response?.data?.message || 'Registration failed. Please check your data.');
+            setError(error.response?.data?.message || t("application.sign_up_page.registration_error"));
         }
     };
 
@@ -150,7 +150,7 @@ const SignUpPresenter = () => {
             alert('User verified successfully!');
             navigate('/');
         } catch (error) {
-            setError(error.response?.data?.message || 'Verification failed. Please check your data.');
+            setError(error.response?.data?.message || t("application.sign_up_page.verification_error"));
         }
     };
 
