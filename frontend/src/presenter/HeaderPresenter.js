@@ -2,8 +2,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderView from '../views/HeaderView';
+import {useTranslation} from "react-i18next";
 
 const HeaderPresenter = () => {
+    const [language, i18n] = useTranslation("global");
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -11,7 +13,10 @@ const HeaderPresenter = () => {
     };
 
     return (
-        <HeaderView onLogout={handleLogout} />
+        <HeaderView
+            onLogout={handleLogout}
+            language={language}
+        />
     );
 };
 

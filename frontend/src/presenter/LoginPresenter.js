@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LoginView from "../views/LoginView";
+import {useTranslation} from "react-i18next";
 
 /**
  * LoginPresenter component manages the state and logic for user login.
  * <LoginPresenter />
  */
 const LoginPresenter = () => {
+
+    const [language, i18n] = useTranslation("global");
     /**
      * State to store the entered username.
      * @type {string}
@@ -105,6 +108,7 @@ const LoginPresenter = () => {
             handlePasswordChange={handlePasswordChange}
             handleSubmit={handleSubmit}
             redirectToSignUp={redirectToSignUp}
+            language={language}
         />
     );
 };

@@ -21,9 +21,10 @@ const logoutButtonStyle = {
     cursor: 'pointer',
 };
 
-const HeaderView = ({ onLogout }) => (
+const HeaderView = ({ onLogout, language }) => (
     <div style={headerStyle}>
         <p>Welcome</p>
+        <p>{language("login.message")}</p>
         <button onClick={onLogout} style={logoutButtonStyle}>Logout</button>
     </div>
 );

@@ -54,6 +54,7 @@ const LoginView = ({
                        handlePasswordChange,
                        handleSubmit,
                        redirectToSignUp,
+                       language,
                    }) => (
     <div style={containerStyle}>
         <h2>Login Page</h2>
@@ -77,7 +78,7 @@ const LoginView = ({
                     style={inputStyle}
                 />
             </div>
-            <button type="submit" style={buttonStyle}>Login</button>
+            <button type="submit" style={buttonStyle}>{language("login.message")}</button>
             <button type="button" onClick={redirectToSignUp} style={{ ...buttonStyle, backgroundColor: '#6c757d' }}>Sign Up</button>
 
             <h6>If you are an existing user and want to create a new account, please do so by verifying your email on the registration page.</h6>
