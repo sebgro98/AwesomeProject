@@ -24,7 +24,7 @@ here are two steps required in order to add a new language to the application, f
 * Create a new folder inside `frontend/src/translations` with the two letter code of the language. Afterwards, create a config `global.json` filde under the newly created folder and include all the required config data which can be found in another config file.
 * in `frontend/src/i18n.js` import the new config file, add the language in supportedLngs and inside resources.
 
-### Database
+#### Database
 * Firstly find the id's needed to be added inside `application_status` and `competence` with the following PSQL queries: `select * from application_status;` and `select * from competence;`
 * Once you have retrieved all the id's you insert the required data with `INSERT INTO public.application_status_translation (application_status_id, lang, translated_name) VALUES(id, '2 letter language', 'application status name');` and `INSERT INTO public.competence_translation (competence_id, lang, translated_name) VALUES (id, '2 letter language', 'competence name');` for each row. 
 
