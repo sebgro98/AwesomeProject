@@ -7,7 +7,7 @@ This web application provides a service for people to sign up and apply for a jo
 ## Architecture
 The application is structured into two main components: the backend and the frontend, both of which are written in JavaScript.
 ### Frontend
-For the frontend we are using MVP for clarity and maintainability and cohesion
+For the frontend we are using MVP for clarity, maintainability and cohesion
 
 ### Backend
 The backend of our application adopts a combination of MVC (Model-View-Controller) and Integration layered architectures. This design ensures high cohesion and encapsulation while maintaining low coupling, which results in a modular and maintainable codebase.
