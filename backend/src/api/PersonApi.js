@@ -30,6 +30,7 @@ class PersonAPI extends RequestHandler {
         return PersonAPI.PERSON_API_PATH;
     }
 
+    // Role IDs for authorization
     get allowedRoleIdApplicant() {
         return 2;
     }
@@ -44,7 +45,16 @@ class PersonAPI extends RequestHandler {
         try {
             await this.retrieveController();
 
-            // Add a middleware to check if the user is signed in before handling the /apply route
+            /**
+             * Express route handler for handling HTTP POST requests to log in a person.
+             * @param {Request} req - Express Request object containing the HTTP request details.
+             * @param {Response} res - Express Response object for sending the HTTP response.
+             * @param {NextFunction} next - Express NextFunction for passing control to the next middleware.
+             *
+             * @throws {Error} Throws an error if there are issues with login or if the login fails.
+             *
+             * @returns {void} Responds with an appropriate HTTP status and a JSON object containing person details.
+             */
 
             this.router.post(
                 '/login',
@@ -54,6 +64,7 @@ class PersonAPI extends RequestHandler {
                         const person = await this.contr.login(username, password);
 
                         if (person) {
+                            // Retrieve the correct role name depending on the role_id
                             const roles = await this.contr.getRoles();
                             const roleName = roles.find(role => role.role_id === person.role_id).name || "Unknown";
 
@@ -78,7 +89,16 @@ class PersonAPI extends RequestHandler {
                 }
             );
 
-            //sending verification code to existing users.
+            /**
+             * Express route handler for handling HTTP POST requests to send a verification code for a person.
+             * @param {Request} req - Express Request object containing the HTTP request details.
+             * @param {Response} res - Express Response object for sending the HTTP response.
+             * @param {NextFunction} next - Express NextFunction for passing control to the next middleware.
+             *
+             * @throws {Error} Throws an error if there are issues with sending the verification code.
+             *
+             * @returns {void} Responds with an appropriate HTTP status and a message indicating the success or failure of the verification code sending.
+             */
             this.router.post(
                 '/sendVerification',
                 async (req, res, next) => {
@@ -95,6 +115,16 @@ class PersonAPI extends RequestHandler {
                 }
             );
 
+            /**
+             * Express route handler for handling HTTP POST requests to verify a verification code for a person.
+             * @param {Request} req - Express Request object containing the HTTP request details.
+             * @param {Response} res - Express Response object for sending the HTTP response.
+             * @param {NextFunction} next - Express NextFunction for passing control to the next middleware.
+             *
+             * @throws {Error} Throws an error if there are issues with verifying the verification code.
+             *
+             * @returns {void} Responds with an appropriate HTTP status and a message indicating the success or failure of the verification code verification.
+             */
             this.router.post(
                 '/verifyVerificationCode',
                 async (req, res, next) => {
@@ -105,7 +135,6 @@ class PersonAPI extends RequestHandler {
                             const response = await this.contr.register(formData);
                             res.status(200).json({ message: "Verification code matched", response });
                         } else {
-                            console.log('Verification code does not match');
                             res.status(400).json({ message: "Verification code mismatch" });
                         }
                     }catch (error) {
@@ -124,6 +153,16 @@ class PersonAPI extends RequestHandler {
                 }
             );
 
+            /**
+             * Express route handler for handling HTTP POST requests to authorize an applicant.
+             * @param {Request} req - Express Request object containing the HTTP request details.
+             * @param {Response} res - Express Response object for sending the HTTP response.
+             * @param {NextFunction} next - Express NextFunction for passing control to the next middleware.
+             *
+             * @throws {Error} Throws an error if there are issues with authorization.
+             *
+             * @returns {void} Responds with an appropriate HTTP status and a message indicating the success or failure of the authorization.
+             */
             this.router.post('/authorizeApplicant', async (req, res, next) => {
                 try {
                     if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdApplicant, req, res)) ) {
@@ -137,6 +176,16 @@ class PersonAPI extends RequestHandler {
                 }
             });
 
+            /**
+             * Express route handler for handling HTTP POST requests to authorize a recruiter.
+             * @param {Request} req - Express Request object containing the HTTP request details.
+             * @param {Response} res - Express Response object for sending the HTTP response.
+             * @param {NextFunction} next - Express NextFunction for passing control to the next middleware.
+             *
+             * @throws {Error} Throws an error if there are issues with authorization.
+             *
+             * @returns {void} Responds with an appropriate HTTP status and a message indicating the success or failure of the authorization.
+             */
             this.router.post('/authorizeRecruiter', async (req, res, next) => {
                 try {
                     if( !(await Authorization.isSignedIn(this.contr, this.allowedRoleIdRecruiter, req, res)) ) {

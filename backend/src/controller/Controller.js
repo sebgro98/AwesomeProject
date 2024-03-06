@@ -11,7 +11,6 @@ class Controller {
      * Creates a new instance of Controller and initializes the data access layer.
      * @constructor
      */
-
     constructor() {
         this.projectDAO = new ProjectDAO();
         this.transactionMgr = this.projectDAO.getTransactionMgr();
@@ -113,25 +112,39 @@ class Controller {
         });
     }
 
+    /**
+     * Retrieves all competences from the database for a specific language.
+     * @param {string} lang - The language for which competences should be retrieved.
+     * @returns {Promise<Array>} A promise that resolves to an array of competence objects.
+     */
     async getCompetences(lang) {
         return this.transactionMgr.transaction(async (t1) => {
+            Validators.isValidLength(lang, "lang", { min: 2, max: 2 });
             return this.projectDAO.getCompetences(lang);
         })
     }
 
+    /**
+     * Retrieves all application status translations from the database for a specific language.
+     * @param {string} lang - The language for which application status translations should be retrieved.
+     * @returns {Promise<Array>} A promise that resolves to an array of application status translation objects.
+     */
     async getApplicationStatus(lang) {
         return this.transactionMgr.transaction(async (t1) => {
+            Validators.isValidLength(lang, "lang", { min: 2, max: 2 });
             return this.projectDAO.getApplicationStatus(lang);
         })
     }
 
+    /**
+     * Retrieves all roles from the database.
+     * @returns {Promise<Array>} A promise that resolves to an array of role objects.
+     */
     async getRoles() {
         return this.transactionMgr.transaction(async (t1) => {
             return this.projectDAO.getRoles();
         })
     }
-
-
 }
 
 module.exports = Controller;
