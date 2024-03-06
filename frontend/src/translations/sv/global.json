@@ -12,10 +12,12 @@
     },
     "sign_up_page": {
       "sign_up": "Registrera",
+      "verification_message": "Ange verifieringskoden som skickats till din e-post",
+      "verify": "Verifiera",
       "first_name": "Förnamn",
       "last_name": "Efternamn",
       "email": "E-post",
-      "person_number": "Personnummer ÅÅÅÅMMDD-XXXX:",
+      "person_number": "Personnummer ÅÅÅÅMMDD-XXXX",
       "username": "Användarnamn",
       "password": "Lösenord",
       "to_log_in": "Gå tillbaka till inloggning",

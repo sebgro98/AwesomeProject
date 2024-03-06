@@ -13,10 +13,12 @@
     },
     "sign_up_page": {
       "sign_up": "Sign Up",
+      "verification_message": "Please enter the verification code sent to your email",
+      "verify": "Verify",
       "first_name": "First Name",
       "last_name": "Last Name",
       "email": "Email",
-      "person_number":"Person Number YYYYMMDD-XXXX:",
+      "person_number":"Person Number YYYYMMDD-XXXX",
       "username": "Username",
       "password": "Password",
       "to_log_in": "Go back to log in",

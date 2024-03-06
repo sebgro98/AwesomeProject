@@ -57,11 +57,11 @@ const LoginView = ({
                        languageData,
                    }) => (
     <div style={containerStyle}>
-        <h2>Login Page</h2>
+        <h2>{languageData("application.log_in_page.log_in_page")}</h2>
         <form onSubmit={handleSubmit} style={formStyle}>
             {error && <p style={errorStyle}>{error}</p>}
             <div>
-                <label>Username:</label>
+                <label>{languageData("application.log_in_page.username")}:</label>
                 <input
                     type="text"
                     value={username}
@@ -70,7 +70,7 @@ const LoginView = ({
                 />
             </div>
             <div>
-                <label>Password:</label>
+                <label>{languageData("application.log_in_page.password")}:</label>
                 <input
                     type="password"
                     value={password}
@@ -78,10 +78,10 @@ const LoginView = ({
                     style={inputStyle}
                 />
             </div>
-            <button type="submit" style={buttonStyle}>Login</button>
-            <button type="button" onClick={redirectToSignUp} style={{ ...buttonStyle, backgroundColor: '#6c757d' }}>Sign Up</button>
+            <button type="submit" style={buttonStyle}>{languageData("application.log_in_page.log_in")}</button>
+            <button type="button" onClick={redirectToSignUp} style={{ ...buttonStyle, backgroundColor: '#6c757d' }}>{languageData("application.log_in_page.sign_up")}</button>
 
-            <h6>If you are an existing user and want to create a new account, please do so by verifying your email on the registration page.</h6>
+            <h6>{languageData("application.log_in_page.log_in_message")}</h6>
         </form>
     </div>
 );

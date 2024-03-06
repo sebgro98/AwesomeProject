@@ -68,10 +68,10 @@ const SignUpView = ({
 
     return (
         <div style={formContainerStyle}>
-            <h2>Sign Up</h2>
+            <h2>{languageData("application.sign_up_page.sign_up")}</h2>
             {showVerificationView ? (
                 <div style={formItemStyle}>
-                    <p>Please enter the verification code sent to your email:</p>
+                    <p>{languageData("application.sign_up_page.verification_message")}:</p>
                     <input
                         type="text"
                         value={verificationCode}
@@ -80,43 +80,43 @@ const SignUpView = ({
                         style={inputStyle}
                     />
                     <button type="button" onClick={handleVerificationSubmit} style={buttonStyle}>
-                        Verify
+                        {languageData("application.sign_up_page.verify")}
                     </button>
                 </div>
             ) : (
                 <form onSubmit={handleSubmit}>
                     <div style={formItemStyle}>
-                        <label style={labelStyle}>First Name:</label>
+                        <label style={labelStyle}>{languageData("application.sign_up_page.first_name")}:</label>
                         <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required style={inputStyle} />
                     </div>
 
                     <div style={formItemStyle}>
-                        <label style={labelStyle}>Last Name:</label>
+                        <label style={labelStyle}>{languageData("application.sign_up_page.last_name")}:</label>
                         <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required style={inputStyle} />
                     </div>
 
                     <div style={formItemStyle}>
-                        <label style={labelStyle}>Email:</label>
+                        <label style={labelStyle}>{languageData("application.sign_up_page.email")}:</label>
                         <input type="email" name="email" value={formData.email} onChange={handleChange} required style={inputStyle} />
                     </div>
 
                     <div style={formItemStyle}>
-                        <label style={labelStyle}>Person Number YYYYMMDD-XXXX:</label>
+                        <label style={labelStyle}>{languageData("application.sign_up_page.person_number")}:</label>
                         <input type="text" name="personNumber" value={formData.personNumber} onChange={handleChange} required style={inputStyle} />
                     </div>
 
                     <div style={formItemStyle}>
-                        <label style={labelStyle}>Username:</label>
+                        <label style={labelStyle}>{languageData("application.sign_up_page.username")}:</label>
                         <input type="text" name="username" value={formData.username} onChange={handleChange} required style={inputStyle} />
                     </div>
 
                     <div style={formItemStyle}>
-                        <label style={labelStyle}>Password:</label>
+                        <label style={labelStyle}>{languageData("application.sign_up_page.password")}:</label>
                         <input type="password" name="password" value={formData.password} onChange={handleChange} required style={inputStyle} />
                     </div>
 
-                    <button type="submit" style={buttonStyle}>Sign Up</button>
-                    <button type="button" onClick={redirectToLogIn} style={{ ...buttonStyle, backgroundColor: '#6c757d' }}>Go back to log in</button>
+                    <button type="submit" style={buttonStyle}>{languageData("application.sign_up_page.sign_up")}</button>
+                    <button type="button" onClick={redirectToLogIn} style={{ ...buttonStyle, backgroundColor: '#6c757d' }}>{languageData("application.sign_up_page.to_log_in")}</button>
                 </form>
             )}
             <ReactModal
