@@ -46,6 +46,21 @@ const errorStyle = {
     color: '#ff0000',
 };
 
+/**
+ * Represents the view component for the login page.
+ * This component displays a login form with input fields for username and password,
+ * and buttons for submitting the login information or redirecting to the sign-up page.
+ *
+ * @param {string} username - The value of the username input field.
+ * @param {string} password - The value of the password input field.
+ * @param {string} error - Any error message to be displayed.
+ * @param {Function} handleUsernameChange - Callback function to handle changes in the username input field.
+ * @param {Function} handlePasswordChange - Callback function to handle changes in the password input field.
+ * @param {Function} handleSubmit - Callback function to handle form submission.
+ * @param {Function} redirectToSignUp - Callback function to redirect to the sign-up page.
+ * @param {Function} languageData - Function to retrieve language-specific text.
+ */
+
 const LoginView = ({
                        username,
                        password,

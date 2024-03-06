@@ -51,6 +51,26 @@ const errorModalContentStyle = {
     maxWidth: '90%',
 };
 
+/**
+ * Represents the view component for the sign-up page.
+ * This component displays a sign-up form with input fields for various user details,
+ * including first name, last name, email, person number, username, and password.
+ * It also handles the display of a verification code input field in case of verification view,
+ * and an error modal to display any form submission errors.
+ *
+ * @param {string} error - Any error message to be displayed.
+ * @param {string} verificationCode - The value of the verification code input field.
+ * @param {boolean} showVerificationView - Boolean flag to indicate whether to show the verification view.
+ * @param {Object} formData - An object containing form data such as first name, last name, email, etc.
+ * @param {Function} handleChange - Callback function to handle changes in the form input fields.
+ * @param {Function} handleSubmit - Callback function to handle form submission.
+ * @param {Function} handleVerificationSubmit - Callback function to handle verification code submission.
+ * @param {Function} redirectToLogIn - Callback function to redirect to the log-in page.
+ * @param {Function} setError - Function to set an error message.
+ * @param {Function} setVerificationCode - Function to set the verification code.
+ * @param {Function} languageData - Function to retrieve language-specific text.
+ */
+
 const SignUpView = ({
                         error,
                         verificationCode,
