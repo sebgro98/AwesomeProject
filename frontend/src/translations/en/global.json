@@ -1,5 +1,53 @@
 {
-  "login": {
-    "message": "login"
+  "application": {
+
+    "log_in_page": {
+      "login_page": "Login Page",
+      "username": "Username",
+      "password": "Password",
+      "log_in": "Login",
+      "sign_up": "Sign Up",
+      "login_message": "If you are an existing user and want to create a new account, please do so by verifying your email on the registration page."
+    },
+    "sign_up_page": {
+      "sign_up": "Sign Up",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "person_number":"Person Number YYYYMMDD-XXXX:",
+      "username": "Username",
+      "password": "Password",
+      "to_login": "Go back to log in"
+    },
+    "apply_for_a_position": {
+      "apply_for_a_position": "Apply for a position",
+      "page":"Page",
+      "of": "of",
+      "choose_competence": "Choose competence",
+      "years_of_experience": "Years of Experience",
+      "enter_years_of_experience": "Enter years of experience",
+      "submit_competence": "Submit Competence",
+      "next_page": "Go to next Page",
+      "previous_page": "Go to previous Page",
+      "availability": "Availability",
+      "competence": "Competence",
+      "start_date": "Start date",
+      "end_date": "End date",
+      "submit_availability": "Submit Availability",
+      "submit_application": "Submit application"
+    },
+    "applications": {
+      "all_applications": "All Applications",
+      "full_name": "Full Name",
+      "status": "Status"
+    },
+    "header": {
+      "welcome": "Welcome",
+      "log_out": "Logout"
+    },
+    "unauthorized": {
+      "message": "You are not authorized to access this page. Please log in.",
+      "login": "Login"
+    }
   }
 }

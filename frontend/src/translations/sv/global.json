@@ -1,5 +1,52 @@
 {
-  "login": {
-    "message": "logga in"
+  "application": {
+    "log_in_page": {
+      "login_page": "Inloggningssida",
+      "username": "Användarnamn",
+      "password": "Lösenord",
+      "log_in": "Logga in",
+      "sign_up": "Registrera dig",
+      "login_message": "Om du är en existerande användare och vill skapa ett nytt konto, vänligen gör det genom att verifiera din e-post på registreringssidan."
+    },
+    "sign_up_page": {
+      "sign_up": "Registrera dig",
+      "first_name": "Förnamn",
+      "last_name": "Efternamn",
+      "email": "E-post",
+      "person_number":"Personnummer ÅÅÅÅMMDD-XXXX:",
+      "username": "Användarnamn",
+      "password": "Lösenord",
+      "to_login": "Gå tillbaka till inloggning"
+    },
+    "apply_for_a_position": {
+      "apply_for_a_position": "Ansök om en position",
+      "page":"Sida",
+      "of": "av",
+      "choose_competence": "Välj kompetens",
+      "years_of_experience": "Års erfarenhet",
+      "enter_years_of_experience": "Ange års erfarenhet",
+      "submit_competence": "Skicka kompetens",
+      "next_page": "Gå till nästa sida",
+      "previous_page": "Gå till föregående sida",
+      "availability": "Tillgänglighet",
+      "competence": "Kompetens",
+      "start_date": "Startdatum",
+      "end_date": "Slutdatum",
+      "submit_availability": "Skicka tillgänglighet",
+      "submit_application": "Skicka ansökan"
+    },
+    "applications": {
+      "all_applications": "Alla Ansökningar",
+      "full_name": "Fullständigt namn",
+      "status": "Status"
+    },
+    "header": {
+      "welcome": "Välkommen",
+      "log_out": "Logga ut"
+    },
+    "unauthorized": {
+      "message": "Du har inte behörighet att komma åt den här sidan. Vänligen logga in.",
+      "login": "Logga in"
+    }
   }
 }
