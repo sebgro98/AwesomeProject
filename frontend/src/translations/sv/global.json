@@ -1,26 +1,34 @@
 {
   "application": {
     "log_in_page": {
-      "login_page": "Inloggningssida",
+      "log_in_page": "Inloggningssida",
       "username": "Användarnamn",
       "password": "Lösenord",
       "log_in": "Logga in",
-      "sign_up": "Registrera dig",
-      "login_message": "Om du är en existerande användare och vill skapa ett nytt konto, vänligen gör det genom att verifiera din e-post på registreringssidan."
+      "sign_up": "Registrera",
+      "log_in_message": "Om du är en befintlig användare och vill skapa ett nytt konto, gör det genom att verifiera din e-post på registreringssidan.",
+      "username_password_required": "Både användarnamn och lösenord krävs",
+      "log_in_error": "Inloggningen misslyckades. Kontrollera dina uppgifter."
     },
     "sign_up_page": {
-      "sign_up": "Registrera dig",
+      "sign_up": "Registrera",
       "first_name": "Förnamn",
       "last_name": "Efternamn",
       "email": "E-post",
-      "person_number":"Personnummer ÅÅÅÅMMDD-XXXX:",
+      "person_number": "Personnummer ÅÅÅÅMMDD-XXXX:",
       "username": "Användarnamn",
       "password": "Lösenord",
-      "to_login": "Gå tillbaka till inloggning"
+      "to_log_in": "Gå tillbaka till inloggning",
+      "invalid_email": "Ogiltigt e-postadressformat.",
+      "invalid_person_number": "Ogiltigt personnummerformat. Det ska vara i formatet ÅÅÅÅMMDD-XXXX.",
+      "invalid_first_name_length": "Förnamnet måste vara längre än 2 bokstäver",
+      "invalid_last_name_length": "Efternamnet måste vara längre än 2 bokstäver",
+      "registration_error": "Registreringen misslyckades. Kontrollera dina uppgifter.",
+      "verification_error": "Verifieringen misslyckades. Kontrollera dina uppgifter."
     },
     "apply_for_a_position": {
       "apply_for_a_position": "Ansök om en position",
-      "page":"Sida",
+      "page": "Sida",
       "of": "av",
       "choose_competence": "Välj kompetens",
       "years_of_experience": "Års erfarenhet",
@@ -33,10 +41,21 @@
       "start_date": "Startdatum",
       "end_date": "Slutdatum",
       "submit_availability": "Skicka tillgänglighet",
-      "submit_application": "Skicka ansökan"
+      "submit_application": "Skicka ansökan",
+      "year_of_experience_not_a_number": "Års erfarenhet är inte ett nummer",
+      "year_of_experience_number_too_large": "Års erfarenhetsnumret är för stort",
+      "added_competence": "Lade till kompetens",
+      "with": "med",
+      "start_date_error": "Startdatum måste vara minst imorgon",
+      "end_date_error": "Slutdatum måste vara efter startdatum",
+      "added_availability_between": "Tillgänglighet tillagd mellan",
+      "and": "och",
+      "competence_or_availability_cannot_be_empty": "Kompetens eller tillgänglighet får inte vara tom",
+      "application_success_alert": "Ansökan skickades in framgångsrikt!",
+      "application_error": "Ansökan misslyckades. Kontrollera dina uppgifter."
     },
     "applications": {
-      "all_applications": "Alla Ansökningar",
+      "all_applications": "Alla ansökningar",
       "full_name": "Fullständigt namn",
       "status": "Status"
     },
@@ -45,7 +64,7 @@
       "log_out": "Logga ut"
     },
     "unauthorized": {
-      "message": "Du har inte behörighet att komma åt den här sidan. Vänligen logga in.",
+      "unauthorized_message": "Du har inte behörighet att komma åt den här sidan. Vänligen logga in.",
       "login": "Logga in"
     }
   }

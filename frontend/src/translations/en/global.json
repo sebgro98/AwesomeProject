@@ -2,12 +2,14 @@
   "application": {
 
     "log_in_page": {
-      "login_page": "Login Page",
+      "log_in_page": "Login Page",
       "username": "Username",
       "password": "Password",
       "log_in": "Login",
       "sign_up": "Sign Up",
-      "login_message": "If you are an existing user and want to create a new account, please do so by verifying your email on the registration page."
+      "log_in_message": "If you are an existing user and want to create a new account, please do so by verifying your email on the registration page.",
+      "username_password_required": "Both username and password are required",
+      "log_in_error": "Login failed. Please check your credentials."
     },
     "sign_up_page": {
       "sign_up": "Sign Up",
@@ -17,7 +19,13 @@
       "person_number":"Person Number YYYYMMDD-XXXX:",
       "username": "Username",
       "password": "Password",
-      "to_login": "Go back to log in"
+      "to_log_in": "Go back to log in",
+      "invalid_email": "Invalid email address format.",
+      "invalid_person_number": "Invalid person number format. It should be in the format YYYYMMDD-XXXX.",
+      "invalid_first_name_length": "Firstname must be more then 2 letters",
+      "invalid_last_name_length": "Last name must be more then 2 letters",
+      "registration_error": "Registration failed. Please check your data.",
+      "verification_error": "Verification failed. Please check your data."
     },
     "apply_for_a_position": {
       "apply_for_a_position": "Apply for a position",
@@ -34,7 +42,18 @@
       "start_date": "Start date",
       "end_date": "End date",
       "submit_availability": "Submit Availability",
-      "submit_application": "Submit application"
+      "submit_application": "Submit application",
+      "year_of_experience_not_a_number": "Years of experience is not a number",
+      "year_of_experience_number_too_large": "The years of experience number is too large",
+      "added_competence": "Added competence",
+      "with": "with",
+      "start_date_error": "Start date must be at least tomorrow",
+      "end_date_error": "End date must be after start date",
+      "added_availability_between": "Added availability between",
+      "and": "and",
+      "competence_or_availability_cannot_be_empty": "CompetenceTranslator or availability cannot be empty",
+      "application_success_alert": "Successfully submitted the application!",
+      "application_error": "Application failed. Please check your data."
     },
     "applications": {
       "all_applications": "All Applications",
@@ -46,7 +65,7 @@
       "log_out": "Logout"
     },
     "unauthorized": {
-      "message": "You are not authorized to access this page. Please log in.",
+      "unauthorized_message": "You are not authorized to access this page. Please log in.",
       "login": "Login"
     }
   }
