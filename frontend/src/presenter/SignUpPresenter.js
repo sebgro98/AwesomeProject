@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import SignUpView from "../views/SignUpView";
@@ -15,7 +15,6 @@ const SignUpPresenter = () => {
      * @default ''
      */
     const [error, setError] = useState('');
-
 
     /**
      * State to store the verification code during sign-up.
@@ -55,6 +54,10 @@ const SignUpPresenter = () => {
         username: '',
         password: '',
     });
+
+    useEffect(() => {
+        setError('')
+    }, [i18n.language]);
 
     /**
      * Handle input changes in the sign-up form.

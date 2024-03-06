@@ -17,6 +17,7 @@ const ApplyPositionPresenter = () => {
             try {
                 const response = await axios.post('/application/retrieveCompetences', {lang: i18n.language},{withCredentials: true});
                 setCompetenceNames(response.data);
+                setMessage("");
             } catch (error) {
                 console.error('Error retrieving competences:', error);
             }

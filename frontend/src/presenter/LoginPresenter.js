@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LoginView from "../views/LoginView";
@@ -50,6 +50,10 @@ const LoginPresenter = () => {
      * @returns {void}
      */
     const handlePasswordChange = (e) => setPassword(e.target.value);
+
+    useEffect(() => {
+        setError('')
+    }, [i18n.language]);
 
     /**
      * Handle the form submission for user login.
